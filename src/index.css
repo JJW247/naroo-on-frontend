@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+.max-w-1200px {
+  max-width: 1200px;
+}
+
+.notosanskr * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.font-semibold * {
+  font-weight: 600;
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.mt-122px {
+  margin-top: 122px;
+}
+
+.pl-14px {
+  padding-left: 14px;
+}
+
+.pr-14px {
+  padding-right: 14px;
+}
+
+.card-container {
+  width: 280px;
+  height: 423px;
+}
