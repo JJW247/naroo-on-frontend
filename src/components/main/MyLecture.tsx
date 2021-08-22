@@ -4,7 +4,7 @@ import Cards from '../common/Cards';
 const MyLecture: FC = () => {
   return (
     // 임시 MB
-    <div className="max-w-1200px mx-auto mt-122px pb-96">
+    <div className="max-w-[1200px] mx-auto mt-[122px] pb-[96px]">
       <div className="font-semibold text-gray-400 text-2xl">
         내가 신청한 강좌
       </div>
