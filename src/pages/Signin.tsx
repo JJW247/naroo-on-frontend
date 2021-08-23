@@ -1,9 +1,37 @@
 import { FC } from 'react';
+import axios from 'axios';
+import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { useInput } from '../hooks';
 
-const Signin: FC = () => {
+const SignIn: FC = () => {
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/auth/signin`,
+        {
+          email,
+          password,
+        },
+      );
+
+      if (response.statusText === 'Created') {
+        localStorage.setItem('token', response.data.token);
+        window.location.replace('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div className="mt-[177px] ml-[657px] mr-[656px] w-[607px]">
+    <form
+      className="mt-[177px] ml-[657px] mr-[656px] w-[607px]"
+      onSubmit={onSubmitHandler}
+    >
       <div className="text-[48px] font-semibold">로그인</div>
       <div className="mt-[67px] mb-[29px]">
         <div>
@@ -14,6 +42,8 @@ const Signin: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
+          value={email}
+          onChange={onChangeEmail}
         />
       </div>
       <div className="mb-[19px]">
@@ -23,6 +53,8 @@ const Signin: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
+          value={password}
+          onChange={onChangePassword}
         />
       </div>
       <div>
@@ -34,17 +66,19 @@ const Signin: FC = () => {
           비밀번호 찾기
         </div>
       </div>
-      <button className="w-full h-[51px] mt-[19px] mb-[54px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white">
-        로그인
-      </button>
+      <input
+        type="submit"
+        className="w-full h-[51px] mt-[19px] mb-[54px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white"
+        value="로그인"
+      />
       <div className="text-center text-[12px] leading-[16px] mb-[178px]">
         아직 계정이 없으신가요?{' '}
         <Link to="/signup">
           <b>회원가입</b>
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
-export default Signin;
+export default SignIn;

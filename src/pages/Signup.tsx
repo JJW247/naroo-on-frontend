@@ -1,8 +1,44 @@
-import { FC } from 'react';
+import { FC, FormEvent } from 'react';
+import axios from 'axios';
+import { useInput } from '../hooks';
 
-const Signup: FC = () => {
+const SignUp: FC = () => {
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const [passwordCheck, onChangePasswordCheck] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [phoneNumber, onChangePhoneNumber] = useInput('');
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      if (password !== passwordCheck) {
+        throw new Error('패스워드가 일치하지 않습니다!');
+      }
+
+      event.preventDefault();
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/auth/signup`,
+        {
+          email,
+          password,
+          nickname,
+          phone_number: phoneNumber,
+        },
+      );
+
+      if (response.statusText === 'Created') {
+        localStorage.setItem('token', response.data.token);
+        window.location.replace('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div className="mt-[47px] ml-[657px] mr-[656px] w-[607px]">
+    <form
+      className="mt-[47px] ml-[657px] mr-[656px] w-[607px]"
+      onSubmit={onSubmitHandler}
+    >
       <div className="text-[48px] font-semibold">회원가입</div>
       <div className="mt-[67px] mb-[29px]">
         <div>
@@ -13,15 +49,8 @@ const Signup: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
-        />
-      </div>
-      <div className="mb-[29px]">
-        <div>
-          <label htmlFor="email-valid">이메일 확인</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
+          value={email}
+          onChange={onChangeEmail}
         />
       </div>
       <div className="mb-[29px]">
@@ -31,6 +60,8 @@ const Signup: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
+          value={password}
+          onChange={onChangePassword}
         />
       </div>
       <div className="mb-[29px]">
@@ -40,6 +71,19 @@ const Signup: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
+          value={passwordCheck}
+          onChange={onChangePasswordCheck}
+        />
+      </div>
+      <div className="mb-[29px]">
+        <div>
+          <label htmlFor="nickname">이름</label>
+        </div>
+        <input
+          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          type="text"
+          value={nickname}
+          onChange={onChangeNickname}
         />
       </div>
       <div className="mb-[19px]">
@@ -49,11 +93,15 @@ const Signup: FC = () => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
+          value={phoneNumber}
+          onChange={onChangePhoneNumber}
         />
       </div>
-      <button className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]">
-        가입하기
-      </button>
+      <input
+        type="submit"
+        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+        value="가입하기"
+      />
       <div className="mb-[4px] text-[12px] leading-[16px] text-center">
         가입 시, 마포런의 이용약관, 개인정보취급방침에 동의합니다.
       </div>
@@ -61,8 +109,8 @@ const Signup: FC = () => {
         <input className="mr-[5px]" type="checkbox" />
         마포런의 다양한 소식을 받아보시겠어요?
       </div>
-    </div>
+    </form>
   );
 };
 
-export default Signup;
+export default SignUp;
