@@ -1,10 +1,22 @@
 import { FC } from 'react';
 import axios from 'axios';
 import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useInput } from '../hooks';
+import { useEffect } from 'react';
 
-const SignIn: FC = () => {
+interface SignInProps {
+  token: string | null;
+  setToken: (
+    value: string | ((val: string | null) => string | null) | null,
+  ) => void;
+}
+
+const SignIn: FC<SignInProps> = ({ token, setToken }) => {
+  useEffect(() => {
+    setToken(null);
+  }, []);
+  const history = useHistory();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -20,8 +32,8 @@ const SignIn: FC = () => {
       );
 
       if (response.statusText === 'Created') {
-        localStorage.setItem('token', response.data.token);
-        window.location.replace('/');
+        setToken(response.data.token);
+        history.push('/');
       }
     } catch (error) {
       console.log(error);

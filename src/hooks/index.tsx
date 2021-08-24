@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 export const useInput = (initialValue: any) => {
   const [value, setValue] = useState(initialValue);
@@ -13,29 +12,25 @@ export const useInput = (initialValue: any) => {
   return [value, onChange];
 };
 
-export const useGetMe = () => {
-  const token = localStorage.getItem('token') || '';
-
-  const [me, setMe] = useState<number | null>(null);
-
-  useEffect(() => {
-    const getMe = async () => {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/auth/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (response.statusText === 'OK') {
-        setMe(response.data.userId);
-      }
-    };
-
-    getMe();
-  }, [token]);
-
-  return { me };
-};
+export function useLocalStorage<T>(key: string, initialValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.log(error);
+      return initialValue;
+    }
+  });
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return [storedValue, setValue] as const;
+}

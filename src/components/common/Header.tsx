@@ -1,15 +1,21 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.svg';
 import Search from '../../assets/images/Search.svg';
 import User from '../../assets/images/User.svg';
-import { useGetMe } from '../../hooks';
 
-const Header: FC = () => {
-  const { me } = useGetMe();
+interface HeaderProps {
+  token: string | null;
+  setToken: (
+    value: string | ((val: string | null) => string | null) | null,
+  ) => void;
+}
+
+const Header: FC<HeaderProps> = ({ token, setToken }) => {
+  const history = useHistory();
   const logoutHandler = () => {
-    localStorage.removeItem('token');
-    window.location.reload();
+    setToken(null);
+    history.push('/');
   };
   return (
     <div className="h-20 font-semibold text-gray-300 font-noto">
@@ -35,7 +41,7 @@ const Header: FC = () => {
           </div>
         </div>
         <div>
-          {me && (
+          {token && (
             <button
               className="flex items-center justify-center"
               onClick={logoutHandler}
@@ -44,7 +50,7 @@ const Header: FC = () => {
               로그아웃
             </button>
           )}
-          {!me && (
+          {!token && (
             <>
               <Link to="/signin">
                 <button className="bg-white font-[14px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[99px] h-[41px]">
