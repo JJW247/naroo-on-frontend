@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Dummy from '../../assets/images/dummy-lecture.png';
+import { getAllLectures } from '../../hooks/api';
 import Star from './Star';
 import Tags from './Tags';
 
 const Card: FC = () => {
+  getAllLectures().then((lectures) => {
+    console.log(lectures);
+  });
   return (
     <div className="card-container">
       <img className="rounded-xl" src={Dummy} alt="lecture" />
