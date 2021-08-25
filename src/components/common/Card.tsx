@@ -1,24 +1,23 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import Dummy from '../../assets/images/dummy-lecture.png';
-import { getAllLectures } from '../../hooks/api';
 import Star from './Star';
 import Tags from './Tags';
 
-const Card: FC = () => {
-  getAllLectures().then((lectures) => {
-    console.log(lectures);
-  });
+interface CardProps {
+  title: string;
+  thumbnail: string;
+  teacherName: string;
+}
+
+const Card: FC<CardProps> = ({ title, thumbnail, teacherName }) => {
   return (
     <div className="card-container">
-      <img className="rounded-xl" src={Dummy} alt="lecture" />
+      <img className="rounded-xl" src={thumbnail} alt="lecture" />
       <div className="mt-3 font-medium text-gray-400 bg-white h-11">
-        <Link to="/lecture/0">
-          안드로이드 앱 개발을 위한 실전 React Native 배우기
-        </Link>
+        <Link to="/lecture/0">{title}</Link>
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-10px">
-        강사명
+        {teacherName}
       </div>
       <Star />
       <div className="mt-5">

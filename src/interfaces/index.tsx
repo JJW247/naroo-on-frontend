@@ -70,3 +70,19 @@ export interface ILectureTagEntity extends ICommonEntity {
   lectureId: number;
   tagId: number;
 }
+
+export interface ITeacherEditInAdmin {
+  nickname: string | null;
+  introduce: string | null;
+}
+
+export interface IStudentEditInAdmin {
+  email: string | null;
+  nickname: string | null;
+}
+
+export interface ILectureInList {
+  title: string;
+  thumbnail: string;
+  teacherId: string;
+}

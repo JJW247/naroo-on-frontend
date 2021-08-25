@@ -5,23 +5,27 @@ import MyLecture from '../components/main/MyLecture';
 import OrgCarousel from '../components/main/OrgCarousel';
 
 interface MainProps {
+  token: string | null;
+  setToken: (
+    value: string | ((val: string | null) => string | null) | null,
+  ) => void;
   userType: string | null;
 }
 
-const Main: FC<MainProps> = ({ userType }) => {
-  let mainContents = <MyLecture />;
+const Main: FC<MainProps> = ({ token, setToken, userType }) => {
+  let mainContents = <MyLecture token={token} setToken={setToken} />;
   if (userType === 'admin') {
-    mainContents = <AdminLecture />;
+    mainContents = <AdminLecture token={token} setToken={setToken} />;
   } else {
-    mainContents = <MyLecture />;
+    mainContents = (
+      <>
+        <Carousel />
+        <MyLecture token={token} setToken={setToken} />
+        <OrgCarousel />
+      </>
+    );
   }
-  return (
-    <div className="min-h-screen bg-white font-noto">
-      <Carousel />
-      {mainContents}
-      <OrgCarousel />
-    </div>
-  );
+  return <div className="min-h-screen bg-white font-noto">{mainContents}</div>;
 };
 
 export default Main;

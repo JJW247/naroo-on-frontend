@@ -36,7 +36,13 @@ const App: FC = () => {
     <Router>
       <Header token={token} setToken={setToken} />
       <Switch>
-        <Route exact path="/" render={() => <Main userType={userType} />} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <Main token={token} setToken={setToken} userType={userType} />
+          )}
+        />
         <Route
           path="/signin"
           render={() => <SignIn token={token} setToken={setToken} />}
