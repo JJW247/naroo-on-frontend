@@ -5,14 +5,14 @@ import { Link, useHistory } from 'react-router-dom';
 import { useInput } from '../hooks';
 import { useEffect } from 'react';
 
-interface SignInProps {
+interface SigninLayoutProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
 }
 
-const SignIn: FC<SignInProps> = ({ token, setToken }) => {
+const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
   useEffect(() => {
     setToken(null);
   }, []);
@@ -93,4 +93,4 @@ const SignIn: FC<SignInProps> = ({ token, setToken }) => {
   );
 };
 
-export default SignIn;
+export default SigninLayout;

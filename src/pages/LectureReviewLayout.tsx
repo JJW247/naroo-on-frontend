@@ -32,7 +32,7 @@ const DUMMY_CONTENTS: {
   },
 ];
 
-const LectureReview: FC = () => {
+const LectureReviewLayout: FC = () => {
   return (
     <div className="flex flex-wrap justify-center">
       <div className="mt-[51px] mb-[12px] w-[1143px] text-[48px] leading-[65px] font-semibold">
@@ -59,4 +59,4 @@ const LectureReview: FC = () => {
   );
 };
 
-export default LectureReview;
+export default LectureReviewLayout;

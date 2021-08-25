@@ -4,7 +4,7 @@ import Carousel from '../components/main/Carousel';
 import MyLecture from '../components/main/MyLecture';
 import OrgCarousel from '../components/main/OrgCarousel';
 
-interface MainProps {
+interface MainLayoutProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -12,7 +12,7 @@ interface MainProps {
   userType: string | null;
 }
 
-const Main: FC<MainProps> = ({ token, setToken, userType }) => {
+const MainLayout: FC<MainLayoutProps> = ({ token, setToken, userType }) => {
   let mainContents = <MyLecture token={token} setToken={setToken} />;
   if (userType === 'admin') {
     mainContents = <AdminLecture token={token} setToken={setToken} />;
@@ -28,4 +28,4 @@ const Main: FC<MainProps> = ({ token, setToken, userType }) => {
   return <div className="min-h-screen bg-white font-noto">{mainContents}</div>;
 };
 
-export default Main;
+export default MainLayout;

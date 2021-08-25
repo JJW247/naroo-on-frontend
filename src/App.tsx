@@ -5,13 +5,13 @@ import Footer from './components/common/Footer';
 import Header from './components/common/Header';
 import { useLocalStorage } from './hooks';
 import { getMe } from './hooks/api';
-import LetcureDetail from './pages/LectureDetail';
-import LectureReview from './pages/LectureReview';
-import Main from './pages/Main';
-import PlayLecture from './pages/PlayLecture';
-import ServiceInfo from './pages/ServiceInfo';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import MainLayout from './pages/MainLayout';
+import SigninLayout from './pages/SigninLayout';
+import SignupLayout from './pages/SignupLayout';
+import LetcureDetailLayout from './pages/LectureDetailLayout';
+import LecturePlayLayout from './pages/LecturePlayLayout';
+import LectureReviewLayout from './pages/LectureReviewLayout';
+import IntroduceLayout from './pages/IntroduceLayout';
 
 const App: FC = () => {
   const [userType, setUserType] = useState<string | null>(null);
@@ -40,21 +40,21 @@ const App: FC = () => {
           exact
           path="/"
           render={() => (
-            <Main token={token} setToken={setToken} userType={userType} />
+            <MainLayout token={token} setToken={setToken} userType={userType} />
           )}
         />
         <Route
           path="/signin"
-          render={() => <SignIn token={token} setToken={setToken} />}
+          render={() => <SigninLayout token={token} setToken={setToken} />}
         />
         <Route
           path="/signup"
-          render={() => <SignUp token={token} setToken={setToken} />}
+          render={() => <SignupLayout token={token} setToken={setToken} />}
         />
-        <Route path="/lecture/:id" component={LetcureDetail} />
-        <Route path="/lecture-play/:id" component={PlayLecture} />
-        <Route path="/review" component={LectureReview} />
-        <Route path="/info" component={ServiceInfo} />
+        <Route path="/lecture/:id" component={LetcureDetailLayout} />
+        <Route path="/lecture-play/:id" component={LecturePlayLayout} />
+        <Route path="/review" component={LectureReviewLayout} />
+        <Route path="/info" component={IntroduceLayout} />
       </Switch>
       <Footer />
     </Router>

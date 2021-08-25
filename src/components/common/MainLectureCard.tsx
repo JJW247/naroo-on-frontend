@@ -1,25 +1,30 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { CONST_RATING_TYPE } from '../../interfaces';
 import Star from './Star';
 import Tags from './Tags';
 
-interface CardProps {
+interface MainLectureCardProps {
   title: string;
   thumbnail: string;
   teacherName: string;
 }
 
-const Card: FC<CardProps> = ({ title, thumbnail, teacherName }) => {
+const MainLectureCard: FC<MainLectureCardProps> = ({
+  title,
+  thumbnail,
+  teacherName,
+}) => {
   return (
     <div className="card-container">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />
       <div className="mt-3 font-medium text-gray-400 bg-white h-11">
         <Link to="/lecture/0">{title}</Link>
       </div>
-      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-10px">
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
         {teacherName}
       </div>
-      <Star />
+      <Star width="16" rating={CONST_RATING_TYPE.FIVE} />
       <div className="mt-5">
         <Tags />
       </div>
@@ -27,4 +32,4 @@ const Card: FC<CardProps> = ({ title, thumbnail, teacherName }) => {
   );
 };
 
-export default Card;
+export default MainLectureCard;

@@ -1,17 +1,27 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import StarChecked from '../../assets/images/star-checked.svg';
 
-const Star: FC = () => {
+interface StarProps {
+  width: string;
+  rating: number;
+}
+
+const Star: FC<StarProps> = ({ width, rating }) => {
+  const contents = () => {
+    if (rating > 0) {
+      const stars = [];
+      for (let i = 0; i < rating; i++) {
+        stars.push(<img width={+width} src={StarChecked} alt="star-checked" />);
+      }
+      stars.push(<span>({rating})</span>);
+      return stars;
+    } else {
+      return <></>;
+    }
+  };
   return (
-    <div className="flex bg-transparent">
-      <img src={StarChecked} alt="star-checked" />
-      <img src={StarChecked} alt="star-checked" />
-      <img src={StarChecked} alt="star-checked" />
-      <img src={StarChecked} alt="star-checked" />
-      <img src={StarChecked} alt="star-checked" />
-      <span>(5)</span>
-    </div>
+    <>{rating > 0 && <div className="flex bg-transparent">{contents()}</div>}</>
   );
 };
 

@@ -84,5 +84,16 @@ export interface IStudentEditInAdmin {
 export interface ILectureInList {
   title: string;
   thumbnail: string;
-  teacherId: string;
+  teacherName: string;
 }
+
+export const CONST_RATING_TYPE = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3,
+  FOUR: 4,
+  FIVE: 5,
+} as const;
+
+export type RATING_TYPE =
+  typeof CONST_RATING_TYPE[keyof typeof CONST_RATING_TYPE];

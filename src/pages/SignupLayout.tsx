@@ -4,14 +4,14 @@ import { useInput } from '../hooks';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 
-interface SignUpProps {
+interface SignupLayoutProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
 }
 
-const SignUp: FC<SignUpProps> = ({ token, setToken }) => {
+const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   useEffect(() => {
     setToken(null);
   }, []);
@@ -20,7 +20,7 @@ const SignUp: FC<SignUpProps> = ({ token, setToken }) => {
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, onChangePasswordCheck] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
-  const [phoneNumber, onChangePhoneNumber] = useInput('');
+  const [phone, onChangePhone] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       if (password !== passwordCheck) {
@@ -35,7 +35,7 @@ const SignUp: FC<SignUpProps> = ({ token, setToken }) => {
           email,
           password,
           nickname,
-          phone_number: phoneNumber,
+          phone,
         },
       );
 
@@ -106,8 +106,8 @@ const SignUp: FC<SignUpProps> = ({ token, setToken }) => {
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
-          value={phoneNumber}
-          onChange={onChangePhoneNumber}
+          value={phone}
+          onChange={onChangePhone}
         />
       </div>
       <input
@@ -126,4 +126,4 @@ const SignUp: FC<SignUpProps> = ({ token, setToken }) => {
   );
 };
 
-export default SignUp;
+export default SignupLayout;

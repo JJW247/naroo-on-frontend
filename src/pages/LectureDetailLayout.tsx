@@ -4,8 +4,9 @@ import Dummy from '../assets/images/dummy-lecture.png';
 import Star from '../components/common/Star';
 import UserIcon from '../assets/images/User.svg';
 import { Link } from 'react-router-dom';
+import { CONST_RATING_TYPE } from '../interfaces';
 
-const LetcureDetail: FC = () => {
+const LetcureDetailLayout: FC = () => {
   const params = useParams();
 
   return (
@@ -39,7 +40,7 @@ const LetcureDetail: FC = () => {
                 100개의 수강평
               </div>
               <div className="float-right text-white text-[14px] leading-[19px] font-extrabold">
-                <Star />
+                <Star width="3vw" rating={CONST_RATING_TYPE.FIVE} />
               </div>
             </div>
           </div>
@@ -87,4 +88,4 @@ const LetcureDetail: FC = () => {
   );
 };
 
-export default LetcureDetail;
+export default LetcureDetailLayout;
