@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useInput } from '../../hooks';
 import { ADMIN_MENU, CONST_ADMIN_MENU } from './AdminLecture';
 import { ITeacherEditInAdmin } from '../../interfaces';
-import { MutatorCallback } from 'swr/dist/types';
+import { MutatorCallback, SWRResponse } from 'swr/dist/types';
 
 interface TeacherAddProps {
   token: string | null;
@@ -11,20 +11,14 @@ interface TeacherAddProps {
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   setSelectedMenu: React.Dispatch<React.SetStateAction<ADMIN_MENU>>;
-  teacherMutate: (
-    data?:
-      | ITeacherEditInAdmin[]
-      | Promise<ITeacherEditInAdmin[]>
-      | MutatorCallback<ITeacherEditInAdmin[]>,
-    shouldRevalidate?: boolean,
-  ) => Promise<ITeacherEditInAdmin[] | undefined>;
+  teachers: SWRResponse<ITeacherEditInAdmin[], any>;
 }
 
 const TeacherAdd: FC<TeacherAddProps> = ({
   token,
   setToken,
   setSelectedMenu,
-  teacherMutate,
+  teachers,
 }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -58,7 +52,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
 
       if (response.statusText === 'Created') {
         setSelectedMenu(CONST_ADMIN_MENU.TEACHER_EDIT);
-        teacherMutate();
+        teachers.mutate();
       }
     } catch (error) {
       console.log(error);

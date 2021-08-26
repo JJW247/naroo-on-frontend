@@ -3,6 +3,12 @@ import AdminLecture from '../components/admin/AdminLecture';
 import Carousel from '../components/main/Carousel';
 import MyLecture from '../components/main/MyLecture';
 import OrgCarousel from '../components/main/OrgCarousel';
+import {
+  getAllLectures,
+  getAllStudents,
+  getAllTeachers,
+  getApprovedLectures,
+} from '../hooks/api';
 
 interface MainLayoutProps {
   token: string | null;
@@ -13,14 +19,31 @@ interface MainLayoutProps {
 }
 
 const MainLayout: FC<MainLayoutProps> = ({ token, setToken, userType }) => {
-  let mainContents = <MyLecture token={token} setToken={setToken} />;
+  const allLectures = getAllLectures();
+  let mainContents = <></>;
   if (userType === 'admin') {
-    mainContents = <AdminLecture token={token} setToken={setToken} />;
+    const teachers = getAllTeachers(token);
+    const students = getAllStudents(token);
+    mainContents = (
+      <AdminLecture
+        token={token}
+        setToken={setToken}
+        teachers={teachers}
+        allLectures={allLectures}
+        students={students}
+      />
+    );
   } else {
+    const lectures = getApprovedLectures(token);
     mainContents = (
       <>
         <Carousel />
-        <MyLecture token={token} setToken={setToken} />
+        <MyLecture
+          token={token}
+          setToken={setToken}
+          lectures={lectures}
+          allLectures={allLectures}
+        />
         <OrgCarousel />
       </>
     );

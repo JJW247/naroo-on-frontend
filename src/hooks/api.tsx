@@ -27,10 +27,13 @@ export async function getMe(token: string | null) {
   }
 }
 
-export function getAllLectures() {
+export function getApprovedLectures(token: string | null) {
   const fetcher = async () => {
     try {
-      const response = await axios.get('/lecture');
+      if (token === null) {
+        throw new Error('잘못된 접근입니다!');
+      }
+      const response = await axios.get('/lecture', tokenHeader(token));
       if (response.statusText === 'OK') {
         return response.data;
       } else {
@@ -42,6 +45,25 @@ export function getAllLectures() {
   };
   return useSWR<ILectureInList[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture`,
+    fetcher,
+  );
+}
+
+export function getAllLectures() {
+  const fetcher = async () => {
+    try {
+      const response = await axios.get('/lecture/admin');
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<ILectureInList[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/admin`,
     fetcher,
   );
 }

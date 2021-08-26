@@ -7,13 +7,15 @@ import Tags from './Tags';
 interface MainLectureCardProps {
   title: string;
   thumbnail: string;
-  teacherName: string;
+  teacher: {
+    nickname: string;
+  };
 }
 
 const MainLectureCard: FC<MainLectureCardProps> = ({
   title,
   thumbnail,
-  teacherName,
+  teacher,
 }) => {
   return (
     <div className="card-container">
@@ -22,7 +24,7 @@ const MainLectureCard: FC<MainLectureCardProps> = ({
         <Link to="/lecture/0">{title}</Link>
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
-        {teacherName}
+        {teacher.nickname}
       </div>
       <Star width="16" rating={CONST_RATING_TYPE.FIVE} />
       <div className="mt-5">

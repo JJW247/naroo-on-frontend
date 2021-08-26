@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { FC } from 'react';
-import useSWR from 'swr';
+import { SWRResponse } from 'swr';
 import {
   getAllLectures,
   getAllStudents,
   getAllTeachers,
 } from '../../hooks/api';
-import { ITeacherEditInAdmin } from '../../interfaces';
+import {
+  ILectureInList,
+  IStudentEditInAdmin,
+  ITeacherEditInAdmin,
+} from '../../interfaces';
 import LectureAdd from './LectureAdd';
 import LectureEdit from './LectureEdit';
 import LecturePermission from './LecturePermission';
@@ -20,6 +24,9 @@ interface AdminLectureProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  teachers: SWRResponse<ITeacherEditInAdmin[], any>;
+  allLectures: SWRResponse<ILectureInList[], any>;
+  students: SWRResponse<IStudentEditInAdmin[], any>;
 }
 
 export const CONST_ADMIN_MENU = {
@@ -34,14 +41,16 @@ export const CONST_ADMIN_MENU = {
 
 export type ADMIN_MENU = typeof CONST_ADMIN_MENU[keyof typeof CONST_ADMIN_MENU];
 
-const AdminLecture: FC<AdminLectureProps> = ({ token, setToken }) => {
+const AdminLecture: FC<AdminLectureProps> = ({
+  token,
+  setToken,
+  teachers,
+  allLectures,
+  students,
+}) => {
   const [selectedMenu, setSelectedMenu] = useState<ADMIN_MENU>(
     CONST_ADMIN_MENU.LECTURE_ADD,
   );
-
-  const teachers = getAllTeachers(token);
-  const lectures = getAllLectures();
-  const students = getAllStudents(token);
 
   return (
     // 임시 MB
@@ -122,7 +131,13 @@ const AdminLecture: FC<AdminLectureProps> = ({ token, setToken }) => {
         </div>
       </div>
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_ADD && <LectureAdd />}
-      {selectedMenu === CONST_ADMIN_MENU.LECTURE_EDIT && <LectureEdit />}
+      {selectedMenu === CONST_ADMIN_MENU.LECTURE_EDIT && (
+        <LectureEdit
+          token={token}
+          setToken={setToken}
+          allLectures={allLectures}
+        />
+      )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_PERMISSION && (
         <LecturePermission />
       )}
@@ -131,22 +146,14 @@ const AdminLecture: FC<AdminLectureProps> = ({ token, setToken }) => {
           token={token}
           setToken={setToken}
           setSelectedMenu={setSelectedMenu}
-          teacherMutate={teachers.mutate}
+          teachers={teachers}
         />
       )}
       {selectedMenu === CONST_ADMIN_MENU.TEACHER_EDIT && (
-        <TeacherEdit
-          token={token}
-          setToken={setToken}
-          teachers={teachers.data}
-        />
+        <TeacherEdit token={token} setToken={setToken} teachers={teachers} />
       )}
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (
-        <StudentEdit
-          token={token}
-          setToken={setToken}
-          students={students.data}
-        />
+        <StudentEdit token={token} setToken={setToken} students={students} />
       )}
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && <TagEdit />}
     </div>

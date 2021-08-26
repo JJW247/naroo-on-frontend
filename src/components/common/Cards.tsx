@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { getAllLectures } from '../../hooks/api';
+import { SWRResponse } from 'swr';
+import { ILectureInList } from '../../interfaces';
 import MainLectureCard from './MainLectureCard';
 
 interface CardsProps {
@@ -7,25 +8,27 @@ interface CardsProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  lectures: SWRResponse<ILectureInList[], any>;
 }
 
-const Cards: FC<CardsProps> = ({ token, setToken }) => {
-  const lectures = getAllLectures();
-  const { data } = lectures;
+const Cards: FC<CardsProps> = ({ token, setToken, lectures }) => {
   return (
     <>
-      {data && (
+      {lectures && lectures.data && (
         <div className="grid grid-flow-row grid-cols-4 gap-6">
-          {data.map((lecture) => {
+          {lectures.data.map((lecture) => {
             return (
               <MainLectureCard
                 title={lecture.title}
                 thumbnail={lecture.thumbnail}
-                teacherName={lecture.teacherName}
+                teacher={lecture.teacher}
               />
             );
           })}
         </div>
+      )}
+      {(!lectures || !lectures.data) && (
+        <div className="text-center ">강좌가 존재하지 않습니다</div>
       )}
     </>
   );
