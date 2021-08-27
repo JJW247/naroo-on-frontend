@@ -20,8 +20,8 @@ export async function getMe(token: string | null) {
   }
   const response = await axios.get('/auth/me', tokenHeader(token));
   if (response.statusText === 'OK') {
-    const { userId, role } = response.data;
-    return { userId, role };
+    const { userId, role, nickname } = response.data;
+    return { userId, role, nickname };
   } else {
     return null;
   }
@@ -52,7 +52,7 @@ export function getApprovedLectures(token: string | null) {
 export function getAllLectures() {
   const fetcher = async () => {
     try {
-      const response = await axios.get('/lecture/admin');
+      const response = await axios.get('/lecture/all');
       if (response.statusText === 'OK') {
         return response.data;
       } else {
@@ -63,7 +63,7 @@ export function getAllLectures() {
     }
   };
   return useSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/admin`,
+    `${process.env.REACT_APP_BACK_URL}/lecture/all`,
     fetcher,
   );
 }

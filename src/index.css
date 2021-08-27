@@ -20,3 +20,29 @@ body {
   width: 280px;
   height: 423px;
 }
+
+.dropdown {
+  background: white;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  border-color: black;
+  border-width: 1px;
+  display: block;
+  position: relative;
+  left: -65%;
+  margin-top: 13px;
+}
+
+.dropdown-arrow {
+  border-bottom: solid 10px black;
+  border-left: solid 5px transparent;
+  border-right: solid 5px transparent;
+  border-top: solid 5px transparent;
+  border-width: 10px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -20px;
+  left: 70%;
+}

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import axios from 'axios';
 import { FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useInput } from '../hooks';
 import { useEffect } from 'react';
 
@@ -16,7 +16,6 @@ const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
   useEffect(() => {
     setToken(null);
   }, []);
-  const history = useHistory();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -33,7 +32,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
-        history.push('/');
+        window.location.replace('/');
       }
     } catch (error) {
       console.log(error);

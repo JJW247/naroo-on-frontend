@@ -4,18 +4,22 @@ import { CONST_RATING_TYPE } from '../../interfaces';
 import Star from './Star';
 import Tags from './Tags';
 
-interface MainLectureCardProps {
+interface LectureCardProps {
   title: string;
   thumbnail: string;
-  teacher: {
-    nickname: string;
-  };
+  nickname: string;
+  type: string;
+  status: string | null;
+  expired: string | null;
 }
 
-const MainLectureCard: FC<MainLectureCardProps> = ({
+const LectureCard: FC<LectureCardProps> = ({
   title,
   thumbnail,
-  teacher,
+  nickname,
+  type,
+  status,
+  expired,
 }) => {
   return (
     <div className="card-container">
@@ -24,14 +28,17 @@ const MainLectureCard: FC<MainLectureCardProps> = ({
         <Link to="/lecture/0">{title}</Link>
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
-        {teacher.nickname}
+        {nickname}
       </div>
       <Star width="16" rating={CONST_RATING_TYPE.FIVE} />
       <div className="mt-5">
         <Tags />
       </div>
+      {type && <div className="mt-5 text-center">{type}</div>}
+      {status && <div className="mt-5 text-center">{status}</div>}
+      {expired && <div className="mt-5 text-center">{expired}</div>}
     </div>
   );
 };
 
-export default MainLectureCard;
+export default LectureCard;

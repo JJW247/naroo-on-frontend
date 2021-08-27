@@ -6,9 +6,21 @@ import UserIcon from '../assets/images/User.svg';
 import { Link } from 'react-router-dom';
 import { CONST_RATING_TYPE } from '../interfaces';
 
+// type
+// title
+// description
+// thumbnail
+// teacher nickname
+// review array -> for average, each value
+// expired date
+// images
+// videos
+// questions
+// notices
+// tags
+
 const LetcureDetailLayout: FC = () => {
   const params = useParams();
-
   return (
     <div>
       <div className="w-full h-[380px] bg-[#696969] flex items-center justify-center">

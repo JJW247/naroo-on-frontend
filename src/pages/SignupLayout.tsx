@@ -1,7 +1,6 @@
 import { FC, FormEvent } from 'react';
 import axios from 'axios';
 import { useInput } from '../hooks';
-import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 
 interface SignupLayoutProps {
@@ -15,7 +14,6 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   useEffect(() => {
     setToken(null);
   }, []);
-  const history = useHistory();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, onChangePasswordCheck] = useInput('');
@@ -41,7 +39,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
-        history.push('/');
+        window.location.replace('/');
       }
     } catch (error) {
       console.log(error);

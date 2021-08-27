@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { ILectureInList } from '../../interfaces';
-import Cards from '../common/Cards';
+import LectureCard from '../common/LectureCard';
 
 interface MyLectureProps {
   token: string | null;
@@ -27,14 +27,50 @@ const MyLecture: FC<MyLectureProps> = ({
       <div className="mt-2 text-gray-300 mb-7">
         내가 신청한 강좌를 복습해보세요
       </div>
-      <Cards token={token} setToken={setToken} lectures={lectures} />
+      {lectures && lectures.data && (
+        <div className="grid grid-flow-row grid-cols-4 gap-6">
+          {lectures.data.map((lecture) => {
+            return (
+              <LectureCard
+                title={lecture.title}
+                thumbnail={lecture.thumbnail}
+                nickname={lecture.nickname}
+                type={lecture.type}
+                status={lecture.status}
+                expired={lecture.expired}
+              />
+            );
+          })}
+        </div>
+      )}
+      {(!lectures || !lectures.data) && (
+        <div className="text-center ">강좌가 존재하지 않습니다</div>
+      )}
       <div className=" mt-[122px] text-2xl font-semibold text-gray-400">
         모든 강좌
       </div>
       <div className="mt-2 text-gray-300 mb-7">
         완료 혹은 진행중인 전체 강좌를 살펴보세요
       </div>
-      <Cards token={token} setToken={setToken} lectures={allLectures} />
+      {allLectures && allLectures.data && (
+        <div className="grid grid-flow-row grid-cols-4 gap-6">
+          {allLectures.data.map((lecture) => {
+            return (
+              <LectureCard
+                title={lecture.title}
+                thumbnail={lecture.thumbnail}
+                nickname={lecture.nickname}
+                type={lecture.type}
+                status={null}
+                expired={lecture.expired}
+              />
+            );
+          })}
+        </div>
+      )}
+      {(!allLectures || !allLectures.data) && (
+        <div className="text-center ">강좌가 존재하지 않습니다</div>
+      )}
     </div>
   );
 };

@@ -1,22 +1,25 @@
+import { useState } from 'react';
 import { FC } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import Logo from '../../assets/images/Logo.svg';
-import Search from '../../assets/images/Search.svg';
-import User from '../../assets/images/User.svg';
+import { Link } from 'react-router-dom';
+import Logo from '../../../assets/images/Logo.svg';
+import Search from '../../../assets/images/Search.svg';
+import Ellipsis from './Ellipsis';
 
 interface HeaderProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  nickname: string | null;
+  userType: string | null;
 }
 
-const Header: FC<HeaderProps> = ({ token, setToken }) => {
-  const history = useHistory();
+const Header: FC<HeaderProps> = ({ token, setToken, nickname, userType }) => {
   const logoutHandler = () => {
     setToken(null);
-    history.push('/');
+    window.location.reload();
   };
+  const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
   return (
     <div className="h-20 font-semibold text-gray-300 font-noto">
       <div className="max-w-[1200px] h-full mx-auto flex justify-between items-center">
@@ -41,14 +44,24 @@ const Header: FC<HeaderProps> = ({ token, setToken }) => {
           </div>
         </div>
         <div>
-          {token && (
-            <button
-              className="flex items-center justify-center"
-              onClick={logoutHandler}
+          {token && nickname && userType !== 'admin' && (
+            <div
+              onMouseEnter={() => setIsVisibleEllipsis(true)}
+              onMouseLeave={() => setIsVisibleEllipsis(false)}
             >
-              <img className="mr-[4px]" src={User} alt="User" />
-              로그아웃
-            </button>
+              <button className="rounded-full w-[40px] h-[40px] flex items-center justify-center bg-[#8dc556] leading-[150%] text-white font-semibold">
+                {nickname.charAt(0)}
+              </button>
+              {isVisibleEllipsis && (
+                <div className="fixed">
+                  <Ellipsis
+                    token={token}
+                    setToken={setToken}
+                    logoutHandler={logoutHandler}
+                  />
+                </div>
+              )}
+            </div>
           )}
           {!token && (
             <>
@@ -63,6 +76,14 @@ const Header: FC<HeaderProps> = ({ token, setToken }) => {
                 </button>
               </Link>
             </>
+          )}
+          {token && nickname && userType === 'admin' && (
+            <button
+              className="flex items-center justify-center"
+              onClick={logoutHandler}
+            >
+              로그아웃
+            </button>
           )}
         </div>
       </div>
