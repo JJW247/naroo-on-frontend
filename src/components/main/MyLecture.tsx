@@ -21,30 +21,34 @@ const MyLecture: FC<MyLectureProps> = ({
   return (
     // 임시 MB
     <div className="max-w-[1200px] mx-auto mt-[122px] pb-[96px]">
-      <div className="text-2xl font-semibold text-gray-400">
-        내가 신청한 강좌
-      </div>
-      <div className="mt-2 text-gray-300 mb-7">
-        내가 신청한 강좌를 복습해보세요
-      </div>
-      {lectures && lectures.data && (
-        <div className="grid grid-flow-row grid-cols-4 gap-6">
-          {lectures.data.map((lecture) => {
-            return (
-              <LectureCard
-                title={lecture.title}
-                thumbnail={lecture.thumbnail}
-                nickname={lecture.nickname}
-                type={lecture.type}
-                status={lecture.status}
-                expired={lecture.expired}
-              />
-            );
-          })}
-        </div>
-      )}
-      {(!lectures || !lectures.data) && (
-        <div className="text-center ">강좌가 존재하지 않습니다</div>
+      {token && (
+        <>
+          <div className="text-2xl font-semibold text-gray-400">
+            내가 신청한 강좌
+          </div>
+          <div className="mt-2 text-gray-300 mb-7">
+            내가 신청한 강좌를 복습해보세요
+          </div>
+          {lectures && lectures.data && (
+            <div className="grid grid-flow-row grid-cols-4 gap-6">
+              {lectures.data.map((lecture) => {
+                return (
+                  <LectureCard
+                    title={lecture.title}
+                    thumbnail={lecture.thumbnail}
+                    nickname={lecture.nickname}
+                    type={lecture.type}
+                    status={lecture.status}
+                    expired={lecture.expired}
+                  />
+                );
+              })}
+            </div>
+          )}
+          {(!lectures || !lectures.data || lectures.data.length === 0) && (
+            <div className="text-center ">강좌가 존재하지 않습니다</div>
+          )}
+        </>
       )}
       <div className=" mt-[122px] text-2xl font-semibold text-gray-400">
         모든 강좌
@@ -68,7 +72,7 @@ const MyLecture: FC<MyLectureProps> = ({
           })}
         </div>
       )}
-      {(!allLectures || !allLectures.data) && (
+      {(!allLectures || !allLectures.data || allLectures.data.length === 0) && (
         <div className="text-center ">강좌가 존재하지 않습니다</div>
       )}
     </div>
