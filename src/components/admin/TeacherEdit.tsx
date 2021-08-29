@@ -13,10 +13,10 @@ interface TeacherEditProps {
 const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
   return (
     <div>
-      <div className="flex w-full text-center flex-nowrap">강사 관리</div>
+      <div className="w-full text-center text-3xl">강사 관리</div>
       {teachers.data &&
         teachers.data.map((teacher) => (
-          <div className="flex-auto border-2 rounded">
+          <div className="border-2 rounded">
             <div>강사명 : {teacher.nickname}</div>
             <div>강사 소개 : {teacher.introduce}</div>
           </div>

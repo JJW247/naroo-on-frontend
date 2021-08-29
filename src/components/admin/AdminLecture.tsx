@@ -2,13 +2,9 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import {
-  getAllLectures,
-  getAllStudents,
-  getAllTeachers,
-} from '../../hooks/api';
-import {
   ILectureInList,
   IStudentEditInAdmin,
+  ITags,
   ITeacherEditInAdmin,
 } from '../../interfaces';
 import LectureAdd from './LectureAdd';
@@ -27,6 +23,7 @@ interface AdminLectureProps {
   teachers: SWRResponse<ITeacherEditInAdmin[], any>;
   allLectures: SWRResponse<ILectureInList[], any>;
   students: SWRResponse<IStudentEditInAdmin[], any>;
+  tags: SWRResponse<ITags[], any>;
 }
 
 export const CONST_ADMIN_MENU = {
@@ -47,6 +44,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
   teachers,
   allLectures,
   students,
+  tags,
 }) => {
   const [selectedMenu, setSelectedMenu] = useState<ADMIN_MENU>(
     CONST_ADMIN_MENU.LECTURE_ADD,
@@ -155,7 +153,9 @@ const AdminLecture: FC<AdminLectureProps> = ({
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (
         <StudentEdit token={token} setToken={setToken} students={students} />
       )}
-      {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && <TagEdit />}
+      {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
+        <TagEdit token={token} setToken={setToken} tags={tags} />
+      )}
     </div>
   );
 };

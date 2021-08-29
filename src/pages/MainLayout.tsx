@@ -14,7 +14,6 @@ interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ token, setToken }) => {
   const allLectures = getAllLectures();
   const lectures = getApprovedLectures(token);
-  console.log(lectures);
   return (
     <div className="min-h-screen bg-white font-noto">
       <Carousel />

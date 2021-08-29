@@ -65,8 +65,16 @@ const App: FC = () => {
           path="/signup"
           render={() => <SignupLayout token={token} setToken={setToken} />}
         />
-        <Route path="/lecture/:id" component={LetcureDetailLayout} />
-        <Route path="/lecture-play/:id" component={LecturePlayLayout} />
+        <Route
+          path="/lecture/:id"
+          render={() => (
+            <LetcureDetailLayout token={token} setToken={setToken} />
+          )}
+        />
+        <Route
+          path="/lecture-play/:id"
+          render={() => <LecturePlayLayout token={token} setToken={setToken} />}
+        />
         <Route path="/review" component={LectureReviewLayout} />
         <Route path="/info" component={IntroduceLayout} />
       </Switch>

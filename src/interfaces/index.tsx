@@ -82,12 +82,23 @@ export interface IStudentEditInAdmin {
 }
 
 export interface ILectureInList {
+  id: string;
   title: string;
   thumbnail: string;
   nickname: string;
   type: string;
   status: string | null;
   expired: string | null;
+  tags: string[];
+  reviews:
+    | {
+        created_at: string;
+        id: string;
+        nickname: string;
+        review: string;
+        rating: number;
+      }[]
+    | [];
 }
 
 export const CONST_RATING_TYPE = {
@@ -100,3 +111,31 @@ export const CONST_RATING_TYPE = {
 
 export type RATING_TYPE =
   typeof CONST_RATING_TYPE[keyof typeof CONST_RATING_TYPE];
+
+export interface ITags {
+  name: string | null;
+}
+
+export interface ILectureDetail {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  images: string[];
+  nickname: string;
+  type: string;
+  status: string | null;
+  expired: string | null;
+  videos: string[];
+  notices: any;
+  tags: string[];
+  reviews:
+    | {
+        created_at: string;
+        id: string;
+        nickname: string;
+        review: string;
+        rating: number;
+      }[]
+    | [];
+}

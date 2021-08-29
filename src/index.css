@@ -16,11 +16,6 @@ body {
   font-weight: 600;
 }
 
-.card-container {
-  width: 280px;
-  height: 423px;
-}
-
 .dropdown {
   background: white;
   -webkit-border-radius: 6px;

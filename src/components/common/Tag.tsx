@@ -1,9 +1,13 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-const Tag: FC = () => {
+interface TagProps {
+  name: string | null;
+}
+
+const Tag: FC<TagProps> = ({ name }) => {
   return (
     <div className="rounded-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1">
-      #태그
+      #{name}
     </div>
   );
 };

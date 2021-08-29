@@ -1,7 +1,12 @@
 import { FC } from 'react';
 import AdminLecture from '../components/admin/AdminLecture';
 
-import { getAllLectures, getAllStudents, getAllTeachers } from '../hooks/api';
+import {
+  getAllLectures,
+  getAllStudents,
+  getAllTags,
+  getAllTeachers,
+} from '../hooks/api';
 
 interface AdminLayoutProps {
   token: string | null;
@@ -14,6 +19,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
   const allLectures = getAllLectures();
   const teachers = getAllTeachers(token);
   const students = getAllStudents(token);
+  const tags = getAllTags(token);
   return (
     <div className="min-h-screen bg-white font-noto">
       <AdminLecture
@@ -22,6 +28,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
         teachers={teachers}
         allLectures={allLectures}
         students={students}
+        tags={tags}
       />
     </div>
   );

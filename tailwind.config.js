@@ -4,6 +4,13 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      screens: {
+        xs: { min: '475px', max: '639px' },
+        sm: { min: '640px', max: '767px' },
+        md: { min: '768px', max: '949px' },
+        lg: { min: '950px', max: '1199px' },
+        xl: { min: '1200px', max: '1535px' },
+      },
       colors: {
         gray: {
           100: '#C4C4C4',
@@ -19,9 +26,14 @@ module.exports = {
         noto: 'Noto Sans KR',
       },
     },
+    debugScreens: {
+      position: ['top', 'left'],
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ['disabled'],
+    },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-debug-screens')],
 };

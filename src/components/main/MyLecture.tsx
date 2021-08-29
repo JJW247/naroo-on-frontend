@@ -20,7 +20,7 @@ const MyLecture: FC<MyLectureProps> = ({
 }) => {
   return (
     // 임시 MB
-    <div className="max-w-[1200px] mx-auto mt-[122px] pb-[96px]">
+    <div className="2xl:max-w-[1200px] 2xl:mx-auto xl:mx-auto xl:max-w-[1200px] mt-[122px] pb-[96px]">
       {token && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
@@ -30,16 +30,19 @@ const MyLecture: FC<MyLectureProps> = ({
             내가 신청한 강좌를 복습해보세요
           </div>
           {lectures && lectures.data && (
-            <div className="grid grid-flow-row grid-cols-4 gap-6">
+            <div className="grid grid-flow-row 2xl:grid-cols-4 2xl:gap-6 xl:grid-cols-4 xl:gap-6 lg:grid-cols-3 lg:gap-3 md:grid-cols-2 md:gap-3">
               {lectures.data.map((lecture) => {
                 return (
                   <LectureCard
+                    id={lecture.id}
                     title={lecture.title}
                     thumbnail={lecture.thumbnail}
                     nickname={lecture.nickname}
                     type={lecture.type}
                     status={lecture.status}
                     expired={lecture.expired}
+                    tags={lecture.tags}
+                    reviews={lecture.reviews}
                   />
                 );
               })}
@@ -57,16 +60,19 @@ const MyLecture: FC<MyLectureProps> = ({
         완료 혹은 진행중인 전체 강좌를 살펴보세요
       </div>
       {allLectures && allLectures.data && (
-        <div className="grid grid-flow-row grid-cols-4 gap-6">
+        <div className="grid grid-flow-row 2xl:grid-cols-4 2xl:gap-6 xl:grid-cols-4 xl:gap-6 lg:grid-cols-3 lg:gap-3 md:grid-cols-2 md:gap-3">
           {allLectures.data.map((lecture) => {
             return (
               <LectureCard
+                id={lecture.id}
                 title={lecture.title}
                 thumbnail={lecture.thumbnail}
                 nickname={lecture.nickname}
                 type={lecture.type}
                 status={null}
                 expired={lecture.expired}
+                tags={lecture.tags}
+                reviews={lecture.reviews}
               />
             );
           })}
