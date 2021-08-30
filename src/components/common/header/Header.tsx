@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { MutableRefObject, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../../assets/images/Logo.svg';
+import { SWRResponse } from 'swr';
 import Search from '../../../assets/images/Search.svg';
+import { IResourceContent } from '../../../interfaces';
 import Ellipsis from './Ellipsis';
 
 interface HeaderProps {
@@ -13,9 +14,16 @@ interface HeaderProps {
   ) => void;
   nickname: string | null;
   userType: string | null;
+  headerLogo: SWRResponse<IResourceContent[], any>;
 }
 
-const Header: FC<HeaderProps> = ({ token, setToken, nickname, userType }) => {
+const Header: FC<HeaderProps> = ({
+  token,
+  setToken,
+  nickname,
+  userType,
+  headerLogo,
+}) => {
   const logoutHandler = () => {
     setToken(null);
     window.location.reload();
@@ -56,11 +64,14 @@ const Header: FC<HeaderProps> = ({ token, setToken, nickname, userType }) => {
           <Link to="/">
             <img
               className="2xl:ml-[80px] xl:ml-[70px] lg:ml-[60px] md:ml-[50px] 2xl:mr-[100px] xl:mr-[60px] lg:mr-[50px] md:mr-[40px] mr-[20px]"
-              src={Logo}
+              src={
+                headerLogo && headerLogo.data ? headerLogo.data[0].content : ''
+              }
+              width="132"
               alt="Logo"
             />
           </Link>
-          <div className="grid grid-flow-row grid-cols-5 2xl:gap-14 xl:gap-8 gap-6 lg:gap-3 md:gap-2">
+          <div className="grid grid-flow-row grid-cols-5 gap-6 2xl:gap-14 xl:gap-8 lg:gap-3 md:gap-2">
             <Link to="/">
               <button>강의</button>
             </Link>
@@ -121,10 +132,16 @@ const Header: FC<HeaderProps> = ({ token, setToken, nickname, userType }) => {
           )}
         </div>
       </div>
-      <div className="2xl:hidden xl:hidden lg:hidden md:hidden sm:flex xs:flex h-full mx-auto justify-between items-center">
-        <div className="flex w-full items-center justify-evenly">
+      <div className="items-center justify-between h-full mx-auto 2xl:hidden xl:hidden lg:hidden md:hidden sm:flex xs:flex">
+        <div className="flex items-center w-full justify-evenly">
           <Link to="/">
-            <img src={Logo} alt="Logo" />
+            <img
+              src={
+                headerLogo && headerLogo.data ? headerLogo.data[0].content : ''
+              }
+              width="132"
+              alt="Logo"
+            />
           </Link>
           <button
             className="rounded-[1px] w-[200px]"

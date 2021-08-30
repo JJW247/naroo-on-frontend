@@ -19,7 +19,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
   return (
     <div className="flex items-center justify-center">
       <div>
-        <div className="w-full text-center text-3xl">강의 관리</div>
+        <div className="w-full text-3xl text-center">강의 관리</div>
         {allLectures && allLectures.data && (
           <div className="grid grid-flow-row grid-cols-4 gap-6">
             {allLectures.data.map((lecture) => {
@@ -34,6 +34,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
                   expired={lecture.expired}
                   tags={lecture.tags}
                   reviews={lecture.reviews}
+                  average_rating={lecture.average_rating}
                 />
               );
             })}

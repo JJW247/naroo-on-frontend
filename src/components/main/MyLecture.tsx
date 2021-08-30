@@ -43,6 +43,7 @@ const MyLecture: FC<MyLectureProps> = ({
                     expired={lecture.expired}
                     tags={lecture.tags}
                     reviews={lecture.reviews}
+                    average_rating={lecture.average_rating}
                   />
                 );
               })}
@@ -73,6 +74,7 @@ const MyLecture: FC<MyLectureProps> = ({
                 expired={lecture.expired}
                 tags={lecture.tags}
                 reviews={lecture.reviews}
+                average_rating={lecture.average_rating}
               />
             );
           })}

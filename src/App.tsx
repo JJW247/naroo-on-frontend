@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Footer from './components/common/Footer';
 import Header from './components/common/header/Header';
 import { useLocalStorage } from './hooks';
-import { getMe } from './hooks/api';
+import { getMe, getResourceContent } from './hooks/api';
 import MainLayout from './pages/MainLayout';
 import SigninLayout from './pages/SigninLayout';
 import SignupLayout from './pages/SignupLayout';
@@ -21,6 +21,9 @@ const App: FC = () => {
     'token',
     localStorage.getItem('token'),
   );
+  const adminEmail = getResourceContent('admin_email');
+  const headerLogo = getResourceContent('header_logo');
+  const footerLogo = getResourceContent('footer_logo');
   useEffect(() => {
     if (token !== null) {
       getMe(token).then((me) => {
@@ -44,6 +47,7 @@ const App: FC = () => {
         setToken={setToken}
         userType={userType}
         nickname={userNickname}
+        headerLogo={headerLogo}
       />
       <Switch>
         <Route
@@ -78,7 +82,7 @@ const App: FC = () => {
         <Route path="/review" component={LectureReviewLayout} />
         <Route path="/info" component={IntroduceLayout} />
       </Switch>
-      <Footer />
+      <Footer adminEmail={adminEmail} footerLogo={footerLogo} />
     </Router>
   );
 };

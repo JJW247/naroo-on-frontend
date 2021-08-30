@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import {
   ILectureDetail,
   ILectureInList,
+  IResourceContent,
   IStudentEditInAdmin,
   ITags,
   ITeacherEditInAdmin,
@@ -14,6 +15,25 @@ export function tokenHeader(token: string) {
       Authorization: `Bearer ${token}`,
     },
   };
+}
+
+export function getResourceContent(type: string) {
+  const fetcher = async () => {
+    try {
+      const response = await axios.get(`/resource/${type}`);
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<IResourceContent[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource/${type}`,
+    fetcher,
+  );
 }
 
 export async function getMe(token: string | null) {

@@ -1,8 +1,12 @@
 import { FC } from 'react';
-import Carousel from '../components/main/Carousel';
 import MyLecture from '../components/main/MyLecture';
 import OrgCarousel from '../components/main/OrgCarousel';
-import { getAllLectures, getApprovedLectures } from '../hooks/api';
+import {
+  getAllLectures,
+  getApprovedLectures,
+  getResourceContent,
+} from '../hooks/api';
+import NoticeCarousel from '../components/main/NoticeCarousel';
 
 interface MainLayoutProps {
   token: string | null;
@@ -14,16 +18,18 @@ interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ token, setToken }) => {
   const allLectures = getAllLectures();
   const lectures = getApprovedLectures(token);
+  const noticeCarousel = getResourceContent('notice_carousel');
+  const orgCarousel = getResourceContent('org_carousel');
   return (
     <div className="min-h-screen bg-white font-noto">
-      <Carousel />
+      <NoticeCarousel noticeCarousel={noticeCarousel} />
       <MyLecture
         token={token}
         setToken={setToken}
         lectures={lectures}
         allLectures={allLectures}
       />
-      <OrgCarousel />
+      <OrgCarousel orgCarousel={orgCarousel} />
     </div>
   );
 };

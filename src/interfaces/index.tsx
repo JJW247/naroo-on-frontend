@@ -1,3 +1,7 @@
+export interface IResourceContent {
+  content: string;
+}
+
 export interface ICommonEntity {
   id: number;
   createdAt: string;
@@ -90,6 +94,7 @@ export interface ILectureInList {
   status: string | null;
   expired: string | null;
   tags: string[];
+  average_rating: string;
   reviews:
     | {
         created_at: string;
@@ -129,6 +134,7 @@ export interface ILectureDetail {
   videos: string[];
   notices: any;
   tags: string[];
+  average_rating: string;
   reviews:
     | {
         created_at: string;
