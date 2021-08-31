@@ -3,6 +3,8 @@ import useSWR from 'swr';
 import {
   ILectureDetail,
   ILectureInList,
+  ILectureVideoDetail,
+  IRecentReviews,
   IResourceContent,
   IStudentEditInAdmin,
   ITags,
@@ -131,6 +133,50 @@ export function getLecture(token: string | null, id: string) {
   );
 }
 
+export function getLectureVideoGuest(id: string) {
+  const fetcher = async () => {
+    try {
+      const response = await axios.get(`/lecture/guest/video/${id}`);
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<ILectureVideoDetail>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/guest/video/${id}`,
+    fetcher,
+  );
+}
+
+export function getLectureVideo(token: string | null, id: string) {
+  if (token === null) {
+    return null;
+  }
+  const fetcher = async () => {
+    try {
+      const response = await axios.get(
+        `/lecture/video/${id}`,
+        tokenHeader(token),
+      );
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<ILectureVideoDetail>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/video/${id}`,
+    fetcher,
+  );
+}
+
 export function getAllTeachers(token: string | null) {
   const fetcher = async () => {
     try {
@@ -138,7 +184,7 @@ export function getAllTeachers(token: string | null) {
         return null;
       }
       const response = await axios.get(
-        'auth/admin/teacher',
+        '/auth/admin/teacher',
         tokenHeader(token),
       );
       if (response.statusText === 'OK') {
@@ -163,7 +209,7 @@ export function getAllStudents(token: string | null) {
         return null;
       }
       const response = await axios.get(
-        'auth/admin/student',
+        '/auth/admin/student',
         tokenHeader(token),
       );
       if (response.statusText === 'OK') {
@@ -181,13 +227,35 @@ export function getAllStudents(token: string | null) {
   );
 }
 
+export function getRecentReviews() {
+  const fetcher = async () => {
+    try {
+      const response = await axios.get('/lecture/review/recent');
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<IRecentReviews[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/review/recent`,
+    fetcher,
+  );
+}
+
 export function getAllTags(token: string | null) {
   const fetcher = async () => {
     try {
       if (token === null) {
         return null;
       }
-      const response = await axios.get('lecture/admin/tag', tokenHeader(token));
+      const response = await axios.get(
+        '/lecture/admin/tag',
+        tokenHeader(token),
+      );
       if (response.statusText === 'OK') {
         return response.data;
       } else {

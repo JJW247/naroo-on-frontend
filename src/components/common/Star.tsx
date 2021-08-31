@@ -1,8 +1,7 @@
-import { faStar as StarChecked } from '@fortawesome/free-solid-svg-icons';
-import { faStar as StarUnchecked } from '@fortawesome/free-regular-svg-icons';
-import { faStarHalf as StarHalfchecked } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
+import StarChecked from '../../assets/images/StarChecked.svg';
+import StarHalfChecked from '../../assets/images/StarHalfChecked.svg';
+import StarUnchecked from '../../assets/images/StarUnchecked.svg';
 
 interface StarProps {
   width: string;
@@ -16,50 +15,95 @@ const Star: FC<StarProps> = ({ width, rating }) => {
       if (rating === 0) {
         stars.push(
           <>
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />
           </>,
         );
       } else {
-        for (let i = 0; i < Math.floor(rating); i++) {
+        // for (let i = 0; i < Math.floor(rating); i++) {
+        //   stars.push(
+        //     <img
+        //       src={StarChecked}
+        //       width={width}
+        //       className={`text-yellow my-auto`}
+        //     />,
+        //   );
+        // }
+        // if(Math.round(rating - Math.floor(rating)) === 1) {
+        //   stars.push(
+        //     <img
+        //       src={StarHalfChecked}
+        //       width={width}
+        //       className={`text-yellow my-auto`}
+        //     />,
+        //   );
+        // }
+        // if((5 - Math.ceil()))
+        // if (((5 - rating) * 2) % 2 === 1) {
+        //   stars.push(
+        //     <img
+        //       src={StarHalfChecked}
+        //       width={width}
+        //       className={`text-yellow my-auto`}
+        //     />,
+        //   );
+        // }
+        // for (let i = 0; i < 5 - stars.length; i++) {
+        //   stars.push(
+        //     <img
+        //       src={StarUnchecked}
+        //       width={width}
+        //       className={`text-yellow my-auto`}
+        //     />,
+        //   );
+        // }
+        for (let i = 0; i < (Math.floor(rating) * 10) / 10; i++) {
           stars.push(
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarChecked}
+            <img
+              src={StarChecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />,
           );
         }
-        if (((5 - rating) * 2) % 2 === 1) {
+        if ((rating * 10) % 10 !== 0) {
           stars.push(
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarHalfchecked}
+            <img
+              src={StarHalfChecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />,
           );
         }
-        for (let i = 0; i < 5 - stars.length; i++) {
+        for (let i = 0; i < 5 - Math.ceil(rating); i++) {
           stars.push(
-            <FontAwesomeIcon
-              className={`w-[${width}px] text-yellow my-auto`}
-              icon={StarUnchecked}
+            <img
+              src={StarUnchecked}
+              width={width}
+              className={`text-yellow my-auto`}
             />,
           );
         }
@@ -72,7 +116,9 @@ const Star: FC<StarProps> = ({ width, rating }) => {
   };
   return (
     <>
-      {rating >= 0 && <div className="flex bg-transparent">{contents()}</div>}
+      {rating >= 0 && (
+        <div className="flex items-center bg-transparent">{contents()}</div>
+      )}
     </>
   );
 };

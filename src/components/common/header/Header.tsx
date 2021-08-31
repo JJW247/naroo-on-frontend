@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SWRResponse } from 'swr';
 import Search from '../../../assets/images/Search.svg';
 import { IResourceContent } from '../../../interfaces';
@@ -24,6 +24,8 @@ const Header: FC<HeaderProps> = ({
   userType,
   headerLogo,
 }) => {
+  const location = useLocation();
+  console.log(location.pathname);
   const logoutHandler = () => {
     setToken(null);
     window.location.reload();
@@ -58,12 +60,12 @@ const Header: FC<HeaderProps> = ({
     return () => window.removeEventListener('click', ellipsisPositionHandler);
   }, [isVisibleEllipsis]);
   return (
-    <div className="h-20 font-semibold text-gray-300 font-noto">
-      <div className="2xl:max-w-[1535px] xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] sm:hidden xs:hidden h-full flex mx-auto justify-between items-center">
+    <div className="h-[100px] font-semibold text-gray-300 font-noto">
+      <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] sm:hidden xs:hidden h-full flex mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">
             <img
-              className="2xl:ml-[80px] xl:ml-[70px] lg:ml-[60px] md:ml-[50px] 2xl:mr-[100px] xl:mr-[60px] lg:mr-[50px] md:mr-[40px] mr-[20px]"
+              className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
               src={
                 headerLogo && headerLogo.data ? headerLogo.data[0].content : ''
               }
@@ -71,26 +73,52 @@ const Header: FC<HeaderProps> = ({
               alt="Logo"
             />
           </Link>
-          <div className="grid grid-flow-row grid-cols-5 gap-6 2xl:gap-14 xl:gap-8 lg:gap-3 md:gap-2">
+          <div className="flex flex-nowrap">
             <Link to="/">
-              <button>강의</button>
+              <button
+                className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
+                  location.pathname === '/'
+                    ? 'text-[#8DC556]'
+                    : 'text-[#515A6E]'
+                }`}
+              >
+                강의
+              </button>
             </Link>
             <Link to="/review">
-              <button>강의 리뷰</button>
+              <button
+                className={`mr-[46px] text-[18px] leading-[27px] font-semibold ${
+                  location.pathname === '/review'
+                    ? 'text-[#8DC556]'
+                    : 'text-[#515A6E]'
+                }`}
+              >
+                강의 리뷰
+              </button>
             </Link>
             <Link to="/info">
-              <button>소개</button>
+              <button
+                className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
+                  location.pathname === '/info'
+                    ? 'text-[#8DC556]'
+                    : 'text-[#515A6E]'
+                }`}
+              >
+                소개
+              </button>
             </Link>
-            <button>문의하기</button>
-            <button className="ml-[42px]">
-              <img className="w-[20px] h-[20px]" src={Search} alt="Search" />
+            <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
+              문의하기
+            </button>
+            <button>
+              <img src={Search} alt="Search" />
             </button>
           </div>
         </div>
         <div>
           {token && nickname && userType !== 'admin' && (
             <div
-              className="2xl:mr-[80px] xl:mr-[70px] lg:mr-[60px] md:mr-[50px]"
+              className="2xl:ml-[701px] xl:ml-[526px] lg:ml-[280px] md:ml-[130px]"
               onMouseEnter={() => setIsVisibleEllipsis(true)}
               onMouseLeave={() => setIsVisibleEllipsis(false)}
             >
@@ -98,7 +126,7 @@ const Header: FC<HeaderProps> = ({
                 {nickname.charAt(0)}
               </button>
               {isVisibleEllipsis && (
-                <div className="fixed">
+                <div className="fixed z-[999] min-w-max">
                   <Ellipsis
                     token={token}
                     setToken={setToken}
@@ -109,18 +137,18 @@ const Header: FC<HeaderProps> = ({
             </div>
           )}
           {!token && (
-            <>
+            <div className="2xl:ml-[457px] xl:ml-[343px] lg:ml-[180px] md:ml-[30px]">
               <Link to="/signin">
-                <button className="bg-white font-[14px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[99px] h-[41px]">
+                <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] 2xl:w-[99px] xl:w-[99px] lg:w-[80px] md:w-[60px]">
                   로그인
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="ml-[12px] font-[14px] font-semibold text-white bg-[#8DC556] rounded-[40px] w-[112px] h-[41px]">
+                <button className="ml-[12px] font-[14px] leading-[21px] font-semibold text-white bg-[#8DC556] rounded-[40px] h-[41px] 2xl:w-[112px] xl:w-[112px] lg:w-[90px] md:w-[70px]">
                   회원가입
                 </button>
               </Link>
-            </>
+            </div>
           )}
           {token && nickname && userType === 'admin' && (
             <button
@@ -152,16 +180,40 @@ const Header: FC<HeaderProps> = ({
           {isVisibleMenu && (
             <div
               ref={menuElementRef}
-              className="flex-none border-[1px] border-[#DCDEE2] box-border rounded-[10px] bg-white min-w-max absolute top-[8%] left-[49%]"
+              className="flex-none border-[1px] border-[#DCDEE2] box-border rounded-[10px] bg-white min-w-max absolute top-[8%] left-[49%] z-[999]"
             >
               <Link to="/">
-                <button className="block px-[10px] py-[10px]">강의</button>
+                <button
+                  className={`block px-[10px] py-[10px]  ${
+                    location.pathname === '/'
+                      ? 'text-[#8DC556]'
+                      : 'text-[#515A6E]'
+                  }`}
+                >
+                  강의
+                </button>
               </Link>
               <Link to="/review">
-                <button className="block px-[10px] py-[10px]">강의 리뷰</button>
+                <button
+                  className={`block px-[10px] py-[10px]  ${
+                    location.pathname === '/review'
+                      ? 'text-[#8DC556]'
+                      : 'text-[#515A6E]'
+                  }`}
+                >
+                  강의 리뷰
+                </button>
               </Link>
               <Link to="/info">
-                <button className="block px-[10px] py-[10px]">소개</button>
+                <button
+                  className={`block px-[10px] py-[10px]  ${
+                    location.pathname === '/info'
+                      ? 'text-[#8DC556]'
+                      : 'text-[#515A6E]'
+                  }`}
+                >
+                  소개
+                </button>
               </Link>
               <Link to="/">
                 <button className="block px-[10px] py-[10px]">문의하기</button>
@@ -177,7 +229,10 @@ const Header: FC<HeaderProps> = ({
                 {nickname.charAt(0)}
               </button>
               {isVisibleEllipsis && (
-                <div ref={ellipsisElementRef} className="fixed min-w-max">
+                <div
+                  ref={ellipsisElementRef}
+                  className="fixed z-[999] min-w-max"
+                >
                   <Ellipsis
                     token={token}
                     setToken={setToken}
@@ -190,12 +245,12 @@ const Header: FC<HeaderProps> = ({
           {!token && (
             <div>
               <Link to="/signin">
-                <button className="bg-white font-[10px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[70px] h-[41px]">
+                <button className="bg-white font-[10px] leading-[10px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[60px] h-[41px]">
                   로그인
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="ml-[12px] font-[10px] font-semibold text-white bg-[#8DC556] rounded-[40px] w-[80px] h-[41px]">
+                <button className="ml-[12px] font-[10px] leading-[10px] font-semibold text-white bg-[#8DC556] rounded-[40px] w-[70px] h-[41px]">
                   회원가입
                 </button>
               </Link>

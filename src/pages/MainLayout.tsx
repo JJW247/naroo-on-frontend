@@ -21,7 +21,7 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken }) => {
   const noticeCarousel = getResourceContent('notice_carousel');
   const orgCarousel = getResourceContent('org_carousel');
   return (
-    <div className="min-h-screen bg-white font-noto">
+    <div className="max-w-full mx-auto min-h-screen bg-white font-noto">
       <NoticeCarousel noticeCarousel={noticeCarousel} />
       <MyLecture
         token={token}

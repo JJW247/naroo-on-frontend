@@ -39,7 +39,16 @@ const LectureCard: FC<LectureCardProps> = ({
   return (
     <div className="w-[280px] h-[423px] justify-self-center">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />
-      <div className="mt-3 font-medium text-gray-400 bg-white h-11">
+      <div className="mt-3 text-xs bg-white text-shuttle-gray">
+        {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
+        {status && ' / '}
+        {status === 'accept'
+          ? '승인 완료'
+          : status === 'apply'
+          ? '승인 대기'
+          : ''}
+      </div>
+      <div className="mt-[10px] font-medium text-gray-400 bg-white h-11">
         <Link to={`/lecture/${id}`}>{title}</Link>
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
@@ -53,9 +62,6 @@ const LectureCard: FC<LectureCardProps> = ({
           })}
         </div>
       )}
-      {type && <div className="mt-5 text-center">{type}</div>}
-      {status && <div className="mt-5 text-center">{status}</div>}
-      {expired && <div className="mt-5 text-center">{expired}</div>}
     </div>
   );
 };

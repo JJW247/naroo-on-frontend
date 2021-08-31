@@ -17,12 +17,17 @@ const NoticeCarousel: FC<NoticeCarouselProps> = ({ noticeCarousel }) => {
     pauseOnHover: true,
   };
   return (
-    <div className="text-center bg-gray-100">
+    <div className="mx-auto text-center bg-gray-100">
       <Slider {...settings}>
         {noticeCarousel &&
           noticeCarousel.data &&
           noticeCarousel.data.map((element) => {
-            return <img className="max-h-[320px]" src={element.content} />;
+            return (
+              <img
+                className="max-w-[100vw] max-h-[320px]"
+                src={element.content}
+              />
+            );
           })}
       </Slider>
     </div>

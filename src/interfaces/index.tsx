@@ -117,6 +117,15 @@ export const CONST_RATING_TYPE = {
 export type RATING_TYPE =
   typeof CONST_RATING_TYPE[keyof typeof CONST_RATING_TYPE];
 
+export interface IRecentReviews {
+  created_at: string;
+  id: string;
+  nickname: string;
+  title: string;
+  review: string;
+  rating: string;
+}
+
 export interface ITags {
   name: string | null;
 }
@@ -131,7 +140,12 @@ export interface ILectureDetail {
   type: string;
   status: string | null;
   expired: string | null;
-  videos: string[];
+  videos:
+    | {
+        id: string;
+      }[]
+    | []
+    | null;
   notices: any;
   tags: string[];
   average_rating: string;
@@ -144,4 +158,27 @@ export interface ILectureDetail {
         rating: number;
       }[]
     | [];
+  users: string;
+}
+
+export interface ILectureVideoDetail {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  images: string[];
+  nickname: string;
+  type: string;
+  status: string | null;
+  expired: string | null;
+  videos:
+    | {
+        id: string;
+        title: string;
+        url: string;
+      }[]
+    | []
+    | null;
+  tags: string[];
+  users: string;
 }
