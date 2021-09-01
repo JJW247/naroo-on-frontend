@@ -20,6 +20,10 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
     try {
       event.preventDefault();
 
+      if (!tagName) {
+        return;
+      }
+
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/create`,
         {

@@ -71,16 +71,48 @@ const App: FC = () => {
         />
         <Route
           path="/lecture/:id"
-          render={() => (
-            <LetcureDetailLayout token={token} setToken={setToken} />
-          )}
+          render={() =>
+            userType === 'admin' ? (
+              <AdminLayout token={token} setToken={setToken} />
+            ) : (
+              <LetcureDetailLayout
+                token={token}
+                setToken={setToken}
+                userType={userType}
+              />
+            )
+          }
         />
         <Route
           path="/lecture-play/:id"
-          render={() => <LecturePlayLayout token={token} setToken={setToken} />}
+          render={() =>
+            userType === 'admin' ? (
+              <AdminLayout token={token} setToken={setToken} />
+            ) : (
+              <LecturePlayLayout token={token} setToken={setToken} />
+            )
+          }
         />
-        <Route path="/review" component={LectureReviewLayout} />
-        <Route path="/info" component={IntroduceLayout} />
+        <Route
+          path="/review"
+          render={() =>
+            userType === 'admin' ? (
+              <AdminLayout token={token} setToken={setToken} />
+            ) : (
+              <LectureReviewLayout />
+            )
+          }
+        />
+        <Route
+          path="/info"
+          render={() =>
+            userType === 'admin' ? (
+              <AdminLayout token={token} setToken={setToken} />
+            ) : (
+              <IntroduceLayout />
+            )
+          }
+        />
       </Switch>
       <Footer adminEmail={adminEmail} footerLogo={footerLogo} />
     </Router>

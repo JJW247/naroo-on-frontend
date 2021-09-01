@@ -14,6 +14,7 @@ interface LetcureDetailLayoutProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  userType: string | null;
 }
 
 export const CONST_LECTURE_DETAIL_MENU = {
@@ -38,6 +39,7 @@ export type REVIEW_FILTER =
 const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   token,
   setToken,
+  userType,
 }) => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
@@ -134,29 +136,31 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 </div>
               </div>
               <div className="mt-[32px]">
-                <button
-                  onClick={onPlayLectureHandler}
-                  className={`rounded-[4px] w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
-                    informationLecture.data.status === 'apply' ||
-                    informationLecture.data.status === 'reject' ||
-                    (!token && informationLecture.data.status === null)
-                      ? 'disabled:opacity-50'
-                      : ''
-                  }`}
-                  disabled={
-                    informationLecture.data.status === 'apply' ||
-                    informationLecture.data.status === 'reject' ||
-                    (!token && informationLecture.data.status === null)
-                      ? true
-                      : false
-                  }
-                >
-                  {token && !informationLecture.data.status && '수강 신청'}
-                  {informationLecture.data.status === 'apply' && '승인 대기'}
-                  {informationLecture.data.status === 'reject' && '승인 거부'}
-                  {!token && !informationLecture.data.status && '로그인 필요'}
-                  {informationLecture.data.status === 'accept' && '학습 하기'}
-                </button>
+                {(userType === 'student' || !token) && (
+                  <button
+                    onClick={onPlayLectureHandler}
+                    className={`rounded-[4px] w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
+                      informationLecture.data.status === 'apply' ||
+                      informationLecture.data.status === 'reject' ||
+                      (!token && informationLecture.data.status === null)
+                        ? 'disabled:opacity-50'
+                        : ''
+                    }`}
+                    disabled={
+                      informationLecture.data.status === 'apply' ||
+                      informationLecture.data.status === 'reject' ||
+                      (!token && informationLecture.data.status === null)
+                        ? true
+                        : false
+                    }
+                  >
+                    {token && !informationLecture.data.status && '수강 신청'}
+                    {informationLecture.data.status === 'apply' && '승인 대기'}
+                    {informationLecture.data.status === 'reject' && '승인 거부'}
+                    {!token && !informationLecture.data.status && '로그인 필요'}
+                    {informationLecture.data.status === 'accept' && '학습 하기'}
+                  </button>
+                )}
                 <div className="mt-[13px] text-[14px] leading-[19px] text-white font-semibold">
                   {informationLecture.data.expired && (
                     <Moment

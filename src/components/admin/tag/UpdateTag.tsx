@@ -67,9 +67,6 @@ const UpdateTag: FC<UpdateTagProps> = ({
   };
   const onClickDeleteTag = async () => {
     try {
-      if (!updateTagName) {
-        return;
-      }
       const response = await axios.delete(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
         {

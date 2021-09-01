@@ -79,7 +79,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
+          type="password"
           value={password}
           onChange={onChangePassword}
         />
@@ -90,7 +90,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
+          type="password"
           value={passwordCheck}
           onChange={onChangePasswordCheck}
         />
