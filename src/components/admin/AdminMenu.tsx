@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 const AdminMenu: FC = () => {
   return (
-    <div className="flex justify-center items-center w-[1200px]">
+    <div className="flex items-center justify-center">
       <div className="border-4 rounded mr-[8vw] p-[10px] text-xl min-w-max">
         강의 추가
       </div>

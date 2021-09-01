@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { ILectureInList } from '../../interfaces';
-import LectureCard from '../common/LectureCard';
+import LectureCard from '../lecture/LectureCard';
 
 interface MyLectureProps {
   token: string | null;

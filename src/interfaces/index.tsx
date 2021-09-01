@@ -93,7 +93,7 @@ export interface ILectureInList {
   type: string;
   status: string | null;
   expired: string | null;
-  tags: string[];
+  tags: ITags[] | [] | null;
   average_rating: string;
   reviews:
     | {
@@ -127,7 +127,8 @@ export interface IRecentReviews {
 }
 
 export interface ITags {
-  name: string | null;
+  id: string;
+  name: string;
 }
 
 export interface ILectureDetail {

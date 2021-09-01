@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { FC } from 'react';
-import Star from './Star';
+import Star from '../common/Star';
 
 interface LectureReviewCardProps {
   created_at: string;

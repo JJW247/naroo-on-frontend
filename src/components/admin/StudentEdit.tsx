@@ -12,8 +12,7 @@ interface TeacherEditProps {
 
 const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, students }) => {
   return (
-    <div>
-      <div className="w-full text-center text-3xl">학생 관리</div>
+    <div className="mt-[30px]">
       {students.data &&
         students.data.map((student) => (
           <div className="border-2 rounded">

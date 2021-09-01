@@ -7,7 +7,7 @@ import { getLecture, getLectureGuest } from '../hooks/api';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
 import axios from 'axios';
-import LectureReviewCard from '../components/common/LectureReviewCard';
+import LectureReviewCard from '../components/lecture/LectureReviewCard';
 
 interface LetcureDetailLayoutProps {
   token: string | null;
@@ -151,14 +151,10 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       : false
                   }
                 >
-                  {token &&
-                    informationLecture.data.status === null &&
-                    '지금 수강하러 가기'}
+                  {token && !informationLecture.data.status && '수강 신청'}
                   {informationLecture.data.status === 'apply' && '승인 대기'}
                   {informationLecture.data.status === 'reject' && '승인 거부'}
-                  {!token &&
-                    informationLecture.data.status === null &&
-                    '로그인 필요'}
+                  {!token && !informationLecture.data.status && '로그인 필요'}
                   {informationLecture.data.status === 'accept' && '학습 하기'}
                 </button>
                 <div className="mt-[13px] text-[14px] leading-[19px] text-white font-semibold">

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import Star from './Star';
-import Tag from './Tag';
+import Star from '../common/Star';
+import Tag from '../common/Tag';
 
 interface LectureCardProps {
   id: string;
@@ -11,7 +11,13 @@ interface LectureCardProps {
   type: string;
   status: string | null;
   expired: string | null;
-  tags: string[];
+  tags:
+    | {
+        id: string;
+        name: string;
+      }[]
+    | []
+    | null;
   average_rating: string;
   reviews:
     | {
@@ -57,8 +63,8 @@ const LectureCard: FC<LectureCardProps> = ({
       <Star width="16" rating={+average_rating} />
       {tags && tags.length > 0 && (
         <div className="flex mt-5">
-          {tags.map((tagName) => {
-            return <Tag name={tagName} />;
+          {tags.map((tag) => {
+            return <Tag name={tag.name} />;
           })}
         </div>
       )}

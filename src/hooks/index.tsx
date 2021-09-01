@@ -5,11 +5,10 @@ export const useInput = (initialValue: any) => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setValue(value);
   };
 
-  return [value, onChange];
+  return [value, onChange, setValue];
 };
 
 export function useLocalStorage<T>(key: string, initialValue: T) {

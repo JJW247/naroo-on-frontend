@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { ILectureInList } from '../../interfaces';
-import LectureCard from '../common/LectureCard';
+import LectureCard from '../lecture/LectureCard';
 
 interface LecturesEditProps {
   token: string | null;
@@ -17,11 +17,10 @@ const LectureEdit: FC<LecturesEditProps> = ({
   allLectures,
 }) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center mt-[30px]">
       <div>
-        <div className="w-full text-3xl text-center">강의 관리</div>
         {allLectures && allLectures.data && (
-          <div className="grid grid-flow-row grid-cols-4 gap-6">
+          <div className="grid grid-flow-row 2xl:grid-cols-4 2xl:gap-6 xl:grid-cols-3 xl:gap-6 lg:grid-cols-2 lg:gap-6 md:grid-cols-2 md:gap-3">
             {allLectures.data.map((lecture) => {
               return (
                 <LectureCard

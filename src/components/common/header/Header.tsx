@@ -25,7 +25,6 @@ const Header: FC<HeaderProps> = ({
   headerLogo,
 }) => {
   const location = useLocation();
-  console.log(location.pathname);
   const logoutHandler = () => {
     setToken(null);
     window.location.reload();
@@ -64,55 +63,61 @@ const Header: FC<HeaderProps> = ({
       <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] sm:hidden xs:hidden h-full flex mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">
-            <img
-              className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
-              src={
-                headerLogo && headerLogo.data ? headerLogo.data[0].content : ''
-              }
-              width="132"
-              alt="Logo"
-            />
+            {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
+              <img
+                className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
+                src={headerLogo.data[0].content}
+                width="132"
+                alt="Logo"
+              />
+            ) : (
+              ''
+            )}
           </Link>
           <div className="flex flex-nowrap">
-            <Link to="/">
-              <button
-                className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
-                  location.pathname === '/'
-                    ? 'text-[#8DC556]'
-                    : 'text-[#515A6E]'
-                }`}
-              >
-                강의
-              </button>
-            </Link>
-            <Link to="/review">
-              <button
-                className={`mr-[46px] text-[18px] leading-[27px] font-semibold ${
-                  location.pathname === '/review'
-                    ? 'text-[#8DC556]'
-                    : 'text-[#515A6E]'
-                }`}
-              >
-                강의 리뷰
-              </button>
-            </Link>
-            <Link to="/info">
-              <button
-                className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
-                  location.pathname === '/info'
-                    ? 'text-[#8DC556]'
-                    : 'text-[#515A6E]'
-                }`}
-              >
-                소개
-              </button>
-            </Link>
-            <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
-              문의하기
-            </button>
-            <button>
-              <img src={Search} alt="Search" />
-            </button>
+            {((token && nickname && userType !== 'admin') || !token) && (
+              <>
+                <Link to="/">
+                  <button
+                    className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
+                      location.pathname === '/'
+                        ? 'text-[#8DC556]'
+                        : 'text-[#515A6E]'
+                    }`}
+                  >
+                    강의
+                  </button>
+                </Link>
+                <Link to="/review">
+                  <button
+                    className={`mr-[46px] text-[18px] leading-[27px] font-semibold ${
+                      location.pathname === '/review'
+                        ? 'text-[#8DC556]'
+                        : 'text-[#515A6E]'
+                    }`}
+                  >
+                    강의 리뷰
+                  </button>
+                </Link>
+                <Link to="/info">
+                  <button
+                    className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
+                      location.pathname === '/info'
+                        ? 'text-[#8DC556]'
+                        : 'text-[#515A6E]'
+                    }`}
+                  >
+                    소개
+                  </button>
+                </Link>
+                <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
+                  문의하기
+                </button>
+                <button>
+                  <img src={Search} alt="Search" />
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div>
@@ -152,7 +157,7 @@ const Header: FC<HeaderProps> = ({
           )}
           {token && nickname && userType === 'admin' && (
             <button
-              className="flex items-center justify-center"
+              className="flex items-center justify-center 2xl:ml-[1100px] xl:ml-[800px] lg:ml-[550px] md:ml-[400px]"
               onClick={logoutHandler}
             >
               로그아웃
@@ -163,62 +168,64 @@ const Header: FC<HeaderProps> = ({
       <div className="items-center justify-between h-full mx-auto 2xl:hidden xl:hidden lg:hidden md:hidden sm:flex xs:flex">
         <div className="flex items-center w-full justify-evenly">
           <Link to="/">
-            <img
-              src={
-                headerLogo && headerLogo.data ? headerLogo.data[0].content : ''
-              }
-              width="132"
-              alt="Logo"
-            />
+            {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
+              <img src={headerLogo.data[0].content} width="132" alt="Logo" />
+            ) : (
+              ''
+            )}
           </Link>
-          <button
-            className="rounded-[1px] w-[200px]"
-            onClick={() => setIsVisibleMenu(!isVisibleMenu)}
-          >
-            메뉴
-          </button>
-          {isVisibleMenu && (
-            <div
-              ref={menuElementRef}
-              className="flex-none border-[1px] border-[#DCDEE2] box-border rounded-[10px] bg-white min-w-max absolute top-[8%] left-[49%] z-[999]"
-            >
-              <Link to="/">
-                <button
-                  className={`block px-[10px] py-[10px]  ${
-                    location.pathname === '/'
-                      ? 'text-[#8DC556]'
-                      : 'text-[#515A6E]'
-                  }`}
+          {((token && nickname && userType !== 'admin') || !token) && (
+            <>
+              <button
+                className="rounded-[1px] w-[200px]"
+                onClick={() => setIsVisibleMenu(!isVisibleMenu)}
+              >
+                메뉴
+              </button>
+              {isVisibleMenu && (
+                <div
+                  ref={menuElementRef}
+                  className="flex-none border-[1px] border-[#DCDEE2] box-border rounded-[10px] bg-white min-w-full absolute top-[100px] z-[999]"
                 >
-                  강의
-                </button>
-              </Link>
-              <Link to="/review">
-                <button
-                  className={`block px-[10px] py-[10px]  ${
-                    location.pathname === '/review'
-                      ? 'text-[#8DC556]'
-                      : 'text-[#515A6E]'
-                  }`}
-                >
-                  강의 리뷰
-                </button>
-              </Link>
-              <Link to="/info">
-                <button
-                  className={`block px-[10px] py-[10px]  ${
-                    location.pathname === '/info'
-                      ? 'text-[#8DC556]'
-                      : 'text-[#515A6E]'
-                  }`}
-                >
-                  소개
-                </button>
-              </Link>
-              <Link to="/">
-                <button className="block px-[10px] py-[10px]">문의하기</button>
-              </Link>
-            </div>
+                  <Link to="/">
+                    <button
+                      className={`block w-full px-[10px] py-[10px] ${
+                        location.pathname === '/'
+                          ? 'text-[#8DC556]'
+                          : 'text-[#515A6E]'
+                      }`}
+                    >
+                      강의
+                    </button>
+                  </Link>
+                  <Link to="/review">
+                    <button
+                      className={`block w-full px-[10px] py-[10px]  ${
+                        location.pathname === '/review'
+                          ? 'text-[#8DC556]'
+                          : 'text-[#515A6E]'
+                      }`}
+                    >
+                      강의 리뷰
+                    </button>
+                  </Link>
+                  <Link to="/info">
+                    <button
+                      className={`block w-full px-[10px] py-[10px]  ${
+                        location.pathname === '/info'
+                          ? 'text-[#8DC556]'
+                          : 'text-[#515A6E]'
+                      }`}
+                    >
+                      소개
+                    </button>
+                  </Link>
+                  <button className="block w-full px-[10px] py-[10px]">
+                    문의하기
+                  </button>
+                </div>
+              )}
+            </>
           )}
           {token && nickname && userType !== 'admin' && (
             <div>

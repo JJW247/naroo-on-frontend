@@ -1,7 +1,10 @@
+import axios from 'axios';
+import { FormEvent } from 'react';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
+import { useInput } from '../../hooks';
 import { ITags } from '../../interfaces';
-import Tag from '../common/Tag';
+import UpdateTag from './tag/UpdateTag';
 
 interface TagEditProps {
   token: string | null;
@@ -12,19 +15,72 @@ interface TagEditProps {
 }
 
 const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
+  const [tagName, onChangeTagName, setTagName] = useInput('');
+  const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/create`,
+        {
+          name: tagName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'Created') {
+        tags.mutate();
+        setTagName('');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center">
-      <div>
-        <div className="w-full text-center text-3xl">태그 관리</div>
-        {tags && tags.data && (
-          <div className="grid grid-flow-row grid-cols-4 gap-6">
-            {tags.data.map((tag) => {
-              return <Tag name={tag.name} />;
-            })}
+    <>
+      <form className="mt-[47px] w-full" onSubmit={onSubmitAddHandler}>
+        <div className="mt-[67px] mb-[29px]">
+          <div>
+            <label className="text-[16px] leading-[22px]" htmlFor="email">
+              태그 이름
+            </label>
           </div>
-        )}
+          <input
+            className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+            type="text"
+            value={tagName}
+            onChange={onChangeTagName}
+          />
+        </div>
+        <input
+          type="submit"
+          className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+          value="태그 추가"
+        />
+      </form>
+      <div className="">
+        <div>
+          {tags &&
+            tags.data &&
+            tags.data.map((tag) => {
+              return (
+                <UpdateTag
+                  token={token}
+                  setToken={setToken}
+                  id={tag.id}
+                  name={tag.name}
+                  mutate={tags.mutate}
+                />
+              );
+            })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

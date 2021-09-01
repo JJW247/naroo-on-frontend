@@ -47,7 +47,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   };
   return (
     <form
-      className="mt-[47px] ml-[657px] mr-[656px] w-[607px]"
+      className="mt-[47px] 2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto pb-[96px]"
       onSubmit={onSubmitHandler}
     >
       <div className="text-[48px] font-semibold">회원가입</div>
@@ -70,7 +70,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
+          type="password"
           value={password}
           onChange={onChangePassword}
         />
@@ -81,7 +81,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
+          type="password"
           value={passwordCheck}
           onChange={onChangePasswordCheck}
         />
