@@ -1,52 +1,58 @@
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
-import { ITags } from '../../../interfaces';
-import Tag from '../../common/Tag';
+import { ILectureInList } from '../../../interfaces';
 
-interface UpdateTagProps {
+interface UpdateLectureFieldProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  id: string;
-  name: string;
+  fieldType: string;
+  lectureId: string;
+  userField: string | null;
   mutate: (
-    data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,
+    data?:
+      | ILectureInList[]
+      | Promise<ILectureInList[]>
+      | MutatorCallback<ILectureInList[]>
+      | undefined,
     shouldRevalidate?: boolean | undefined,
-  ) => Promise<ITags[] | undefined>;
+  ) => Promise<ILectureInList[] | undefined>;
 }
 
-const UpdateTag: FC<UpdateTagProps> = ({
+const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
   token,
   setToken,
-  id,
-  name,
+  fieldType,
+  lectureId,
+  userField,
   mutate,
 }) => {
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
-  const [updateTagName, onChangeUpdateTagName, setUpdateTagName] = useInput('');
+  const [updateFieldName, onChangeUpdateFieldName, setUpdateFieldName] =
+    useInput('');
   const onClickUpdateToggle = () => {
     setUpdateToggle(!updateToggle);
-    setUpdateTagName(name);
+    setUpdateFieldName(userField);
   };
   const onSubmitUpdateTag = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      if (!updateTagName || updateTagName === name) {
+      if (!updateFieldName || updateFieldName === userField) {
         setUpdateToggle(!updateToggle);
-        setUpdateTagName(name);
+        setUpdateFieldName(userField);
         return;
       }
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${lectureId}`,
         {
-          tagName: updateTagName,
+          [fieldType]: updateFieldName,
         },
         {
           headers: {
@@ -57,23 +63,6 @@ const UpdateTag: FC<UpdateTagProps> = ({
 
       if (response.statusText === 'OK') {
         setUpdateToggle(!updateToggle);
-        mutate();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const onClickDeleteTag = async () => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
         mutate();
       }
     } catch (error) {
@@ -91,8 +80,8 @@ const UpdateTag: FC<UpdateTagProps> = ({
             <input
               className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
               type="text"
-              value={updateTagName}
-              onChange={onChangeUpdateTagName}
+              value={updateFieldName}
+              onChange={onChangeUpdateFieldName}
             />
           </div>
           <input
@@ -110,18 +99,28 @@ const UpdateTag: FC<UpdateTagProps> = ({
       ) : (
         <div className="flex items-center py-[10px]">
           <div className="w-full">
-            <Tag name={name} />
+            <div className="text-xs bg-white text-shuttle-gray">
+              {fieldType === 'thumbnail'
+                ? '썸네일 URL : '
+                : fieldType === 'expired'
+                ? '강의 만료 일시 : '
+                : fieldType === 'title'
+                ? '강의 제목 : '
+                : fieldType === 'description'
+                ? '강의 설명 : '
+                : ''}
+              {userField && userField}
+            </div>
           </div>
           <FontAwesomeIcon
             className="mx-[10px]"
             icon={faEdit}
             onClick={onClickUpdateToggle}
           />
-          <FontAwesomeIcon icon={faTrash} onClick={onClickDeleteTag} />
         </div>
       )}
     </>
   );
 };
 
-export default UpdateTag;
+export default UpdateLectureField;

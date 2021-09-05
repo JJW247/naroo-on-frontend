@@ -76,18 +76,24 @@ export interface ILectureTagEntity extends ICommonEntity {
 }
 
 export interface ITeacherEditInAdmin {
+  id: string | null;
+  email: string | null;
   nickname: string | null;
+  phone: string | null;
   introduce: string | null;
 }
 
 export interface IStudentEditInAdmin {
+  id: string | null;
   email: string | null;
   nickname: string | null;
+  phone: string | null;
 }
 
 export interface ILectureInList {
   id: string;
   title: string;
+  description: string;
   thumbnail: string;
   nickname: string;
   type: string;
@@ -104,6 +110,17 @@ export interface ILectureInList {
         rating: number;
       }[]
     | [];
+}
+
+export interface ILectureInListAdmin {
+  student_id: string;
+  lecture_id: string;
+  title: string;
+  thumbnail: string;
+  nickname: string;
+  type: string;
+  status: string | null;
+  expired: string | null;
 }
 
 export const CONST_RATING_TYPE = {
@@ -147,7 +164,7 @@ export interface ILectureDetail {
       }[]
     | []
     | null;
-  notices: any;
+  notices: INoticesInLecture[];
   tags: string[];
   average_rating: string;
   reviews:
@@ -182,4 +199,11 @@ export interface ILectureVideoDetail {
     | null;
   tags: string[];
   users: string;
+}
+
+export interface INoticesInLecture {
+  id: string;
+  created_at: string;
+  title: string;
+  description: string;
 }

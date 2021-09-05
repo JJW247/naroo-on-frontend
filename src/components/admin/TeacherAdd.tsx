@@ -24,7 +24,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, onChangePasswordCheck] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
-  const [phoneNumber, onChangePhoneNumber] = useInput('');
+  const [phone, onChangePhone] = useInput('');
   const [introduce, onChangeIntroduce] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
@@ -40,7 +40,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
           email,
           password,
           nickname,
-          phone_number: phoneNumber,
+          phone,
           introduce,
         },
         {
@@ -62,9 +62,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
     <form className="mt-[47px] w-full" onSubmit={onSubmitHandler}>
       <div className="mt-[67px] mb-[29px]">
         <div>
-          <label className="text-[16px] leading-[22px]" htmlFor="email">
-            이메일
-          </label>
+          <label htmlFor="email">이메일</label>
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
@@ -113,8 +111,8 @@ const TeacherAdd: FC<TeacherAddProps> = ({
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
           type="text"
-          value={phoneNumber}
-          onChange={onChangePhoneNumber}
+          value={phone}
+          onChange={onChangePhone}
         />
       </div>
       <div className="mb-[19px]">

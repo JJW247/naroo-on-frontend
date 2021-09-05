@@ -3,7 +3,9 @@ import useSWR from 'swr';
 import {
   ILectureDetail,
   ILectureInList,
+  ILectureInListAdmin,
   ILectureVideoDetail,
+  INoticesInLecture,
   IRecentReviews,
   IResourceContent,
   IStudentEditInAdmin,
@@ -88,6 +90,31 @@ export function getAllLectures() {
   };
   return useSWR<ILectureInList[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/all`,
+    fetcher,
+  );
+}
+
+export function getLectureStatuses(token: string | null) {
+  const fetcher = async () => {
+    try {
+      if (token === null) {
+        throw new Error('잘못된 접근입니다!');
+      }
+      const response = await axios.get(
+        '/lecture/admin/status',
+        tokenHeader(token),
+      );
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<ILectureInListAdmin[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/admin/status`,
     fetcher,
   );
 }

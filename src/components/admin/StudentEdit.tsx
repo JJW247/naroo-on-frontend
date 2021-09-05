@@ -1,8 +1,12 @@
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { IStudentEditInAdmin } from '../../interfaces';
+import UpdateField from './user/UpdateField';
 
-interface TeacherEditProps {
+interface StudentEditProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -10,18 +14,85 @@ interface TeacherEditProps {
   students: SWRResponse<IStudentEditInAdmin[], any>;
 }
 
-const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, students }) => {
+const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
+  const onClickDeleteUser = async (id: string | null) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/auth/admin/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        students.mutate();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="mt-[30px]">
       {students.data &&
         students.data.map((student) => (
-          <div className="border-2 rounded">
-            <div>강사명 : {student.email}</div>
-            <div>강사 소개 : {student.nickname}</div>
-          </div>
+          <>
+            {student.id && (
+              <div className="border-2 rounded">
+                <div>
+                  {student.email && (
+                    <UpdateField
+                      token={token}
+                      setToken={setToken}
+                      fieldType="email"
+                      id={student.id}
+                      userField={student.email}
+                      mutate={students.mutate}
+                    />
+                  )}
+                  {student.nickname && (
+                    <UpdateField
+                      token={token}
+                      setToken={setToken}
+                      fieldType="nickname"
+                      id={student.id}
+                      userField={student.nickname}
+                      mutate={students.mutate}
+                    />
+                  )}
+                  <UpdateField
+                    token={token}
+                    setToken={setToken}
+                    fieldType="password"
+                    id={student.id}
+                    userField={null}
+                    mutate={students.mutate}
+                  />
+                  {student.phone && (
+                    <UpdateField
+                      token={token}
+                      setToken={setToken}
+                      fieldType="phone"
+                      id={student.id}
+                      userField={student.phone}
+                      mutate={students.mutate}
+                    />
+                  )}
+                </div>
+                <button className="block w-full">
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    onClick={() => {
+                      student.id ? onClickDeleteUser(student.id) : null;
+                    }}
+                  />
+                </button>
+              </div>
+            )}
+          </>
         ))}
     </div>
   );
 };
 
-export default TeacherEdit;
+export default StudentEdit;

@@ -53,9 +53,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
       <div className="text-[48px] font-semibold">회원가입</div>
       <div className="mt-[67px] mb-[29px]">
         <div>
-          <label className="text-[16px] leading-[22px]" htmlFor="email">
-            이메일
-          </label>
+          <label htmlFor="email">이메일</label>
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"

@@ -71,17 +71,14 @@ const App: FC = () => {
         />
         <Route
           path="/lecture/:id"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <LetcureDetailLayout
-                token={token}
-                setToken={setToken}
-                userType={userType}
-              />
-            )
-          }
+          render={() => (
+            <LetcureDetailLayout
+              token={token}
+              setToken={setToken}
+              userType={userType}
+              userNickname={userNickname}
+            />
+          )}
         />
         <Route
           path="/lecture-play/:id"

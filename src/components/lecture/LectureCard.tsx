@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { ITags } from '../../interfaces';
 import Star from '../common/Star';
 import Tag from '../common/Tag';
 
@@ -11,13 +12,7 @@ interface LectureCardProps {
   type: string;
   status: string | null;
   expired: string | null;
-  tags:
-    | {
-        id: string;
-        name: string;
-      }[]
-    | []
-    | null;
+  tags: ITags[] | [] | null;
   average_rating: string;
   reviews:
     | {

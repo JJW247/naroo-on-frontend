@@ -1,52 +1,67 @@
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
-import { ITags } from '../../../interfaces';
-import Tag from '../../common/Tag';
+import { IStudentEditInAdmin, ITeacherEditInAdmin } from '../../../interfaces';
 
-interface UpdateTagProps {
+interface UpdateFieldProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  fieldType: string;
   id: string;
-  name: string;
-  mutate: (
-    data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,
-    shouldRevalidate?: boolean | undefined,
-  ) => Promise<ITags[] | undefined>;
+  userField: string | null;
+  mutate:
+    | ((
+        data?:
+          | IStudentEditInAdmin[]
+          | Promise<IStudentEditInAdmin[]>
+          | MutatorCallback<IStudentEditInAdmin[]>
+          | undefined,
+        shouldRevalidate?: boolean | undefined,
+      ) => Promise<IStudentEditInAdmin[] | undefined>)
+    | ((
+        data?:
+          | ITeacherEditInAdmin[]
+          | Promise<ITeacherEditInAdmin[]>
+          | MutatorCallback<ITeacherEditInAdmin[]>
+          | undefined,
+        shouldRevalidate?: boolean | undefined,
+      ) => Promise<ITeacherEditInAdmin[] | undefined>);
 }
 
-const UpdateTag: FC<UpdateTagProps> = ({
+const UpdateField: FC<UpdateFieldProps> = ({
   token,
   setToken,
+  fieldType,
   id,
-  name,
+  userField,
   mutate,
 }) => {
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
-  const [updateTagName, onChangeUpdateTagName, setUpdateTagName] = useInput('');
+  const [updateFieldName, onChangeUpdateFieldName, setUpdateFieldName] =
+    useInput('');
   const onClickUpdateToggle = () => {
     setUpdateToggle(!updateToggle);
-    setUpdateTagName(name);
+    setUpdateFieldName(userField);
   };
   const onSubmitUpdateTag = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      if (!updateTagName || updateTagName === name) {
+      if (!updateFieldName || updateFieldName === userField) {
         setUpdateToggle(!updateToggle);
-        setUpdateTagName(name);
+        setUpdateFieldName(userField);
         return;
       }
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/auth/admin/${id}`,
         {
-          tagName: updateTagName,
+          [fieldType]: updateFieldName,
         },
         {
           headers: {
@@ -57,23 +72,6 @@ const UpdateTag: FC<UpdateTagProps> = ({
 
       if (response.statusText === 'OK') {
         setUpdateToggle(!updateToggle);
-        mutate();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const onClickDeleteTag = async () => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
         mutate();
       }
     } catch (error) {
@@ -91,8 +89,8 @@ const UpdateTag: FC<UpdateTagProps> = ({
             <input
               className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
               type="text"
-              value={updateTagName}
-              onChange={onChangeUpdateTagName}
+              value={updateFieldName}
+              onChange={onChangeUpdateFieldName}
             />
           </div>
           <input
@@ -110,18 +108,31 @@ const UpdateTag: FC<UpdateTagProps> = ({
       ) : (
         <div className="flex items-center py-[10px]">
           <div className="w-full">
-            <Tag name={name} />
+            <div>
+              {fieldType === 'email'
+                ? '이메일 : '
+                : fieldType === 'nickname'
+                ? '닉네임 : '
+                : fieldType === 'phone'
+                ? '휴대폰 번호 : '
+                : fieldType === 'introduce'
+                ? '강사 소개 : '
+                : ''}
+              {userField && userField}
+              {!userField &&
+                fieldType === 'password' &&
+                '보안을 위해 기존 비밀번호 확인은 불가능하며, 새로운 비밀번호를 설정하는 것은 가능합니다!'}
+            </div>
           </div>
           <FontAwesomeIcon
             className="mx-[10px]"
             icon={faEdit}
             onClick={onClickUpdateToggle}
           />
-          <FontAwesomeIcon icon={faTrash} onClick={onClickDeleteTag} />
         </div>
       )}
     </>
   );
 };
 
-export default UpdateTag;
+export default UpdateField;

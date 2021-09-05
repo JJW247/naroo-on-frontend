@@ -245,7 +245,13 @@ const AdminLecture: FC<AdminLectureProps> = ({
       </div>
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_ADD && (
         <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <LectureAdd />
+          <LectureAdd
+            token={token}
+            setToken={setToken}
+            setSelectedMenu={setSelectedMenu}
+            allLectures={allLectures}
+            teachers={teachers.data}
+          />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_EDIT && (
@@ -254,12 +260,13 @@ const AdminLecture: FC<AdminLectureProps> = ({
             token={token}
             setToken={setToken}
             allLectures={allLectures}
+            allTags={tags.data ? (tags.data.length > 0 ? tags.data : []) : []}
           />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_PERMISSION && (
         <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <LecturePermission />
+          <LecturePermission token={token} setToken={setToken} />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.TEACHER_ADD && (
