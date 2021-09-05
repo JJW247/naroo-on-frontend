@@ -35,20 +35,25 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
 }) => {
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
   const [updateStatus, setUpdateStatus] = useState(status);
-  const statusOptions = useMemo(
-    () => [
+  const statusOptions = useMemo(() => {
+    return [
       { value: null, label: '공개' },
       { value: 'apply', label: '승인 대기' },
       { value: 'accept', label: '승인 완료' },
       { value: 'reject', label: '승인 거부' },
       { value: 'invisible', label: '비공개' },
-    ],
-    [],
-  );
+    ];
+  }, []);
   const onClickUpdateToggle = () => {
     setUpdateToggle(!updateToggle);
     setUpdateStatus(status);
   };
+  const onHandleChange = useCallback(
+    (changedOption) => {
+      setUpdateStatus(changedOption.value);
+    },
+    [statusOptions],
+  );
   const onSubmitUpdateTag = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
@@ -60,7 +65,7 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
       }
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${lectureId}?userId=${studentId}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/status/${lectureId}?userId=${studentId}`,
         {
           status: updateStatus,
         },
@@ -79,9 +84,6 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
       console.error(error);
     }
   };
-  const onHandleChange = useCallback((inputOption) => {
-    setUpdateStatus(inputOption.value);
-  }, []);
   return (
     <>
       {updateToggle ? (
@@ -93,9 +95,6 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
             className="min-w-full"
             options={statusOptions}
             onChange={onHandleChange}
-            defaultValue={statusOptions.find(
-              (option) => option.value === status,
-            )}
           />
           <input
             className="rounded-[4px] min-w-max mx-[10px]"
@@ -113,7 +112,7 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
         <div className="flex items-center py-[10px]">
           <div className="w-full">
             상태 :{' '}
-            {!status
+            {status === null
               ? '공개'
               : status === 'apply'
               ? '승인 대기'

@@ -84,10 +84,10 @@ export interface ITeacherEditInAdmin {
 }
 
 export interface IStudentEditInAdmin {
-  id: string | null;
-  email: string | null;
-  nickname: string | null;
-  phone: string | null;
+  id: string;
+  email: string;
+  nickname: string;
+  phone: string;
 }
 
 export interface ILectureInList {

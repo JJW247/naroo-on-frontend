@@ -266,7 +266,33 @@ const AdminLecture: FC<AdminLectureProps> = ({
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_PERMISSION && (
         <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <LecturePermission token={token} setToken={setToken} />
+          <LecturePermission
+            token={token}
+            setToken={setToken}
+            students={
+              students.data
+                ? students.data.length > 0
+                  ? students.data.map((student) => {
+                      return {
+                        value: student.id,
+                        label: student.nickname,
+                      };
+                    })
+                  : []
+                : []
+            }
+            lectures={
+              allLectures.data
+                ? allLectures.data.length > 0
+                  ? allLectures.data.map((lecture) => {
+                      if (lecture.status !== 'invisible') {
+                        return lecture;
+                      }
+                    })
+                  : []
+                : []
+            }
+          />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.TEACHER_ADD && (
