@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import Tag from '../components/common/Tag';
-import { getLectureVideo, getLectureVideoGuest } from '../hooks/api';
+import { getLectureVideo } from '../hooks/api';
 
 interface LecturePlayLayoutProps {
   token: string | null;
@@ -13,10 +13,8 @@ interface LecturePlayLayoutProps {
 
 const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
   const { id } = useParams<{ id: string }>();
-  const [positionVideo, setPositionVideo] = useState<number>(0);
-  const informationVideo = token
-    ? getLectureVideo(token, id)
-    : getLectureVideoGuest(id);
+  const [positionVideo, setPositionVideo] = useState<number>(1);
+  const informationVideo = token ? getLectureVideo(token, id) : null;
   if (
     !token ||
     !id ||
@@ -24,55 +22,70 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
       informationVideo.data &&
       informationVideo?.data.status !== 'accept')
   ) {
-    return <div>잘못된 접근입니다!</div>;
+    return (
+      <div className="flex items-center justify-center w-full h-[70vh]">
+        잘못된 접근입니다!
+      </div>
+    );
   }
-  console.log(informationVideo);
   return (
-    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto">
-      {informationVideo &&
+    <>
+      {token &&
+        informationVideo &&
         informationVideo.data &&
-        informationVideo.data.videos && (
-          <div>
-            <div className="flex flex-wrap justify-start mt-[72px]">
-              {informationVideo.data.tags &&
-                informationVideo.data.tags.length > 0 && (
-                  <div className="mt-5 flex">
-                    {informationVideo.data.tags.map((tagName) => {
-                      return <Tag name={tagName} />;
-                    })}
-                  </div>
-                )}
-            </div>
-            <div className="flex flex-nowrap justify-center">
-              {token &&
-                informationVideo.data.videos.length > 0 &&
+        informationVideo.data.videos &&
+        informationVideo.data.videos.length > 0 && (
+          <div className="bg-gray-500">
+            {informationVideo.data.tags &&
+              informationVideo.data.tags.length > 0 && (
+                <div className="flex p-[10px]">
+                  {informationVideo.data.tags.map((tag) => {
+                    return <Tag name={tag.name} />;
+                  })}
+                </div>
+              )}
+            <div className="w-[100vw] flex">
+              {informationVideo.data.videos &&
                 informationVideo.data.videos.map((video) => {
-                  return (
-                    <button
-                      className="mx-[20px]"
-                      onClick={() => setPositionVideo(+video.id)}
-                    >
-                      {video.id}강 : {video.title}
-                    </button>
-                  );
+                  if (+video.id === positionVideo) {
+                    return (
+                      <div className="flex-grow w-full">
+                        <iframe
+                          className="w-full min-h-[69.1vh] max-h-[69.1vh]"
+                          src={video.url}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    );
+                  }
                 })}
-            </div>
-            {token && informationVideo.data.videos.length > 0 && (
-              <div className="flex flex-wrap justify-center">
-                <iframe
-                  className="mt-[10px] mb-[80px]"
-                  src={informationVideo.data.videos[positionVideo].url}
-                  width="1200"
-                  height="675"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+              <div className="flex-grow-0 flex items-start w-[15%] min-h-[69.1vh] max-h-[69.1vh]">
+                <div className="flex flex-col w-full">
+                  {token &&
+                    informationVideo.data.videos.length > 0 &&
+                    informationVideo.data.videos.map((video) => {
+                      return (
+                        <button
+                          className="px-[20px] py-[20px] mb-[20px] flex items-center"
+                          onClick={() => setPositionVideo(+video.id)}
+                        >
+                          <div className="rounded-full w-[60px] h-[60px] mr-[20px] flex items-center justify-center bg-white leading-[150%] font-semibold">
+                            {video.id}강
+                          </div>
+                          <div className="leading-[150%] font-semibold text-white">
+                            {video.title}
+                          </div>
+                        </button>
+                      );
+                    })}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         )}
-    </div>
+    </>
   );
 };
 

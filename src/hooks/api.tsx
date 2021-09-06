@@ -160,25 +160,6 @@ export function getLecture(token: string | null, id: string) {
   );
 }
 
-export function getLectureVideoGuest(id: string) {
-  const fetcher = async () => {
-    try {
-      const response = await axios.get(`/lecture/guest/video/${id}`);
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return useSWR<ILectureVideoDetail>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/guest/video/${id}`,
-    fetcher,
-  );
-}
-
 export function getLectureVideo(token: string | null, id: string) {
   if (token === null) {
     return null;

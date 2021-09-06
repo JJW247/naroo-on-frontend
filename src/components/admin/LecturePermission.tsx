@@ -93,7 +93,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                 : '만료 기간 없음'}{' '}
               / {filteredResult.type}
             </div>
-            <div className="w-full flex flex-wrap justify-evenly items-center">
+            <div className="flex flex-wrap items-center w-full justify-evenly">
               {filteredResult.thumbnail && (
                 <img src={filteredResult.thumbnail} width="200" />
               )}
@@ -112,86 +112,6 @@ const LecturePermission: FC<LecturePermissionProps> = ({
       })}
     </>
   );
-
-  //   for (const student of students) {
-  //     if (student) {
-  //       if (lectureStatuses.data) {
-  //         for (const lectureStatus of lectureStatuses.data) {
-  //           if (studentFilter) {
-  //             if (lectureStatus.student_id === studentFilter.value) {
-  //               for (const lecture of lectures) {
-  //                 if (lecture) {
-  //                   if (
-  //                     lectureStatus.student_id === student.value &&
-  //                     lectureStatus.lecture_id === lecture.id
-  //                   ) {
-  //                     renderResult.push(
-  //                       <>
-  //                         <div className="w-full mt-[40px]">
-  //                           {lecture.title}
-  //                         </div>
-  //                         <div className="w-full">
-  //                           {lecture.expired
-  //                             ? lecture.expired
-  //                             : '만료 기간 없음'}{' '}
-  //                           / {lecture.type}
-  //                         </div>
-  //                         <div className="w-full flex flex-wrap justify-evenly items-center">
-  //                           {lecture.thumbnail && (
-  //                             <img src={lecture.thumbnail} width="200" />
-  //                           )}
-  //                           <div>{lecture.nickname}</div>
-  //                           <UpdateStatus
-  //                             token={token}
-  //                             setToken={setToken}
-  //                             studentId={lectureStatus.student_id}
-  //                             lectureId={lectureStatus.lecture_id}
-  //                             status={lectureStatus.status}
-  //                             mutate={lectureStatuses.mutate}
-  //                           />
-  //                         </div>
-  //                       </>,
-  //                     );
-  //                   } else {
-  //                     renderResult.push(
-  //                       <>
-  //                         <div className="w-full mt-[40px]">
-  //                           {lecture.title}
-  //                         </div>
-  //                         <div className="w-full">
-  //                           {lecture.expired
-  //                             ? lecture.expired
-  //                             : '만료 기간 없음'}{' '}
-  //                           / {lecture.type}
-  //                         </div>
-  //                         <div className="w-full flex flex-wrap justify-evenly items-center">
-  //                           {lecture.thumbnail && (
-  //                             <img src={lecture.thumbnail} width="200" />
-  //                           )}
-  //                           <div>{lecture.nickname}</div>
-  //                           <UpdateStatus
-  //                             token={token}
-  //                             setToken={setToken}
-  //                             studentId={student.value}
-  //                             lectureId={lecture.id}
-  //                             status={null}
-  //                             mutate={lectureStatuses.mutate}
-  //                           />
-  //                         </div>
-  //                       </>,
-  //                     );
-  //                   }
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   console.log(renderResult);
-  //   return renderResult;
-  // };
 };
 
 export default LecturePermission;

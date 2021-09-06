@@ -165,7 +165,7 @@ export interface ILectureDetail {
     | []
     | null;
   notices: INoticesInLecture[];
-  tags: string[];
+  tags: ITags[] | [] | null;
   average_rating: string;
   reviews:
     | {
@@ -197,7 +197,7 @@ export interface ILectureVideoDetail {
       }[]
     | []
     | null;
-  tags: string[];
+  tags: ITags[] | [] | null;
   users: string;
 }
 

@@ -10,6 +10,9 @@ import { ILectureInList, ITags } from '../../../interfaces';
 import RegisterTag from '../tag/RegisterTag';
 import UpdateLectureField from './UpdateLectureField';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface LectureEditCardProps {
   id: string;
@@ -69,8 +72,32 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   const onHandleExpiredAt = (date: Date | null) => {
     setExpiredAt(date);
   };
+  const onClickDeleteLecture = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        mutate();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="w-[560px] xs:w-[380px] justify-self-center">
+      <button
+        className="my-[5px] w-full flex justify-center items-center"
+        onClick={onClickDeleteLecture}
+      >
+        <div>강의 삭제하기</div>
+        <FontAwesomeIcon className="ml-[20px]" icon={faTrash} />
+      </button>
       <Link to={`/lecture/${id}`}>
         <img className="rounded-xl" src={thumbnail} alt="lecture" />
       </Link>
@@ -110,7 +137,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         <UpdateLectureField
           token={token}
           setToken={setToken}
-          fieldType="title"
+          fieldType="description"
           lectureId={id}
           userField={description}
           mutate={mutate}

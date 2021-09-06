@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 interface TagProps {
-  name: string | null;
+  name: string;
 }
 
 const Tag: FC<TagProps> = ({ name }) => {
