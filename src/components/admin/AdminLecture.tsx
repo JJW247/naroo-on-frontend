@@ -261,6 +261,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
             setToken={setToken}
             allLectures={allLectures}
             allTags={tags.data ? (tags.data.length > 0 ? tags.data : []) : []}
+            teachers={teachers.data}
           />
         </div>
       )}

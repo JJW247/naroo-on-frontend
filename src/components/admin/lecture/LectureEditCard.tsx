@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -6,13 +6,18 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
-import { ILectureInList, ITags } from '../../../interfaces';
+import Select from 'react-select';
+import {
+  ILectureInList,
+  ITags,
+  ITeacherEditInAdmin,
+} from '../../../interfaces';
 import RegisterTag from '../tag/RegisterTag';
 import UpdateLectureField from './UpdateLectureField';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface LectureEditCardProps {
   id: string;
@@ -34,6 +39,7 @@ interface LectureEditCardProps {
         rating: number;
       }[]
     | [];
+  teachers: ITeacherEditInAdmin[] | undefined;
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -61,6 +67,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   tags,
   average_rating,
   reviews,
+  teachers,
   token,
   setToken,
   allTags,
@@ -83,6 +90,94 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         },
       );
       if (response.statusText === 'OK') {
+        mutate();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const [updateType, setUpdateType] = useState(type);
+  const typesOptions = useMemo(() => {
+    return [
+      { value: 'online', label: '온라인 강의' },
+      { value: 'offline', label: '오프라인 강의' },
+    ];
+  }, []);
+  const onHandleTypesOptionsChange = useCallback(
+    (changedOption) => {
+      setUpdateType(changedOption.value);
+    },
+    [typesOptions],
+  );
+  const [updateTypeToggle, setUpdateTypeToggle] = useState<boolean>(false);
+  const onClickUpdateTypeToggle = () => {
+    setUpdateTypeToggle(!updateTypeToggle);
+    setUpdateType(type);
+  };
+  const onSubmitUpdateType = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
+        {
+          type: updateType,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'OK') {
+        setUpdateTypeToggle(!updateTypeToggle);
+        mutate();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const [updateTeacherToggle, setUpdateTeacherToggle] =
+    useState<boolean>(false);
+  const onClickUpdateTeacherToggle = () => {
+    setUpdateTeacherToggle(!updateTeacherToggle);
+    setTeacher(null);
+  };
+  const [updateTeacher, setTeacher] = useState(null);
+  const teachersOptions = useMemo(() => {
+    const filteredTeachers = [];
+    if (teachers) {
+      for (const teacher of teachers) {
+        filteredTeachers.push({ value: teacher.id, label: teacher.nickname });
+      }
+    }
+    return filteredTeachers;
+  }, [teachers]);
+  const onHandleTeacherChange = useCallback(
+    (changedOption) => {
+      setTeacher(changedOption.value);
+    },
+    [teachersOptions],
+  );
+  const onSubmitUpdateTeacher = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
+        {
+          teacherId: updateTeacher,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'OK') {
+        setUpdateTeacherToggle(!updateTeacherToggle);
         mutate();
       }
     } catch (error) {
@@ -120,8 +215,46 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
             className="w-full"
           />
         </MuiPickersUtilsProvider>
-        <div>{type}</div>
       </div>
+      {updateTypeToggle ? (
+        <form
+          className="flex items-center py-[10px]"
+          onSubmit={onSubmitUpdateType}
+        >
+          <label htmlFor="type" className="min-w-max mr-[10px]">
+            강의 유형
+          </label>
+          <div className="w-full">
+            <Select
+              options={typesOptions}
+              onChange={onHandleTypesOptionsChange}
+              placeholder="강의 유형을 선택하세요!"
+            />
+          </div>
+          <input
+            className="rounded-[4px] min-w-max mx-[10px]"
+            type="submit"
+            value="수정"
+          />
+          <button
+            className="rounded-[4px] min-w-max"
+            onClick={onClickUpdateTypeToggle}
+          >
+            취소
+          </button>
+        </form>
+      ) : (
+        <div className="flex items-center py-[10px]">
+          <div className="flex rounded-full text-gray-200 bg-harp w-full items-center p-[10px] text-xs mr-[10px]">
+            {type}
+          </div>
+          <FontAwesomeIcon
+            className="mx-[10px]"
+            icon={faEdit}
+            onClick={onClickUpdateTypeToggle}
+          />
+        </div>
+      )}
       <div className="mt-[10px] font-medium text-gray-400 bg-white h-11">
         <UpdateLectureField
           token={token}
@@ -132,8 +265,46 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           mutate={mutate}
         />
       </div>
+      {updateTeacherToggle ? (
+        <form
+          className="flex items-center py-[10px]"
+          onSubmit={onSubmitUpdateTeacher}
+        >
+          <label htmlFor="teacher" className="min-w-max mr-[10px]">
+            강사
+          </label>
+          <div className="w-full">
+            <Select
+              options={teachersOptions}
+              onChange={onHandleTeacherChange}
+              placeholder="강사를 선택하세요!"
+            />
+          </div>
+          <input
+            className="rounded-[4px] min-w-max mx-[10px]"
+            type="submit"
+            value="수정"
+          />
+          <button
+            className="rounded-[4px] min-w-max"
+            onClick={onClickUpdateTeacherToggle}
+          >
+            취소
+          </button>
+        </form>
+      ) : (
+        <div className="flex items-center py-[10px]">
+          <div className="flex rounded-full text-gray-200 bg-harp w-full items-center p-[10px] text-xs mr-[10px]">
+            {nickname}
+          </div>
+          <FontAwesomeIcon
+            className="mx-[10px]"
+            icon={faEdit}
+            onClick={onClickUpdateTeacherToggle}
+          />
+        </div>
+      )}
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
-        {nickname}
         <UpdateLectureField
           token={token}
           setToken={setToken}

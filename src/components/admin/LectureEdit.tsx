@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
-import { ILectureInList, ITags } from '../../interfaces';
+import { ILectureInList, ITags, ITeacherEditInAdmin } from '../../interfaces';
 import LectureEditCard from './lecture/LectureEditCard';
 
 interface LecturesEditProps {
@@ -10,6 +10,7 @@ interface LecturesEditProps {
   ) => void;
   allLectures: SWRResponse<ILectureInList[], any>;
   allTags: ITags[] | [];
+  teachers: ITeacherEditInAdmin[] | undefined;
 }
 
 const LectureEdit: FC<LecturesEditProps> = ({
@@ -17,6 +18,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
   setToken,
   allLectures,
   allTags,
+  teachers,
 }) => {
   return (
     <div className="flex items-center justify-center mt-[30px]">
@@ -36,6 +38,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
                   expired={lecture.expired}
                   tags={lecture.tags}
                   reviews={lecture.reviews}
+                  teachers={teachers}
                   average_rating={lecture.average_rating}
                   token={token}
                   setToken={setToken}
