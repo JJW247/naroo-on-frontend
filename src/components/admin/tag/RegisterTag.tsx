@@ -136,13 +136,13 @@ const RegisterTag: FC<RegisterTagProps> = ({
           {tags.length > 0 &&
             tags.map((tag) => {
               return (
-                <>
+                <div className="flex items-center mr-[10px]">
                   <Tag name={tag.label} />
                   <FontAwesomeIcon
                     icon={faTrash}
                     onClick={() => onClickUnregisterTag(tag.value)}
                   />
-                </>
+                </div>
               );
             })}
           <FontAwesomeIcon
