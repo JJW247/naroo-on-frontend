@@ -34,7 +34,8 @@ const LecturePermission: FC<LecturePermissionProps> = ({
     expired: string | null;
     type: string;
     thumbnail: string;
-    nickname: string;
+    teacherId: string;
+    teacherNickname: string;
     studentId: string;
     lectureId: string;
     status: string | null;
@@ -50,7 +51,8 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                 expired: lecture.expired,
                 type: lecture.type,
                 thumbnail: lecture.thumbnail,
-                nickname: lecture.nickname,
+                teacherId: lecture.teacher_id,
+                teacherNickname: lecture.teacher_nickname,
                 studentId: student.value,
                 lectureId: lecture.id,
                 status: null,
@@ -97,7 +99,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
               {filteredResult.thumbnail && (
                 <img src={filteredResult.thumbnail} width="200" />
               )}
-              <div>{filteredResult.nickname}</div>
+              <div>{filteredResult.teacherNickname}</div>
               <UpdateStatus
                 token={token}
                 setToken={setToken}

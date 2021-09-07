@@ -8,7 +8,8 @@ interface LectureCardProps {
   id: string;
   title: string;
   thumbnail: string;
-  nickname: string;
+  teacherId: string;
+  teacherNickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -29,7 +30,8 @@ const LectureCard: FC<LectureCardProps> = ({
   id,
   title,
   thumbnail,
-  nickname,
+  teacherId,
+  teacherNickname,
   type,
   status,
   expired,
@@ -54,7 +56,7 @@ const LectureCard: FC<LectureCardProps> = ({
         <Link to={`/lecture/${id}`}>{title}</Link>
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
-        {nickname}
+        {teacherNickname}
       </div>
       <Star width="16" rating={+average_rating} />
       {tags && tags.length > 0 && (

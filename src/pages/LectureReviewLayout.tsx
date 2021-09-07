@@ -18,11 +18,12 @@ const LectureReviewLayout: FC = () => {
           recentReviews.data.map((review) => (
             <div className="first:mt-0 mt-[52px] last:mb-[75px]">
               <RecentReviewCard
-                key={review.id}
-                id={review.id}
+                key={review.lecture_id + '/' + review.student_id}
                 created_at={review.created_at}
-                nickname={review.nickname}
-                title={review.title}
+                student_id={review.student_id}
+                student_nickname={review.student_nickname}
+                lecture_id={review.lecture_id}
+                lecture_title={review.lecture_title}
                 review={review.review}
                 rating={review.rating}
               />

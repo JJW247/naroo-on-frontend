@@ -24,7 +24,8 @@ interface LectureEditCardProps {
   title: string;
   description: string;
   thumbnail: string;
-  nickname: string;
+  teacherId: string;
+  teacherNickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -60,7 +61,8 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   title,
   description,
   thumbnail,
-  nickname,
+  teacherId,
+  teacherNickname,
   type,
   status,
   expired,
@@ -142,9 +144,9 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
     useState<boolean>(false);
   const onClickUpdateTeacherToggle = () => {
     setUpdateTeacherToggle(!updateTeacherToggle);
-    setTeacher(null);
+    setTeacher(teacherId);
   };
-  const [updateTeacher, setTeacher] = useState(null);
+  const [updateTeacher, setTeacher] = useState(teacherId);
   const teachersOptions = useMemo(() => {
     const filteredTeachers = [];
     if (teachers) {
@@ -226,6 +228,9 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           </label>
           <div className="w-full">
             <Select
+              value={typesOptions.find((typeOption) => {
+                return typeOption.value === updateType;
+              })}
               options={typesOptions}
               onChange={onHandleTypesOptionsChange}
               placeholder="강의 유형을 선택하세요!"
@@ -275,6 +280,9 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           </label>
           <div className="w-full">
             <Select
+              value={teachersOptions.find((teacher) => {
+                return teacher.value === updateTeacher;
+              })}
               options={teachersOptions}
               onChange={onHandleTeacherChange}
               placeholder="강사를 선택하세요!"
@@ -295,7 +303,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       ) : (
         <div className="flex items-center py-[10px]">
           <div className="flex rounded-full text-gray-200 bg-harp w-full items-center p-[10px] text-xs mr-[10px]">
-            {nickname}
+            {teacherNickname}
           </div>
           <FontAwesomeIcon
             className="mx-[10px]"

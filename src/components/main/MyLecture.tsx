@@ -18,7 +18,6 @@ const MyLecture: FC<MyLectureProps> = ({
   lectures,
   allLectures,
 }) => {
-  console.log(lectures);
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto mt-[122px] pb-[96px]">
       {token && (
@@ -37,7 +36,8 @@ const MyLecture: FC<MyLectureProps> = ({
                     id={lecture.id}
                     title={lecture.title}
                     thumbnail={lecture.thumbnail}
-                    nickname={lecture.nickname}
+                    teacherId={lecture.teacher_id}
+                    teacherNickname={lecture.teacher_nickname}
                     type={lecture.type}
                     status={lecture.status}
                     expired={lecture.expired}
@@ -68,7 +68,8 @@ const MyLecture: FC<MyLectureProps> = ({
                 id={lecture.id}
                 title={lecture.title}
                 thumbnail={lecture.thumbnail}
-                nickname={lecture.nickname}
+                teacherId={lecture.teacher_id}
+                teacherNickname={lecture.teacher_nickname}
                 type={lecture.type}
                 status={null}
                 expired={lecture.expired}

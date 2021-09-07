@@ -180,8 +180,8 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 <div className="block w-full">
                   <div className="mb-[6px] flex items-center text-white text-[16px] leading-[150%] font-semibold">
                     <u>
-                      {informationLecture.data.nickname
-                        ? informationLecture.data.nickname
+                      {informationLecture.data.teacher_nickname
+                        ? informationLecture.data.teacher_nickname
                         : ''}
                     </u>
                   </div>
@@ -323,7 +323,8 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 informationLecture.data &&
                 (userType === 'admin' ||
                   (userType === 'teacher' &&
-                    informationLecture.data.nickname === userNickname)) && (
+                    informationLecture.data.teacher_nickname ===
+                      userNickname)) && (
                   <form
                     className="mt-[47px] w-full"
                     onSubmit={onSubmitNoticeHandler}
@@ -368,6 +369,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       );
                     })
                     .map((notice) => {
+                      console.log(notice);
                       return (
                         <div className="my-[20px] border-2" key={notice.id}>
                           <div className="flex items-center">
@@ -380,6 +382,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                               {moment(notice.created_at).format('HH시 mm분')}
                             </div>
                           </div>
+                          <div>작성자 : {notice.creator_nickname}</div>
                           <div>제목 : {notice.title}</div>
                           <div>내용 : {notice.description}</div>
                         </div>

@@ -2,79 +2,6 @@ export interface IResourceContent {
   content: string;
 }
 
-export interface ICommonEntity {
-  id: number;
-  createdAt: string;
-  deletedAt: string;
-  updatedAt: string;
-}
-
-export interface IUserEntity extends ICommonEntity {
-  email: string;
-  nickname: string;
-  password: string;
-  role: string;
-  introduce?: string;
-}
-
-export interface ILectureEntity extends ICommonEntity {
-  type: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  images: string[];
-  expiredAt: string;
-  teacherId: number;
-}
-
-export interface IVideoEntity extends ICommonEntity {
-  userId: number;
-  lectureId: number;
-}
-
-export interface IUserLectureEntity extends ICommonEntity {
-  userId: number;
-  lectureId: number;
-}
-
-export interface ILectureStatusEntity extends ICommonEntity {
-  status: string;
-  userId: number;
-  lectureId: number;
-}
-
-export interface IReviewEntity extends ICommonEntity {
-  userId: number;
-  lectureId: number;
-  rating: number;
-  review: string;
-}
-
-export interface IQuestionEntity extends ICommonEntity {
-  lectureId: number;
-  studentId: number;
-  questionTitle: string;
-  questionDescription: string;
-  teacherId: number;
-  answerTitle: string;
-  answerDescription: string;
-}
-
-export interface INoticeEntity extends ICommonEntity {
-  lectureId: number;
-  title: string;
-  description: string;
-}
-
-export interface ITagEntity extends ICommonEntity {
-  name: string;
-}
-
-export interface ILectureTagEntity extends ICommonEntity {
-  lectureId: number;
-  tagId: number;
-}
-
 export interface ITeacherEditInAdmin {
   id: string | null;
   email: string | null;
@@ -95,7 +22,8 @@ export interface ILectureInList {
   title: string;
   description: string;
   thumbnail: string;
-  nickname: string;
+  teacher_id: string;
+  teacher_nickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -117,7 +45,8 @@ export interface ILectureInListAdmin {
   lecture_id: string;
   title: string;
   thumbnail: string;
-  nickname: string;
+  teacher_id: string;
+  teacher_nickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -136,9 +65,10 @@ export type RATING_TYPE =
 
 export interface IRecentReviews {
   created_at: string;
-  id: string;
-  nickname: string;
-  title: string;
+  student_id: string;
+  student_nickname: string;
+  lecture_id: string;
+  lecture_title: string;
   review: string;
   rating: string;
 }
@@ -154,7 +84,8 @@ export interface ILectureDetail {
   description: string;
   thumbnail: string;
   images: string[];
-  nickname: string;
+  teacher_id: string;
+  teacher_nickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -185,7 +116,8 @@ export interface ILectureVideoDetail {
   description: string;
   thumbnail: string;
   images: string[];
-  nickname: string;
+  teacher_id: string;
+  teacher_nickname: string;
   type: string;
   status: string | null;
   expired: string | null;
@@ -204,6 +136,8 @@ export interface ILectureVideoDetail {
 export interface INoticesInLecture {
   id: string;
   created_at: string;
+  creator_id: string;
+  creator_nickname: string;
   title: string;
   description: string;
 }
