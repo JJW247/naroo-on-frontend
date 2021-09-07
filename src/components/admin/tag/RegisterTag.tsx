@@ -15,7 +15,7 @@ interface RegisterTagProps {
   ) => void;
   lectureId: string;
   allTags: ITags[] | undefined;
-  tags: { value: string; label: string }[] | [];
+  tags: ITags[] | [];
   mutate: (
     data?:
       | ILectureInList[]
@@ -34,9 +34,9 @@ const RegisterTag: FC<RegisterTagProps> = ({
   tags,
   mutate,
 }) => {
+  console.log(tags);
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
-  const [registerTags, setRegisterTags] =
-    useState<{ value: string; label: string }[]>(tags);
+  const [registerTags, setRegisterTags] = useState<ITags[]>(tags);
   const tagsOptions = useMemo(() => {
     const filteredTags = [];
     if (allTags) {
@@ -48,7 +48,13 @@ const RegisterTag: FC<RegisterTagProps> = ({
   }, [allTags]);
   const onHandleTagsChange = useCallback(
     (changedOption) => {
-      setRegisterTags(changedOption);
+      const filteredTags = [];
+      if (changedOption && changedOption.length > 0) {
+        for (const tagOption of changedOption) {
+          filteredTags.push({ id: tagOption.value, name: tagOption.label });
+        }
+      }
+      setRegisterTags(filteredTags);
     },
     [tagsOptions],
   );
@@ -61,7 +67,7 @@ const RegisterTag: FC<RegisterTagProps> = ({
       event.preventDefault();
       const ids = [];
       for (const tag of registerTags) {
-        ids.push(tag.value);
+        ids.push(tag.id);
       }
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/tag/${lectureId}`,
@@ -107,13 +113,22 @@ const RegisterTag: FC<RegisterTagProps> = ({
           className="flex items-center py-[10px]"
           onSubmit={onSubmitRegisterTag}
         >
+          <label htmlFor="tag" className="min-w-max mr-[10px]">
+            태그
+          </label>
           <div className="w-full">
             <Select
               isMulti
               isClearable
               className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
               type="text"
-              value={registerTags}
+              value={tagsOptions.map((tagOption) => {
+                for (const tag of registerTags) {
+                  if (tagOption.value === tag.id) {
+                    return tagOption;
+                  }
+                }
+              })}
               options={tagsOptions}
               onChange={onHandleTagsChange}
               placeholder="태그를 추가하세요!"
@@ -132,20 +147,22 @@ const RegisterTag: FC<RegisterTagProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px] mt-5">
-          {tags.length > 0 &&
-            tags.map((tag) => {
-              return (
-                <div className="flex items-center pr-[20px]">
-                  <Tag name={tag.label} />
-                  <FontAwesomeIcon
-                    className="ml-[5px]"
-                    icon={faTrash}
-                    onClick={() => onClickUnregisterTag(tag.value)}
-                  />
-                </div>
-              );
-            })}
+        <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center py-[10px] mt-5">
+            {tags.length > 0 &&
+              tags.map((tag) => {
+                return (
+                  <div className="flex items-center py-[5px] pr-[20px]">
+                    <Tag name={tag.name} />
+                    <FontAwesomeIcon
+                      className="ml-[5px]"
+                      icon={faTrash}
+                      onClick={() => onClickUnregisterTag(tag.id)}
+                    />
+                  </div>
+                );
+              })}
+          </div>
           <FontAwesomeIcon icon={faEdit} onClick={onClickUpdateToggle} />
         </div>
       )}

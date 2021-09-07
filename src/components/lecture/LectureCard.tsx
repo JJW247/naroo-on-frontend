@@ -60,9 +60,13 @@ const LectureCard: FC<LectureCardProps> = ({
       </div>
       <Star width="16" rating={+average_rating} />
       {tags && tags.length > 0 && (
-        <div className="flex mt-5">
+        <div className="flex flex-wrap mt-5">
           {tags.map((tag) => {
-            return <Tag name={tag.name} />;
+            return (
+              <div className="py-[5px]">
+                <Tag name={tag.name} />
+              </div>
+            );
           })}
         </div>
       )}

@@ -327,15 +327,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         setToken={setToken}
         lectureId={id}
         allTags={allTags}
-        tags={
-          tags
-            ? tags.length > 0
-              ? tags.map((tag) => {
-                  return { value: tag.id, label: tag.name };
-                })
-              : []
-            : []
-        }
+        tags={tags ? (tags.length > 0 ? tags : []) : []}
         mutate={mutate}
       />
     </div>
