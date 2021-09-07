@@ -60,7 +60,7 @@ const Header: FC<HeaderProps> = ({
   }, [isVisibleEllipsis]);
   return (
     <div className="h-[100px] font-semibold text-gray-300 font-noto">
-      <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] hidden md:flex h-full mx-auto justify-center items-center">
+      <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] 2xl:flex xl:flex lg:flex md:flex hidden h-full mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">
             {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
@@ -165,7 +165,7 @@ const Header: FC<HeaderProps> = ({
           )}
         </div>
       </div>
-      <div className="flex items-center justify-between h-full mx-auto md:hidden">
+      <div className="flex items-center justify-between h-full mx-auto 2xl:hidden xl:hidden lg:hidden md:hidden">
         <div className="flex items-center w-full justify-evenly">
           <Link to="/">
             {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
