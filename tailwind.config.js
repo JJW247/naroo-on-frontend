@@ -35,5 +35,5 @@ module.exports = {
       opacity: ['disabled'],
     },
   },
-  plugins: [require('tailwindcss-debug-screens')],
+  plugins: [],
 };

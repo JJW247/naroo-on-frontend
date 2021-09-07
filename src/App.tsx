@@ -41,78 +41,84 @@ const App: FC = () => {
     }
   }, [token]);
   return (
-    <Router>
-      <Header
-        token={token}
-        setToken={setToken}
-        userType={userType}
-        nickname={userNickname}
-        headerLogo={headerLogo}
-      />
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <MainLayout token={token} setToken={setToken} />
-            )
-          }
+    <div
+      className={`${
+        process.env.NODE_ENV !== 'production' ? 'debug-screens' : ''
+      }`}
+    >
+      <Router>
+        <Header
+          token={token}
+          setToken={setToken}
+          userType={userType}
+          nickname={userNickname}
+          headerLogo={headerLogo}
         />
-        <Route
-          path="/signin"
-          render={() => <SigninLayout token={token} setToken={setToken} />}
-        />
-        <Route
-          path="/signup"
-          render={() => <SignupLayout token={token} setToken={setToken} />}
-        />
-        <Route
-          path="/lecture/:id"
-          render={() => (
-            <LetcureDetailLayout
-              token={token}
-              setToken={setToken}
-              userType={userType}
-              userNickname={userNickname}
-            />
-          )}
-        />
-        <Route
-          path="/lecture-play/:id"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <LecturePlayLayout token={token} setToken={setToken} />
-            )
-          }
-        />
-        <Route
-          path="/review"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <LectureReviewLayout />
-            )
-          }
-        />
-        <Route
-          path="/info"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <IntroduceLayout />
-            )
-          }
-        />
-      </Switch>
-      <Footer adminEmail={adminEmail} footerLogo={footerLogo} />
-    </Router>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() =>
+              userType === 'admin' ? (
+                <AdminLayout token={token} setToken={setToken} />
+              ) : (
+                <MainLayout token={token} setToken={setToken} />
+              )
+            }
+          />
+          <Route
+            path="/signin"
+            render={() => <SigninLayout token={token} setToken={setToken} />}
+          />
+          <Route
+            path="/signup"
+            render={() => <SignupLayout token={token} setToken={setToken} />}
+          />
+          <Route
+            path="/lecture/:id"
+            render={() => (
+              <LetcureDetailLayout
+                token={token}
+                setToken={setToken}
+                userType={userType}
+                userNickname={userNickname}
+              />
+            )}
+          />
+          <Route
+            path="/lecture-play/:id"
+            render={() =>
+              userType === 'admin' ? (
+                <AdminLayout token={token} setToken={setToken} />
+              ) : (
+                <LecturePlayLayout token={token} setToken={setToken} />
+              )
+            }
+          />
+          <Route
+            path="/review"
+            render={() =>
+              userType === 'admin' ? (
+                <AdminLayout token={token} setToken={setToken} />
+              ) : (
+                <LectureReviewLayout />
+              )
+            }
+          />
+          <Route
+            path="/info"
+            render={() =>
+              userType === 'admin' ? (
+                <AdminLayout token={token} setToken={setToken} />
+              ) : (
+                <IntroduceLayout />
+              )
+            }
+          />
+        </Switch>
+        <Footer adminEmail={adminEmail} footerLogo={footerLogo} />
+      </Router>
+    </div>
   );
 };
 
