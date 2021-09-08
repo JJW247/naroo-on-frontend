@@ -5,11 +5,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        xs: { min: '475px', max: '639px' },
-        sm: { min: '640px', max: '767px' },
-        md: { min: '768px', max: '949px' },
-        lg: { min: '950px', max: '1199px' },
-        xl: { min: '1200px', max: '1535px' },
+        xs: { min: '0px', max: '639.98px' },
       },
       colors: {
         gray: {
@@ -25,9 +21,6 @@ module.exports = {
       fontFamily: {
         noto: 'Noto Sans KR',
       },
-    },
-    debugScreens: {
-      position: ['top', 'left'],
     },
   },
   variants: {
