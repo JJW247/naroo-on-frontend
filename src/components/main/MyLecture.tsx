@@ -19,7 +19,7 @@ const MyLecture: FC<MyLectureProps> = ({
   allLectures,
 }) => {
   return (
-    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto mt-[122px] pb-[96px]">
+    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[445px] mx-auto mt-[122px] pb-[96px]">
       {token && (
         <>
           <div className="text-2xl font-semibold text-gray-400">

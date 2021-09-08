@@ -41,7 +41,7 @@ const LectureCard: FC<LectureCardProps> = ({
 }) => {
   console.log(tags);
   return (
-    <div className="w-[280px] h-[423px] justify-self-center">
+    <div className="w-full 2xl:w-[280px] 2xl:h-[423px] justify-self-center">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
         {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
