@@ -120,7 +120,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         informationLecture?.mutate();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   const [noticeTitle, onChangeNoticeTitle, setNoticeTitle] = useInput('');
@@ -147,7 +147,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         informationLecture?.mutate();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
@@ -369,7 +369,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       );
                     })
                     .map((notice) => {
-                      console.log(notice);
                       return (
                         <div className="my-[20px] border-2" key={notice.id}>
                           <div className="flex items-center">

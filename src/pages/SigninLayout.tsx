@@ -35,7 +35,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
         window.location.replace('/');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (

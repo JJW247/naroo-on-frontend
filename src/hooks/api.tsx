@@ -34,7 +34,7 @@ export function getAllResources(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<IResources[]>(
@@ -53,7 +53,7 @@ export function getResourceContent(type: string) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<IResourceContent[]>(
@@ -88,7 +88,7 @@ export function getApprovedLectures(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureInList[]>(
@@ -107,7 +107,7 @@ export function getAllLectures() {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureInList[]>(
@@ -132,7 +132,7 @@ export function getLectureStatuses(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureInListAdmin[]>(
@@ -151,7 +151,7 @@ export function getLectureGuest(id: string) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureDetail>(
@@ -173,7 +173,7 @@ export function getLecture(token: string | null, id: string) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureDetail>(
@@ -198,7 +198,7 @@ export function getLectureVideo(token: string | null, id: string) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ILectureVideoDetail>(
@@ -223,7 +223,7 @@ export function getAllTeachers(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ITeacherEditInAdmin[]>(
@@ -248,7 +248,7 @@ export function getAllStudents(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<IStudentEditInAdmin[]>(
@@ -267,7 +267,7 @@ export function getRecentReviews() {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<IRecentReviews[]>(
@@ -292,7 +292,7 @@ export function getAllTags(token: string | null) {
         throw new Error('API 통신 실패!');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return useSWR<ITags[]>(

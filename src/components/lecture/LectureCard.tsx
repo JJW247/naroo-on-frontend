@@ -39,7 +39,6 @@ const LectureCard: FC<LectureCardProps> = ({
   average_rating,
   reviews,
 }) => {
-  console.log(tags);
   return (
     <div className="w-full 2xl:w-[280px] 2xl:h-[423px] justify-self-center">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />

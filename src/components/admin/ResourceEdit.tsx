@@ -1,7 +1,7 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { SWRResponse } from 'swr';
 import { IResources, IStudentEditInAdmin } from '../../interfaces';
 import UpdateCarouselUrl from './resource/UpdateCarouselUrl';
@@ -20,6 +20,10 @@ const ResourceEdit: FC<ResourceEditProps> = ({
   setToken,
   resources,
 }) => {
+  const [noticeImagesIndex, setNoticeImagesIndex] = useState(0);
+  const [orgImagesIndex, setOrgImagesIndex] = useState(0);
+  let noticeIndex = 0;
+  let orgIndex = 0;
   return (
     <div className="mt-[30px]">
       {resources.data &&
@@ -53,6 +57,13 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                       content_id={resource.content_id}
                       content={resource.content}
                       mutate={resources.mutate}
+                      resourceIndex={
+                        resource.type === 'notice_carousel'
+                          ? noticeIndex++
+                          : resource.type === 'org_carousel'
+                          ? orgIndex++
+                          : null
+                      }
                     />
                   )}
                 </div>

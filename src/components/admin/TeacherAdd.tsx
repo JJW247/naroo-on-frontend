@@ -55,7 +55,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
         teachers.mutate();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (

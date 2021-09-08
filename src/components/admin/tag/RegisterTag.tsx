@@ -34,7 +34,6 @@ const RegisterTag: FC<RegisterTagProps> = ({
   tags,
   mutate,
 }) => {
-  console.log(tags);
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
   const [registerTags, setRegisterTags] = useState<ITags[]>(tags);
   const tagsOptions = useMemo(() => {

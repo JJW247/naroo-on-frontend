@@ -42,7 +42,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
         window.location.replace('/');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (

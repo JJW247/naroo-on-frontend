@@ -1,7 +1,7 @@
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { FC, FormEvent, useState } from 'react';
+import { Dispatch, FC, FormEvent, SetStateAction, useState } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { IResources } from '../../../interfaces';
@@ -22,6 +22,7 @@ interface UpdateResourceFieldProps {
       | undefined,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<IResources[] | undefined>;
+  resourceIndex: number | null;
 }
 
 const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
@@ -31,6 +32,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
   content_id,
   content,
   mutate,
+  resourceIndex,
 }) => {
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
   const [updateFieldName, onChangeUpdateFieldName, setUpdateFieldName] =
@@ -115,7 +117,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         setResourceUrl('');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
@@ -173,11 +175,13 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         <div className="flex items-center p-[10px]">
           <div className="w-full">
             <div>
-              {type === 'notice_carousel'
-                ? `#${content_id} : `
-                : type === 'org_carousel'
-                ? `#${content_id} : `
-                : ''}
+              {type === 'notice_carousel' || type === 'org_carousel' ? (
+                <>{`#${
+                  resourceIndex && resourceIndex >= 0 && resourceIndex
+                } : `}</>
+              ) : (
+                ''
+              )}
               {content && content}
             </div>
           </div>

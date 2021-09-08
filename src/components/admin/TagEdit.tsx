@@ -41,7 +41,7 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
         setTagName('');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

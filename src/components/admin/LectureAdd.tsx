@@ -98,7 +98,6 @@ const LectureAdd: FC<LectureAddProps> = ({
     (changedOptions, { action, removedValue }) => {
       switch (action) {
         case 'create-option':
-          console.log(changedOptions);
           setLectureVideoTitles([...lectureVideoTitles, changedOptions.value]);
           break;
         case 'remove-value':
@@ -163,7 +162,7 @@ const LectureAdd: FC<LectureAddProps> = ({
         allLectures.mutate();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
