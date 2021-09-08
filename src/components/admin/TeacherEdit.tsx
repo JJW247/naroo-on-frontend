@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { ITeacherEditInAdmin } from '../../interfaces';
-import UpdateField from './user/UpdateField';
+import UpdateUserField from './user/UpdateUserField';
 
 interface TeacherEditProps {
   token: string | null;
@@ -41,7 +41,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
               <div className="border-2 rounded">
                 <div>
                   {teacher.email && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="email"
@@ -51,7 +51,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
                     />
                   )}
                   {teacher.nickname && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="nickname"
@@ -60,7 +60,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
                       mutate={teachers.mutate}
                     />
                   )}
-                  <UpdateField
+                  <UpdateUserField
                     token={token}
                     setToken={setToken}
                     fieldType="password"
@@ -69,7 +69,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
                     mutate={teachers.mutate}
                   />
                   {teacher.phone && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="phone"
@@ -78,7 +78,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
                       mutate={teachers.mutate}
                     />
                   )}
-                  <UpdateField
+                  <UpdateUserField
                     token={token}
                     setToken={setToken}
                     fieldType="introduce"

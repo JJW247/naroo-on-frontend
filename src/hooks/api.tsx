@@ -5,9 +5,9 @@ import {
   ILectureInList,
   ILectureInListAdmin,
   ILectureVideoDetail,
-  INoticesInLecture,
   IRecentReviews,
   IResourceContent,
+  IResources,
   IStudentEditInAdmin,
   ITags,
   ITeacherEditInAdmin,
@@ -19,6 +19,28 @@ export function tokenHeader(token: string) {
       Authorization: `Bearer ${token}`,
     },
   };
+}
+
+export function getAllResources(token: string | null) {
+  const fetcher = async () => {
+    try {
+      if (token === null) {
+        throw new Error('잘못된 접근입니다!');
+      }
+      const response = await axios.get(`/resource`, tokenHeader(token));
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        throw new Error('API 통신 실패!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return useSWR<IResources[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource`,
+    fetcher,
+  );
 }
 
 export function getResourceContent(type: string) {

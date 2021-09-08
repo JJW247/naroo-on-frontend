@@ -6,7 +6,7 @@ import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { IStudentEditInAdmin, ITeacherEditInAdmin } from '../../../interfaces';
 
-interface UpdateFieldProps {
+interface UpdateUserFieldProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -33,7 +33,7 @@ interface UpdateFieldProps {
       ) => Promise<ITeacherEditInAdmin[] | undefined>);
 }
 
-const UpdateField: FC<UpdateFieldProps> = ({
+const UpdateUserField: FC<UpdateUserFieldProps> = ({
   token,
   setToken,
   fieldType,
@@ -135,4 +135,4 @@ const UpdateField: FC<UpdateFieldProps> = ({
   );
 };
 
-export default UpdateField;
+export default UpdateUserField;

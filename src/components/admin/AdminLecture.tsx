@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import {
   ILectureInList,
+  IResources,
   IStudentEditInAdmin,
   ITags,
   ITeacherEditInAdmin,
@@ -11,6 +12,7 @@ import {
 import LectureAdd from './LectureAdd';
 import LectureEdit from './LectureEdit';
 import LecturePermission from './LecturePermission';
+import ResourceEdit from './ResourceEdit';
 import StudentEdit from './StudentEdit';
 import TagEdit from './TagEdit';
 import TeacherAdd from './TeacherAdd';
@@ -25,6 +27,7 @@ interface AdminLectureProps {
   allLectures: SWRResponse<ILectureInList[], any>;
   students: SWRResponse<IStudentEditInAdmin[], any>;
   tags: SWRResponse<ITags[], any>;
+  resources: SWRResponse<IResources[], any>;
 }
 
 export const CONST_ADMIN_MENU = {
@@ -35,6 +38,7 @@ export const CONST_ADMIN_MENU = {
   TEACHER_EDIT: 'teacher_edit',
   STUDENT_EDIT: 'student_edit',
   TAG_EDIT: 'tag_edit',
+  RESOURCE_EDIT: 'resource_edit',
 } as const;
 
 export type ADMIN_MENU = typeof CONST_ADMIN_MENU[keyof typeof CONST_ADMIN_MENU];
@@ -46,6 +50,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
   allLectures,
   students,
   tags,
+  resources,
 }) => {
   const [selectedMenu, setSelectedMenu] = useState<ADMIN_MENU>(
     CONST_ADMIN_MENU.LECTURE_ADD,
@@ -57,11 +62,11 @@ const AdminLecture: FC<AdminLectureProps> = ({
       <div className="text-4xl font-semibold text-center text-gray-400 mb-[4vh] 2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
         관리자 페이지
       </div>
-      <div className="flex items-center justify-evenly sm:hidden xs:hidden">
+      <div className="items-center hidden md:flex justify-evenly">
         <button
           className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
             selectedMenu === CONST_ADMIN_MENU.LECTURE_ADD
-              ? 'text-[#8DC556] border-[#8DC556]'
+              ? 'text-[#8DC556] border-[#678a44]'
               : 'text-[#515A6E]'
           }`}
           onClick={() => setSelectedMenu(CONST_ADMIN_MENU.LECTURE_ADD)}
@@ -128,8 +133,18 @@ const AdminLecture: FC<AdminLectureProps> = ({
         >
           태그 관리
         </button>
+        <button
+          className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
+            selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT
+              ? 'text-[#8DC556] border-[#8DC556]'
+              : 'text-[#515A6E]'
+          }`}
+          onClick={() => setSelectedMenu(CONST_ADMIN_MENU.RESOURCE_EDIT)}
+        >
+          리소스 관리
+        </button>
       </div>
-      <div className="h-full text-center 2xl:hidden xl:hidden lg:hidden md:hidden sm:block xs:block">
+      <div className="h-full text-center md:hidden">
         <>
           <button
             className="border-[#8DC556] border-[1px] rounded-[4px] text-[#8DC556] font-semibold text-[20px] leading-[20px] w-full px-[10px] py-[5px]"
@@ -239,6 +254,20 @@ const AdminLecture: FC<AdminLectureProps> = ({
               >
                 태그 관리
               </button>
+
+              <button
+                className={`block w-full px-[10px] py-[10px]  ${
+                  selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT
+                    ? 'text-[#8DC556]'
+                    : 'text-[#515A6E]'
+                }`}
+                onClick={() => {
+                  setSelectedMenu(CONST_ADMIN_MENU.RESOURCE_EDIT);
+                  setIsVisibleMenu(false);
+                }}
+              >
+                리소스 관리
+              </button>
             </div>
           )}
         </>
@@ -319,6 +348,15 @@ const AdminLecture: FC<AdminLectureProps> = ({
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
         <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
           <TagEdit token={token} setToken={setToken} tags={tags} />
+        </div>
+      )}
+      {selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT && (
+        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+          <ResourceEdit
+            token={token}
+            setToken={setToken}
+            resources={resources}
+          />
         </div>
       )}
     </div>

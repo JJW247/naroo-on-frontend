@@ -3,6 +3,7 @@ import AdminLecture from '../components/admin/AdminLecture';
 
 import {
   getAllLectures,
+  getAllResources,
   getAllStudents,
   getAllTags,
   getAllTeachers,
@@ -16,6 +17,7 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
+  const resources = getAllResources(token);
   const allLectures = getAllLectures();
   const teachers = getAllTeachers(token);
   const students = getAllStudents(token);
@@ -29,6 +31,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
         allLectures={allLectures}
         students={students}
         tags={tags}
+        resources={resources}
       />
     </div>
   );

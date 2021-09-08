@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
 import { IStudentEditInAdmin } from '../../interfaces';
-import UpdateField from './user/UpdateField';
+import UpdateUserField from './user/UpdateUserField';
 
 interface StudentEditProps {
   token: string | null;
@@ -41,7 +41,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
               <div className="border-2 rounded">
                 <div>
                   {student.email && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="email"
@@ -51,7 +51,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
                     />
                   )}
                   {student.nickname && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="nickname"
@@ -60,7 +60,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
                       mutate={students.mutate}
                     />
                   )}
-                  <UpdateField
+                  <UpdateUserField
                     token={token}
                     setToken={setToken}
                     fieldType="password"
@@ -69,7 +69,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
                     mutate={students.mutate}
                   />
                   {student.phone && (
-                    <UpdateField
+                    <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="phone"

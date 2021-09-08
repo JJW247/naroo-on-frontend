@@ -2,6 +2,12 @@ export interface IResourceContent {
   content: string;
 }
 
+export interface IResources {
+  type: string;
+  content_id: string;
+  content: string;
+}
+
 export interface ITeacherEditInAdmin {
   id: string | null;
   email: string | null;
