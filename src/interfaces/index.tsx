@@ -9,7 +9,7 @@ export interface IResources {
 }
 
 export interface ITeacherEditInAdmin {
-  id: string | null;
+  id: string;
   email: string | null;
   nickname: string | null;
   phone: string | null;

@@ -35,62 +35,64 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
   return (
     <div className="mt-[30px]">
       {students.data &&
-        students.data.map((student) => (
-          <>
-            {student.id && (
-              <div className="border-2 rounded">
-                <div>
-                  {student.email && (
+        students.data
+          .sort((a, b) => +a.id - +b.id)
+          .map((student) => (
+            <>
+              {student.id && (
+                <div className="border-2 rounded">
+                  <div>
+                    {student.email && (
+                      <UpdateUserField
+                        token={token}
+                        setToken={setToken}
+                        fieldType="email"
+                        id={student.id}
+                        userField={student.email}
+                        mutate={students.mutate}
+                      />
+                    )}
+                    {student.nickname && (
+                      <UpdateUserField
+                        token={token}
+                        setToken={setToken}
+                        fieldType="nickname"
+                        id={student.id}
+                        userField={student.nickname}
+                        mutate={students.mutate}
+                      />
+                    )}
                     <UpdateUserField
                       token={token}
                       setToken={setToken}
-                      fieldType="email"
+                      fieldType="password"
                       id={student.id}
-                      userField={student.email}
+                      userField={null}
                       mutate={students.mutate}
                     />
-                  )}
-                  {student.nickname && (
-                    <UpdateUserField
-                      token={token}
-                      setToken={setToken}
-                      fieldType="nickname"
-                      id={student.id}
-                      userField={student.nickname}
-                      mutate={students.mutate}
+                    {student.phone && (
+                      <UpdateUserField
+                        token={token}
+                        setToken={setToken}
+                        fieldType="phone"
+                        id={student.id}
+                        userField={student.phone}
+                        mutate={students.mutate}
+                      />
+                    )}
+                  </div>
+                  <button className="block w-full">
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => {
+                        student.id ? onClickDeleteUser(student.id) : null;
+                      }}
                     />
-                  )}
-                  <UpdateUserField
-                    token={token}
-                    setToken={setToken}
-                    fieldType="password"
-                    id={student.id}
-                    userField={null}
-                    mutate={students.mutate}
-                  />
-                  {student.phone && (
-                    <UpdateUserField
-                      token={token}
-                      setToken={setToken}
-                      fieldType="phone"
-                      id={student.id}
-                      userField={student.phone}
-                      mutate={students.mutate}
-                    />
-                  )}
+                  </button>
                 </div>
-                <button className="block w-full">
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    onClick={() => {
-                      student.id ? onClickDeleteUser(student.id) : null;
-                    }}
-                  />
-                </button>
-              </div>
-            )}
-          </>
-        ))}
+              )}
+            </>
+          ))}
     </div>
   );
 };
