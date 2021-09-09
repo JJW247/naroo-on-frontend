@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import axios from 'axios';
 import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useInput } from '../hooks';
 import { useEffect } from 'react';
 
@@ -10,9 +10,19 @@ interface SigninLayoutProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  rememberToken: boolean | null;
+  setRememberToken: (
+    value: boolean | ((val: boolean | null) => boolean | null) | null,
+  ) => void;
 }
 
-const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
+const SigninLayout: FC<SigninLayoutProps> = ({
+  token,
+  setToken,
+  rememberToken,
+  setRememberToken,
+}) => {
+  const history = useHistory();
   useEffect(() => {
     setToken(null);
   }, []);
@@ -32,7 +42,10 @@ const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
-        window.location.replace('/');
+        history.replace({
+          pathname: '/',
+          state: { isFirst: true },
+        });
       }
     } catch (error) {
       console.error(error);
@@ -70,11 +83,16 @@ const SigninLayout: FC<SigninLayoutProps> = ({ token, setToken }) => {
       </div>
       <div>
         <div className="float-left text-[12px] leading-[16px] flex items-center">
-          <input className="mr-[5px]" type="checkbox" />
+          <input
+            className="mr-[5px]"
+            type="checkbox"
+            checked={rememberToken ? rememberToken : undefined}
+            onChange={(event) => setRememberToken(event.target.checked)}
+          />
           자동 로그인
         </div>
         <div className="float-right text-[12px] leading-[16px]">
-          비밀번호 찾기
+          비밀번호 재설정
         </div>
       </div>
       <input

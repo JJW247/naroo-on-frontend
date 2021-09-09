@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { FC } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { SWRResponse } from 'swr';
 import Search from '../../../assets/images/Search.svg';
 import { IResourceContent } from '../../../interfaces';
@@ -12,6 +12,9 @@ interface HeaderProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
+  setRememberToken: (
+    value: boolean | ((val: boolean | null) => boolean | null) | null,
+  ) => void;
   nickname: string | null;
   userType: string | null;
   headerLogo: SWRResponse<IResourceContent[], any>;
@@ -20,14 +23,16 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({
   token,
   setToken,
+  setRememberToken,
   nickname,
   userType,
   headerLogo,
 }) => {
+  const history = useHistory();
   const location = useLocation();
   const logoutHandler = () => {
     setToken(null);
-    window.location.reload();
+    history.replace(history.location.pathname);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
   const [isVisibleMenu, setIsVisibleMenu] = useState<boolean>(false);

@@ -1,4 +1,5 @@
 import { FC, FormEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useInput } from '../hooks';
 import { useEffect } from 'react';
@@ -11,6 +12,7 @@ interface SignupLayoutProps {
 }
 
 const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
+  const history = useHistory();
   useEffect(() => {
     setToken(null);
   }, []);
@@ -39,7 +41,10 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
-        window.location.replace('/');
+        history.replace({
+          pathname: '/',
+          state: { isFirst: true },
+        });
       }
     } catch (error) {
       console.error(error);
