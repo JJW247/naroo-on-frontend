@@ -16,7 +16,7 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ adminEmail, footerLogo }) => {
   return (
-    <div className="h-[155px] bg-[#696969] flex justify-center items-center">
+    <div className="w-full h-[155px] bg-[#696969] flex justify-center items-center">
       <div className="2xl:w-[250px] xl:w-[250px] lg:w-[250px] md:w-[220px] sm:w-[210px] xs:w-[180px]">
         {footerLogo && footerLogo.data && footerLogo.data.length > 0 ? (
           <img width="170" src={footerLogo.data[0].content} />
@@ -32,18 +32,18 @@ const Footer: FC<FooterProps> = ({ adminEmail, footerLogo }) => {
         <div className="pt-[5px] text-[#bfbfbf] text-[14px] font-light">
           <span>
             <FontAwesomeIcon icon={faHome} /> 서울특별시 마포구 토정로 148-22,
-            <br className="2xl:hidden xl:hidden lg:hidden md:hidden sm:hidden xs:block" />
-            <span className="xs:ml-5"> 2층 (우)04081</span>
+            <br className="block sm:hidden" />
+            <span className="ml-0 xs:ml-5"> 2층 (우)04081</span>
           </span>
-          <br className="2xl:hidden xl:hidden lg:hidden md:hidden sm:block xs:block" />
+          <br className="block md:hidden" />
           <span className="2xl:pl-[20px] xl:pl-[20px] lg:pl-[20px] md:pl-[20px] sm:0 xs:0">
             <FontAwesomeIcon icon={faPhoneAlt} /> 02.6261.1939~1943
           </span>
-          <br className="2xl:hidden xl:hidden lg:hidden md:block sm:hidden xs:hidden" />
+          <br className="hidden lg:hidden md:block" />
           <span className="2xl:pl-[20px] xl:pl-[20px] lg:pl-[20px] md:0 sm:pl-[20px] xs:pl-[20px]">
             <FontAwesomeIcon icon={faFax} /> 02.6261.1944
           </span>
-          <br className="2xl:hidden xl:hidden lg:block md:hidden sm:block xs:block" />
+          <br className="block xl:hidden lg:block md:hidden" />
           <span className="2xl:pl-[20px] xl:pl-[20px] md:pl-[20px] lg:pl-0 sm:0 xs:0">
             <FontAwesomeIcon icon={faEnvelope} />
             {adminEmail && adminEmail.data && adminEmail.data.length > 0 ? (
