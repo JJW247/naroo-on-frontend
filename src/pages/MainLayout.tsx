@@ -7,6 +7,7 @@ import {
   getResourceContent,
 } from '../hooks/api';
 import NoticeCarousel from '../components/main/NoticeCarousel';
+import LectureCarousel from '../components/main/LectureCarousel';
 
 interface MainLayoutProps {
   token: string | null;
@@ -21,9 +22,9 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken }) => {
   const noticeCarousel = getResourceContent('notice_carousel');
   const orgCarousel = getResourceContent('org_carousel');
   return (
-    <div className="max-w-full mx-auto min-h-screen bg-white font-noto">
+    <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
       <NoticeCarousel noticeCarousel={noticeCarousel} />
-      <MyLecture
+      <LectureCarousel
         token={token}
         setToken={setToken}
         lectures={lectures}

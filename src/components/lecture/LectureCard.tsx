@@ -40,7 +40,7 @@ const LectureCard: FC<LectureCardProps> = ({
   reviews,
 }) => {
   return (
-    <div className="w-full 2xl:w-[280px] 2xl:h-[423px] justify-self-center">
+    <div className="w-full justify-self-center pr-[24px]">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
         {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
