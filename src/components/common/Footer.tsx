@@ -49,11 +49,12 @@ const Footer: FC<FooterProps> = ({ adminEmail, footerLogo }) => {
               <FontAwesomeIcon className="text-xs" icon={faEnvelope} />
               {adminEmail && adminEmail.data && adminEmail.data.length > 0 ? (
                 <a
-                  href={
+                  href={`mailto:${
                     adminEmail && adminEmail.data
                       ? adminEmail.data[0].content
                       : ''
                   }
+                  `}
                 >
                   {' '}
                   {adminEmail && adminEmail.data

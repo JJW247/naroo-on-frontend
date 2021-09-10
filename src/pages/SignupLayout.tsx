@@ -1,4 +1,4 @@
-import { FC, FormEvent } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useInput } from '../hooks';
@@ -21,6 +21,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   const [passwordCheck, onChangePasswordCheck] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [phone, onChangePhone] = useInput('');
+  const [isAgreeEmail, setIsAgreeEmail] = useState<boolean>(false);
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       if (password !== passwordCheck) {
@@ -36,6 +37,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
           password,
           nickname,
           phone,
+          isAgreeEmail: isAgreeEmail ? 'true' : 'false',
         },
       );
 
@@ -120,7 +122,12 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
         가입 시, 마포런의 이용약관, 개인정보취급방침에 동의합니다.
       </div>
       <div className="mb-[47px] text-[12px] leading-[16px] flex justify-center items-center">
-        <input className="mr-[5px]" type="checkbox" />
+        <input
+          className="mr-[5px]"
+          type="checkbox"
+          checked={isAgreeEmail}
+          onChange={(event) => setIsAgreeEmail(event.target.checked)}
+        />
         마포런의 다양한 소식을 받아보시겠어요?
       </div>
     </form>

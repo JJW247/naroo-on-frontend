@@ -55,14 +55,6 @@ body {
   }
 }
 
-.lecture-carousel .slick-track {
-  /*  space-x-[24px]; */
-}
-
-.lecture-carousel .slick-track :nth-child(1) {
-  /*  mx-0; */
-}
-
 .notosanskr * {
   font-family: 'Noto Sans KR', sans-serif;
 }
