@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import MyLecture from '../components/main/MyLecture';
 import OrgCarousel from '../components/main/OrgCarousel';
 import {
   getAllLectures,
