@@ -6,7 +6,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
-import { SWRResponse } from 'swr';
 import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
 
@@ -16,7 +15,7 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ adminEmail }) => {
   const { data: footerLogo } = useGetSWR<IResourceContent[]>(
-    'footer_logo',
+    `${process.env.REACT_APP_BACK_URL}/footer_logo`,
     null,
   );
   return (
