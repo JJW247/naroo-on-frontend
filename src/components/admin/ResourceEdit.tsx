@@ -1,10 +1,6 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import { FC, useState } from 'react';
-import { SWRResponse } from 'swr';
-import { IResources, IStudentEditInAdmin } from '../../interfaces';
-import UpdateCarouselUrl from './resource/UpdateCarouselUrl';
+import { FC } from 'react';
+import { MutatorCallback } from 'swr/dist/types';
+import { IResources } from '../../interfaces';
 import UpdateResourceField from './resource/UpdateResourceField';
 
 interface ResourceEditProps {
@@ -12,22 +8,29 @@ interface ResourceEditProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  resources: SWRResponse<IResources[], any>;
+  allResourcesData: IResources[] | undefined;
+  allResourcesMutate: (
+    data?:
+      | IResources[]
+      | Promise<IResources[]>
+      | MutatorCallback<IResources[]>
+      | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<IResources[] | undefined>;
 }
 
 const ResourceEdit: FC<ResourceEditProps> = ({
   token,
   setToken,
-  resources,
+  allResourcesData,
+  allResourcesMutate,
 }) => {
-  const [noticeImagesIndex, setNoticeImagesIndex] = useState(0);
-  const [orgImagesIndex, setOrgImagesIndex] = useState(0);
   let noticeIndex = 0;
   let orgIndex = 0;
   return (
     <div className="mt-[30px]">
-      {resources.data &&
-        resources.data.map((resource) => {
+      {allResourcesData &&
+        allResourcesData.map((resource) => {
           if (resource) {
             return (
               <>
@@ -56,7 +59,7 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                       type={resource.type}
                       content_id={resource.content_id}
                       content={resource.content}
-                      mutate={resources.mutate}
+                      mutate={allResourcesMutate}
                       resourceIndex={
                         resource.type === 'notice_carousel'
                           ? noticeIndex++

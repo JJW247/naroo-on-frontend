@@ -1,13 +1,9 @@
 import { FC } from 'react';
 import Slider from 'react-slick';
-import { SWRResponse } from 'swr';
+import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
 
-interface NoticeCarouselProps {
-  noticeCarousel: SWRResponse<IResourceContent[], any>;
-}
-
-const NoticeCarousel: FC<NoticeCarouselProps> = ({ noticeCarousel }) => {
+const NoticeCarousel: FC = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -16,12 +12,15 @@ const NoticeCarousel: FC<NoticeCarouselProps> = ({ noticeCarousel }) => {
     slidesToScroll: 1,
     pauseOnHover: true,
   };
+  const { data } = useGetSWR<IResourceContent[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource/notice_carousel`,
+    null,
+  );
   return (
     <div className="mx-auto text-center bg-gray-100">
       <Slider {...settings}>
-        {noticeCarousel &&
-          noticeCarousel.data &&
-          noticeCarousel.data.map((element) => {
+        {data &&
+          data.map((element) => {
             return (
               <img
                 className="max-w-[100vw] max-h-[320px]"

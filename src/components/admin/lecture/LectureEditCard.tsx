@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 interface LectureEditCardProps {
   id: string;
@@ -94,8 +95,16 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       if (response.statusText === 'OK') {
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const [updateType, setUpdateType] = useState(type);
@@ -136,8 +145,16 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         setUpdateTypeToggle(!updateTypeToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const [updateTeacherToggle, setUpdateTeacherToggle] =
@@ -182,8 +199,16 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         setUpdateTeacherToggle(!updateTeacherToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

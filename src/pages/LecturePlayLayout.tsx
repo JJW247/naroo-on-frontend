@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import Tag from '../components/common/Tag';
-import { getLectureVideo } from '../hooks/api';
+import { useGetSWR } from '../hooks/api';
+import { ILectureVideoDetail } from '../interfaces';
 
 interface LecturePlayLayoutProps {
   token: string | null;
@@ -14,7 +15,12 @@ interface LecturePlayLayoutProps {
 const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
   const { id } = useParams<{ id: string }>();
   const [positionVideo, setPositionVideo] = useState<number>(1);
-  const informationVideo = token ? getLectureVideo(token, id) : null;
+  const informationVideo = token
+    ? useGetSWR<ILectureVideoDetail>(
+        `${process.env.REACT_APP_BACK_URL}/lecture/video/${id}`,
+        token,
+      )
+    : null;
   if (
     !token ||
     !id ||

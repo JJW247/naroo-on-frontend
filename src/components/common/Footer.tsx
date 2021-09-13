@@ -7,20 +7,24 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import { SWRResponse } from 'swr';
+import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
 
 interface FooterProps {
-  adminEmail: SWRResponse<IResourceContent[], any>;
-  footerLogo: SWRResponse<IResourceContent[], any>;
+  adminEmail: IResourceContent[] | undefined;
 }
 
-const Footer: FC<FooterProps> = ({ adminEmail, footerLogo }) => {
+const Footer: FC<FooterProps> = ({ adminEmail }) => {
+  const { data: footerLogo } = useGetSWR<IResourceContent[]>(
+    'footer_logo',
+    null,
+  );
   return (
     <div>
       <div className="w-full h-[128px] bg-[#696969] flex justify-center items-center">
         <div className="2xl:w-[250px] xl:w-[250px] lg:w-[250px] md:w-[220px] sm:w-[210px] xs:w-[180px]">
-          {footerLogo && footerLogo.data && footerLogo.data.length > 0 ? (
-            <img width="170" src={footerLogo.data[0].content} />
+          {footerLogo && footerLogo.length > 0 ? (
+            <img width="170" src={footerLogo[0].content} />
           ) : (
             ''
           )}
@@ -47,19 +51,13 @@ const Footer: FC<FooterProps> = ({ adminEmail, footerLogo }) => {
             <br className="block xl:hidden lg:block md:hidden" />
             <span className="2xl:pl-[20px] xl:pl-[20px] md:pl-[20px] lg:pl-0 sm:pl-0 xs:pl-0">
               <FontAwesomeIcon className="text-xs" icon={faEnvelope} />
-              {adminEmail && adminEmail.data && adminEmail.data.length > 0 ? (
+              {adminEmail && adminEmail.length > 0 ? (
                 <a
-                  href={`mailto:${
-                    adminEmail && adminEmail.data
-                      ? adminEmail.data[0].content
-                      : ''
-                  }
+                  href={`mailto:${adminEmail ? adminEmail[0].content : ''}
                   `}
                 >
                   {' '}
-                  {adminEmail && adminEmail.data
-                    ? adminEmail.data[0].content
-                    : ''}
+                  {adminEmail ? adminEmail[0].content : ''}
                 </a>
               ) : (
                 ''

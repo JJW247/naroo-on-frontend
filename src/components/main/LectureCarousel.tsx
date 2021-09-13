@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import Slider from 'react-slick';
 import { SWRResponse } from 'swr';
+import { useGetSWR } from '../../hooks/api';
 import { ILectureInList, IResourceContent } from '../../interfaces';
 import LectureCard from '../lecture/LectureCard';
 
@@ -9,16 +10,9 @@ interface LectureCarouselProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  lectures: SWRResponse<ILectureInList[], any>;
-  allLectures: SWRResponse<ILectureInList[], any>;
 }
 
-const LectureCarousel: FC<LectureCarouselProps> = ({
-  token,
-  setToken,
-  lectures,
-  allLectures,
-}) => {
+const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -57,6 +51,14 @@ const LectureCarousel: FC<LectureCarouselProps> = ({
       },
     ],
   };
+  const allLectures = useGetSWR<ILectureInList[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/all`,
+    null,
+  );
+  const lectures = useGetSWR<ILectureInList[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture`,
+    token,
+  );
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[445px] mx-auto mt-[122px] pb-[96px]">
       {token && (

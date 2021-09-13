@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { ILectureInList, ITags } from '../../../interfaces';
@@ -84,8 +85,16 @@ const RegisterTag: FC<RegisterTagProps> = ({
         setUpdateToggle(!updateToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const onClickUnregisterTag = async (tagId: string) => {
@@ -101,8 +110,16 @@ const RegisterTag: FC<RegisterTagProps> = ({
       if (response.statusText === 'OK') {
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

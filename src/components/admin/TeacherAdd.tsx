@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useInput } from '../../hooks';
 import { ADMIN_MENU, CONST_ADMIN_MENU } from './AdminLecture';
 import { ITeacherEditInAdmin } from '../../interfaces';
-import { MutatorCallback, SWRResponse } from 'swr/dist/types';
+import { toast } from 'react-toastify';
+import { DataResponse } from '../../hooks/api';
 
 interface TeacherAddProps {
   token: string | null;
@@ -11,7 +12,7 @@ interface TeacherAddProps {
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   setSelectedMenu: React.Dispatch<React.SetStateAction<ADMIN_MENU>>;
-  teachers: SWRResponse<ITeacherEditInAdmin[], any>;
+  teachers: DataResponse<ITeacherEditInAdmin[]>;
 }
 
 const TeacherAdd: FC<TeacherAddProps> = ({
@@ -54,8 +55,16 @@ const TeacherAdd: FC<TeacherAddProps> = ({
         setSelectedMenu(CONST_ADMIN_MENU.TEACHER_EDIT);
         teachers.mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

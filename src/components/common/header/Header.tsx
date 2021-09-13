@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { FC } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { SWRResponse } from 'swr';
 import Search from '../../../assets/images/Search.svg';
+import { useGetSWR } from '../../../hooks/api';
 import { IResourceContent } from '../../../interfaces';
 import Ellipsis from './Ellipsis';
 
@@ -17,7 +17,6 @@ interface HeaderProps {
   ) => void;
   nickname: string | null;
   userType: string | null;
-  headerLogo: SWRResponse<IResourceContent[], any>;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -26,10 +25,13 @@ const Header: FC<HeaderProps> = ({
   setRememberToken,
   nickname,
   userType,
-  headerLogo,
 }) => {
   const history = useHistory();
   const location = useLocation();
+  const { data: headerLogo } = useGetSWR<IResourceContent[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource/header_logo`,
+    null,
+  );
   const logoutHandler = () => {
     setToken(null);
     history.replace(history.location.pathname);
@@ -68,10 +70,10 @@ const Header: FC<HeaderProps> = ({
       <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] md:flex hidden h-full mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">
-            {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
+            {headerLogo && headerLogo.length > 0 ? (
               <img
                 className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
-                src={headerLogo.data[0].content}
+                src={headerLogo[0].content}
                 width="132"
                 alt="Logo"
               />
@@ -173,8 +175,8 @@ const Header: FC<HeaderProps> = ({
       <div className="flex items-center justify-between h-full mx-auto md:hidden">
         <div className="flex items-center w-full justify-evenly">
           <Link to="/">
-            {headerLogo && headerLogo.data && headerLogo.data.length > 0 ? (
-              <img src={headerLogo.data[0].content} width="132" alt="Logo" />
+            {headerLogo && headerLogo.length > 0 ? (
+              <img src={headerLogo[0].content} width="132" alt="Logo" />
             ) : (
               ''
             )}

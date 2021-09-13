@@ -1,8 +1,8 @@
 import Select from 'react-select';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { getLectureStatuses } from '../../hooks/api';
+import { FC, useCallback, useState } from 'react';
+import { useGetSWR } from '../../hooks/api';
 import UpdateStatus from './lecture/UpdateStatus';
-import { ILectureInList } from '../../interfaces';
+import { ILectureInList, ILectureInListAdmin } from '../../interfaces';
 
 interface LecturePermissionProps {
   token: string | null;
@@ -19,7 +19,11 @@ const LecturePermission: FC<LecturePermissionProps> = ({
   students,
   lectures,
 }) => {
-  const lectureStatuses = getLectureStatuses(token);
+  const { data: lectureStatusesData, mutate: lectureStatusesMutate } =
+    useGetSWR<ILectureInListAdmin[]>(
+      `${process.env.REACT_APP_BACK_URL}/lecture/admin/status`,
+      token,
+    );
   const [studentFilter, setStudentFilter] =
     useState<{ value: string; label: string }>();
   const onHandleFilterChange = useCallback(
@@ -37,8 +41,8 @@ const LecturePermission: FC<LecturePermissionProps> = ({
         onChange={onHandleFilterChange}
         placeholder="유저를 선택하세요!"
       />
-      {lectureStatuses.data &&
-        lectureStatuses.data.map((lectureStatus) => {
+      {lectureStatusesData &&
+        lectureStatusesData.map((lectureStatus) => {
           if (studentFilter) {
             if (studentFilter.value === lectureStatus.student_id) {
               return (
@@ -61,7 +65,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                       studentId={lectureStatus.student_id}
                       lectureId={lectureStatus.lecture_id}
                       status={lectureStatus.status}
-                      mutate={lectureStatuses.mutate}
+                      mutate={lectureStatusesMutate}
                     />
                   </div>
                 </>

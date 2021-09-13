@@ -4,13 +4,15 @@ import Select from 'react-select';
 import Star from '../components/common/Star';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
-import { getLecture, getLectureGuest } from '../hooks/api';
+import { useGetSWR } from '../hooks/api';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
 import moment from 'moment';
 import axios from 'axios';
 import LectureReviewCard from '../components/lecture/LectureReviewCard';
 import { useInput } from '../hooks';
+import { toast } from 'react-toastify';
+import { ILectureDetail } from '../interfaces';
 
 interface LetcureDetailLayoutProps {
   token: string | null;
@@ -55,8 +57,14 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   const [selectedReviewFilter, setSelectedReviewFilter] =
     useState<REVIEW_FILTER>(CONST_REVIEW_FILTER.REVIEW_RECENT);
   const informationLecture = token
-    ? getLecture(token, id)
-    : getLectureGuest(id);
+    ? useGetSWR<ILectureDetail>(
+        `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
+        token,
+      )
+    : useGetSWR<ILectureDetail>(
+        `${process.env.REACT_APP_BACK_URL}/lecture/guest/${id}`,
+        null,
+      );
   const onPlayLectureHandler = async () => {
     if (informationLecture && informationLecture.data) {
       if (informationLecture.data.status === 'accept') {
@@ -75,8 +83,16 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
           if (response.statusText === 'OK') {
             await informationLecture.mutate();
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error(error);
+          const messages = error.response.data.message;
+          if (Array.isArray(messages)) {
+            messages.map((message) => {
+              toast.error(message);
+            });
+          } else {
+            toast.error(messages);
+          }
         }
       }
     }
@@ -119,8 +135,16 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_RECENT);
         informationLecture?.mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const [noticeTitle, onChangeNoticeTitle, setNoticeTitle] = useInput('');
@@ -146,8 +170,16 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         setNoticeDescription('');
         informationLecture?.mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

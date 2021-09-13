@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { FormEvent } from 'react';
 import { FC } from 'react';
-import { SWRResponse } from 'swr';
+import { toast } from 'react-toastify';
 import { useInput } from '../../hooks';
+import { DataResponse } from '../../hooks/api';
 import { ITags } from '../../interfaces';
 import UpdateTag from './tag/UpdateTag';
 
@@ -11,7 +12,7 @@ interface TagEditProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  tags: SWRResponse<ITags[], any>;
+  tags: DataResponse<ITags[]>;
 }
 
 const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
@@ -40,8 +41,16 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
         tags.mutate();
         setTagName('');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
 

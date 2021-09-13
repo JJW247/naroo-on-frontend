@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import useSWR from 'swr';
+import { MutatorCallback } from 'swr/dist/types';
 import {
   ILectureDetail,
   ILectureInList,
@@ -13,6 +15,14 @@ import {
   ITeacherEditInAdmin,
 } from '../interfaces';
 
+export interface DataResponse<T> {
+  data: T | undefined;
+  mutate: (
+    data?: T | Promise<T> | MutatorCallback<T> | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<T | undefined>;
+}
+
 export function tokenHeader(token: string) {
   return {
     headers: {
@@ -21,45 +31,30 @@ export function tokenHeader(token: string) {
   };
 }
 
-export function getAllResources(token: string | null) {
-  const fetcher = async () => {
+export function useGetSWR<T>(
+  requestUrl: string,
+  token: string | null,
+): DataResponse<T> {
+  const fetcher = async (url: string) => {
     try {
-      if (token === null) {
-        throw new Error('잘못된 접근입니다!');
-      }
-      const response = await axios.get(`/resource`, tokenHeader(token));
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
+      const response = token
+        ? await axios.get(url, tokenHeader(token))
+        : await axios.get(url);
+      return response.data;
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data?.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
-  return useSWR<IResources[]>(
-    `${process.env.REACT_APP_BACK_URL}/resource`,
-    fetcher,
-  );
-}
-
-export function getResourceContent(type: string) {
-  const fetcher = async () => {
-    try {
-      const response = await axios.get(`/resource/${type}`);
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<IResourceContent[]>(
-    `${process.env.REACT_APP_BACK_URL}/resource/${type}`,
-    fetcher,
-  );
+  const { data, mutate } = useSWR<T>(requestUrl, fetcher);
+  return { data, mutate };
 }
 
 export async function getMe(token: string | null) {
@@ -75,188 +70,6 @@ export async function getMe(token: string | null) {
   }
 }
 
-export function getApprovedLectures(token: string | null) {
-  const fetcher = async () => {
-    try {
-      if (token === null) {
-        throw new Error('잘못된 접근입니다!');
-      }
-      const response = await axios.get('/lecture', tokenHeader(token));
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture`,
-    fetcher,
-  );
-}
-
-export function getAllLectures() {
-  const fetcher = async () => {
-    try {
-      const response = await axios.get('/lecture/all');
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/all`,
-    fetcher,
-  );
-}
-
-export function getLectureStatuses(token: string | null) {
-  const fetcher = async () => {
-    try {
-      if (token === null) {
-        throw new Error('잘못된 접근입니다!');
-      }
-      const response = await axios.get(
-        '/lecture/admin/status',
-        tokenHeader(token),
-      );
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureInListAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/admin/status`,
-    fetcher,
-  );
-}
-
-export function getLectureGuest(id: string) {
-  const fetcher = async () => {
-    try {
-      const response = await axios.get(`/lecture/guest/${id}`);
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureDetail>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
-    fetcher,
-  );
-}
-
-export function getLecture(token: string | null, id: string) {
-  if (token === null) {
-    return null;
-  }
-  const fetcher = async () => {
-    try {
-      const response = await axios.get(`/lecture/${id}`, tokenHeader(token));
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureDetail>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
-    fetcher,
-  );
-}
-
-export function getLectureVideo(token: string | null, id: string) {
-  if (token === null) {
-    return null;
-  }
-  const fetcher = async () => {
-    try {
-      const response = await axios.get(
-        `/lecture/video/${id}`,
-        tokenHeader(token),
-      );
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ILectureVideoDetail>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/video/${id}`,
-    fetcher,
-  );
-}
-
-export function getAllTeachers(token: string | null) {
-  const fetcher = async () => {
-    try {
-      if (token === null) {
-        return null;
-      }
-      const response = await axios.get(
-        '/auth/admin/teacher',
-        tokenHeader(token),
-      );
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ITeacherEditInAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/auth/admin/teacher`,
-    fetcher,
-  );
-}
-
-export function getAllStudents(token: string | null) {
-  const fetcher = async () => {
-    try {
-      if (token === null) {
-        return null;
-      }
-      const response = await axios.get(
-        '/auth/admin/student',
-        tokenHeader(token),
-      );
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<IStudentEditInAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/auth/admin/student`,
-    fetcher,
-  );
-}
-
 export function getRecentReviews() {
   const fetcher = async () => {
     try {
@@ -266,37 +79,20 @@ export function getRecentReviews() {
       } else {
         throw new Error('API 통신 실패!');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data?.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return useSWR<IRecentReviews[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/review/recent`,
-    fetcher,
-  );
-}
-
-export function getAllTags(token: string | null) {
-  const fetcher = async () => {
-    try {
-      if (token === null) {
-        return null;
-      }
-      const response = await axios.get(
-        '/lecture/admin/tag',
-        tokenHeader(token),
-      );
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        throw new Error('API 통신 실패!');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return useSWR<ITags[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag`,
     fetcher,
   );
 }

@@ -2,6 +2,7 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { Dispatch, FC, FormEvent, SetStateAction, useState } from 'react';
+import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { IResources } from '../../../interfaces';
@@ -69,8 +70,16 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         setUpdateToggle(!updateToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const onClickDeleteResource = async () => {
@@ -86,8 +95,16 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       if (response.statusText === 'OK') {
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   const [resourceUrl, onChangeResourceUrl, setResourceUrl] = useInput('');
@@ -116,8 +133,16 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         mutate();
         setResourceUrl('');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

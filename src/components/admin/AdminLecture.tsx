@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useState } from 'react';
 import { FC } from 'react';
-import { SWRResponse } from 'swr';
+import { DataResponse, useGetSWR } from '../../hooks/api';
 import {
   ILectureInList,
   IResources,
@@ -23,11 +23,9 @@ interface AdminLectureProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  teachers: SWRResponse<ITeacherEditInAdmin[], any>;
-  allLectures: SWRResponse<ILectureInList[], any>;
-  students: SWRResponse<IStudentEditInAdmin[], any>;
-  tags: SWRResponse<ITags[], any>;
-  resources: SWRResponse<IResources[], any>;
+  teachers: DataResponse<ITeacherEditInAdmin[]>;
+  students: DataResponse<IStudentEditInAdmin[]>;
+  tags: DataResponse<ITags[]>;
 }
 
 export const CONST_ADMIN_MENU = {
@@ -47,11 +45,15 @@ const AdminLecture: FC<AdminLectureProps> = ({
   token,
   setToken,
   teachers,
-  allLectures,
   students,
   tags,
-  resources,
 }) => {
+  const { data: allLecturesData, mutate: allLecturesMutate } = useGetSWR<
+    ILectureInList[]
+  >(`${process.env.REACT_APP_BACK_URL}/lecture/all`, null);
+  const { data: allResourcesData, mutate: allResourcesMutate } = useGetSWR<
+    IResources[]
+  >(`${process.env.REACT_APP_BACK_URL}/resource`, token);
   const [selectedMenu, setSelectedMenu] = useState<ADMIN_MENU>(
     CONST_ADMIN_MENU.LECTURE_ADD,
   );
@@ -278,7 +280,8 @@ const AdminLecture: FC<AdminLectureProps> = ({
             token={token}
             setToken={setToken}
             setSelectedMenu={setSelectedMenu}
-            allLectures={allLectures}
+            allLecturesData={allLecturesData}
+            allLecturesMutate={allLecturesMutate}
             teachers={teachers.data}
           />
         </div>
@@ -288,7 +291,8 @@ const AdminLecture: FC<AdminLectureProps> = ({
           <LectureEdit
             token={token}
             setToken={setToken}
-            allLectures={allLectures}
+            allLecturesData={allLecturesData}
+            allLecturesMutate={allLecturesMutate}
             allTags={tags.data ? (tags.data.length > 0 ? tags.data : []) : []}
             teachers={teachers.data}
           />
@@ -312,9 +316,9 @@ const AdminLecture: FC<AdminLectureProps> = ({
                 : []
             }
             lectures={
-              allLectures.data
-                ? allLectures.data.length > 0
-                  ? allLectures.data.map((lecture) => {
+              allLecturesData
+                ? allLecturesData.length > 0
+                  ? allLecturesData.map((lecture) => {
                       if (lecture.status !== 'invisible') {
                         return lecture;
                       }
@@ -355,7 +359,8 @@ const AdminLecture: FC<AdminLectureProps> = ({
           <ResourceEdit
             token={token}
             setToken={setToken}
-            resources={resources}
+            allResourcesData={allResourcesData}
+            allResourcesMutate={allResourcesMutate}
           />
         </div>
       )}

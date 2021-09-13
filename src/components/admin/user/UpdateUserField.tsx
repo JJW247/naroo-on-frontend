@@ -2,6 +2,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { IStudentEditInAdmin, ITeacherEditInAdmin } from '../../../interfaces';
@@ -74,8 +75,16 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
         setUpdateToggle(!updateToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

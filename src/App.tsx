@@ -9,7 +9,7 @@ import {
 import Footer from './components/common/Footer';
 import Header from './components/common/header/Header';
 import { useLocalStorage } from './hooks';
-import { getMe, getResourceContent } from './hooks/api';
+import { getMe, useGetSWR } from './hooks/api';
 import MainLayout from './pages/MainLayout';
 import SigninLayout from './pages/SigninLayout';
 import SignupLayout from './pages/SignupLayout';
@@ -18,6 +18,9 @@ import LecturePlayLayout from './pages/LecturePlayLayout';
 import LectureReviewLayout from './pages/LectureReviewLayout';
 import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { IResourceContent } from './interfaces';
 
 const AppRouterWrapper: FC = () => {
   return (
@@ -29,6 +32,7 @@ const AppRouterWrapper: FC = () => {
       <Router>
         <App />
       </Router>
+      <ToastContainer />
     </div>
   );
 };
@@ -42,9 +46,10 @@ const App: FC = () => {
     localStorage.getItem('rememberToken') === 'true',
   );
   const [token, setToken] = useLocalStorage<string | null>('token', null);
-  const adminEmail = getResourceContent('admin_email');
-  const headerLogo = getResourceContent('header_logo');
-  const footerLogo = getResourceContent('footer_logo');
+  const { data: adminEmail } = useGetSWR<IResourceContent[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource/admin_email`,
+    null,
+  );
   useEffect(() => {
     if (token !== null) {
       getMe(token).then((me) => {
@@ -77,7 +82,6 @@ const App: FC = () => {
         setRememberToken={setRememeberToken}
         userType={userType}
         nickname={userNickname}
-        headerLogo={headerLogo}
       />
       <Switch>
         <Route
@@ -87,7 +91,11 @@ const App: FC = () => {
             userType === 'admin' ? (
               <AdminLayout token={token} setToken={setToken} />
             ) : (
-              <MainLayout token={token} setToken={setToken} />
+              <MainLayout
+                token={token}
+                setToken={setToken}
+                requestToken={null}
+              />
             )
           }
         />
@@ -105,6 +113,18 @@ const App: FC = () => {
         <Route
           path="/signup"
           render={() => <SignupLayout token={token} setToken={setToken} />}
+        />
+        <Route
+          path="/verify/:requestToken"
+          render={(props) => {
+            return (
+              <MainLayout
+                token={token}
+                setToken={setToken}
+                requestToken={props.match.params.requestToken}
+              />
+            );
+          }}
         />
         <Route
           path="/lecture/:id"
@@ -148,7 +168,7 @@ const App: FC = () => {
           }
         />
       </Switch>
-      <Footer adminEmail={adminEmail} footerLogo={footerLogo} />
+      <Footer adminEmail={adminEmail} />
     </>
   );
 };

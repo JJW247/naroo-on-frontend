@@ -6,6 +6,7 @@ import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { ILectureInListAdmin } from '../../../interfaces';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 interface UpdateStatusProps {
   token: string | null;
@@ -80,8 +81,16 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
         setUpdateToggle(!updateToggle);
         mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

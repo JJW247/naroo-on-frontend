@@ -2,7 +2,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC } from 'react';
-import { SWRResponse } from 'swr';
+import { toast } from 'react-toastify';
+import { DataResponse } from '../../hooks/api';
 import { IStudentEditInAdmin } from '../../interfaces';
 import UpdateUserField from './user/UpdateUserField';
 
@@ -11,7 +12,7 @@ interface StudentEditProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  students: SWRResponse<IStudentEditInAdmin[], any>;
+  students: DataResponse<IStudentEditInAdmin[]>;
 }
 
 const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
@@ -28,8 +29,16 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
       if (response.statusText === 'OK') {
         students.mutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

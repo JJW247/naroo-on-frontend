@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
-import { SWRResponse } from 'swr';
 import { useInput } from '../../hooks';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -12,6 +11,8 @@ import {
 } from '@material-ui/pickers';
 import { ILectureInList, ITeacherEditInAdmin } from '../../interfaces';
 import { ADMIN_MENU, CONST_ADMIN_MENU } from './AdminLecture';
+import { toast } from 'react-toastify';
+import { MutatorCallback } from 'swr/dist/types';
 
 interface LectureAddProps {
   token: string | null;
@@ -19,7 +20,15 @@ interface LectureAddProps {
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   setSelectedMenu: React.Dispatch<React.SetStateAction<ADMIN_MENU>>;
-  allLectures: SWRResponse<ILectureInList[], any>;
+  allLecturesData: ILectureInList[] | undefined;
+  allLecturesMutate: (
+    data?:
+      | ILectureInList[]
+      | Promise<ILectureInList[]>
+      | MutatorCallback<ILectureInList[]>
+      | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<ILectureInList[] | undefined>;
   teachers: ITeacherEditInAdmin[] | undefined;
 }
 
@@ -27,7 +36,8 @@ const LectureAdd: FC<LectureAddProps> = ({
   token,
   setToken,
   setSelectedMenu,
-  allLectures,
+  allLecturesData,
+  allLecturesMutate,
   teachers,
 }) => {
   const [title, onChangeTitle] = useInput('');
@@ -159,10 +169,18 @@ const LectureAdd: FC<LectureAddProps> = ({
       );
       if (response.statusText === 'Created') {
         setSelectedMenu(CONST_ADMIN_MENU.LECTURE_EDIT);
-        allLectures.mutate();
+        allLecturesMutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (

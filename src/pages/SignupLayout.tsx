@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useInput } from '../hooks';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface SignupLayoutProps {
   token: string | null;
@@ -42,14 +43,22 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
       );
 
       if (response.statusText === 'Created') {
-        setToken(response.data.token);
+        toast.success('발송된 메일을 통해 이메일 인증을 완료해주세요!');
         history.replace({
           pathname: '/',
           state: { isFirst: true },
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (
