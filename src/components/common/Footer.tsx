@@ -15,7 +15,7 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ adminEmail }) => {
   const { data: footerLogo } = useGetSWR<IResourceContent[]>(
-    `${process.env.REACT_APP_BACK_URL}/footer_logo`,
+    `${process.env.REACT_APP_BACK_URL}/resource/footer_logo`,
     null,
   );
   return (
