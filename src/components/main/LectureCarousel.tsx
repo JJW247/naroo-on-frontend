@@ -51,12 +51,16 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       },
     ],
   };
-  const { data: allLecturesData, mutate: allLecturesMutate } = useGetSWR<
-    ILectureInList[]
-  >(`${process.env.REACT_APP_BACK_URL}/lecture/all`, null, false);
-  const { data: userLecturesData, mutate: userLecturesMutate } = useGetSWR<
-    ILectureInList[]
-  >(`${process.env.REACT_APP_BACK_URL}/lecture`, token, false);
+  const { data: allLecturesData } = useGetSWR<ILectureInList[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/all`,
+    null,
+    false,
+  );
+  const { data: userLecturesData } = useGetSWR<ILectureInList[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture`,
+    token,
+    false,
+  );
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[445px] mx-auto mt-[122px] pb-[96px]">
       {token && (
@@ -92,9 +96,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
             </div>
           )}
           {(!userLecturesData || userLecturesData.length <= 0) && (
-            <Skeleton className="w-full h-[300px] text-center">
-              강좌가 존재하지 않습니다
-            </Skeleton>
+            <div className="flex w-full h-[300px] justify-center items-center">
+              신청한 강좌가 존재하지 않습니다!
+            </div>
           )}
         </>
       )}

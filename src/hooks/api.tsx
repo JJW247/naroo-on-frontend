@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import useSWR from 'swr';
+import useSWR, { SWRResponse } from 'swr';
 import { MutatorCallback } from 'swr/dist/types';
 
 export interface DataResponse<T> {
@@ -9,6 +9,7 @@ export interface DataResponse<T> {
     data?: T | Promise<T> | MutatorCallback<T> | undefined,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<T | undefined>;
+  error: any;
 }
 
 export function tokenHeader(token: string) {
@@ -42,10 +43,11 @@ export function useGetSWR<T>(
           toast.error(messages);
         }
       }
+      throw error;
     }
   };
-  const { data, mutate } = useSWR<T>(requestUrl, fetcher);
-  return { data, mutate };
+  const { data, mutate, error } = useSWR<T>(requestUrl, fetcher);
+  return { data, mutate, error };
 }
 
 export async function getMe(token: string | null) {

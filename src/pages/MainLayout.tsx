@@ -18,21 +18,33 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   const history = useHistory();
   try {
     if (requestToken) {
-      const { data } = useGetSWR<{ token: string | null }>(
+      const { data, error } = useGetSWR<{ token: string | null }>(
         `${process.env.REACT_APP_BACK_URL}/auth/verify?requestToken=${requestToken}`,
         null,
         false,
       );
+      if (error) {
+        console.log(error);
+        const messages = error.response?.data?.message;
+        if (Array.isArray(messages)) {
+          messages.map((message) => {
+            toast.error(message);
+          });
+        } else {
+          toast.error(messages);
+        }
+        setToken('');
+        history.replace('/');
+      }
       if (data) {
         if (data.token) {
           toast.success('이메일 인증이 완료되었습니다!');
           setToken(data.token);
+          history.replace('/');
         }
       }
     }
   } catch (error: any) {
-    setToken(null);
-    history.replace('/');
   } finally {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
