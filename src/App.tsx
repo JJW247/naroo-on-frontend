@@ -48,7 +48,7 @@ const App: FC = () => {
     'token',
     localStorage.getItem('token') && localStorage.getItem('token') !== 'null'
       ? localStorage.getItem('token')
-      : null,
+      : '',
   );
   useEffect(() => {
     if (token !== null) {
@@ -66,21 +66,14 @@ const App: FC = () => {
       setUserType(null);
     }
   }, [token]);
-  // useEffect(() => {
-  //   window.addEventListener('unload', (event) => {
-  //     event.preventDefault();
-  //     localStorage.getItem('rememberToken') === 'false'
-  //       ? setToken('')
-  //       : setToken(token);
-  //   });
-  //   return () =>
-  //     window.removeEventListener('unload', (event) => {
-  //       event.preventDefault();
-  //       localStorage.getItem('rememberToken') === 'false'
-  //         ? setToken('')
-  //         : setToken(token);
-  //     });
-  // }, []);
+  const clearTokenHandler = (event: Event) => {
+    event.preventDefault();
+    localStorage.getItem('rememberToken') === 'false' ? setToken('') : null;
+  };
+  useEffect(() => {
+    window.addEventListener('unload', clearTokenHandler);
+    return () => window.removeEventListener('unload', clearTokenHandler);
+  }, []);
   return (
     <>
       <Header
