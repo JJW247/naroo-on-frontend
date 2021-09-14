@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import axios from 'axios';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import AppRouterWrapper from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<AppRouterWrapper />, document.getElementById('root'));

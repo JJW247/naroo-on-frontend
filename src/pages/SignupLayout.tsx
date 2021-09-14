@@ -15,7 +15,7 @@ interface SignupLayoutProps {
 const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   const history = useHistory();
   useEffect(() => {
-    setToken(null);
+    setToken('');
   }, []);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -25,11 +25,11 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   const [isAgreeEmail, setIsAgreeEmail] = useState<boolean>(false);
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
-      if (password !== passwordCheck) {
-        throw new Error('패스워드가 일치하지 않습니다!');
-      }
-
       event.preventDefault();
+
+      if (password !== passwordCheck) {
+        toast.error('패스워드가 일치하지 않습니다!');
+      }
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/auth/signup`,
@@ -44,14 +44,11 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
 
       if (response.statusText === 'Created') {
         toast.success('발송된 메일을 통해 이메일 인증을 완료해주세요!');
-        history.replace({
-          pathname: '/',
-          state: { isFirst: true },
-        });
+        history.replace('/');
       }
     } catch (error: any) {
       console.error(error);
-      const messages = error.response.data.message;
+      const messages = error.response?.data?.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
           toast.error(message);

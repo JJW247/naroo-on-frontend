@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
 import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
@@ -15,21 +16,24 @@ const NoticeCarousel: FC = () => {
   const { data } = useGetSWR<IResourceContent[]>(
     `${process.env.REACT_APP_BACK_URL}/resource/notice_carousel`,
     null,
+    true,
   );
   return (
-    <div className="mx-auto text-center bg-gray-100">
+    <>
       <Slider {...settings}>
         {data &&
           data.map((element) => {
             return (
               <img
+                key={element.content}
                 className="max-w-[100vw] max-h-[320px]"
                 src={element.content}
               />
             );
           })}
       </Slider>
-    </div>
+      {!data && <Skeleton className="w-full h-[320px]" />}
+    </>
   );
 };
 

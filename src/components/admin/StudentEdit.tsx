@@ -47,7 +47,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
         students.data
           .sort((a, b) => +a.id - +b.id)
           .map((student) => (
-            <>
+            <div key={student.id ? student.id : null}>
               {student.id && (
                 <div className="border-2 rounded">
                   <div>
@@ -100,7 +100,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
                   </button>
                 </div>
               )}
-            </>
+            </div>
           ))}
     </div>
   );

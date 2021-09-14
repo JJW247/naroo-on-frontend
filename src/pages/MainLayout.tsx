@@ -4,6 +4,7 @@ import { useGetSWR } from '../hooks/api';
 import NoticeCarousel from '../components/main/NoticeCarousel';
 import LectureCarousel from '../components/main/LectureCarousel';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 
 interface MainLayoutProps {
   token: string | null;
@@ -14,11 +15,13 @@ interface MainLayoutProps {
 }
 
 const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
+  const history = useHistory();
   try {
     if (requestToken) {
       const { data } = useGetSWR<{ token: string | null }>(
         `${process.env.REACT_APP_BACK_URL}/auth/verify?requestToken=${requestToken}`,
         null,
+        false,
       );
       if (data) {
         if (data.token) {
@@ -29,6 +32,7 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
     }
   } catch (error: any) {
     setToken(null);
+    history.replace('/');
   } finally {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">

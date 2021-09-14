@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
-import { SWRResponse } from 'swr';
 import { useGetSWR } from '../../hooks/api';
-import { ILectureInList, IResourceContent } from '../../interfaces';
+import { ILectureInList } from '../../interfaces';
 import LectureCard from '../lecture/LectureCard';
 
 interface LectureCarouselProps {
@@ -51,14 +51,12 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       },
     ],
   };
-  const allLectures = useGetSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture/all`,
-    null,
-  );
-  const lectures = useGetSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture`,
-    token,
-  );
+  const { data: allLecturesData, mutate: allLecturesMutate } = useGetSWR<
+    ILectureInList[]
+  >(`${process.env.REACT_APP_BACK_URL}/lecture/all`, null, false);
+  const { data: userLecturesData, mutate: userLecturesMutate } = useGetSWR<
+    ILectureInList[]
+  >(`${process.env.REACT_APP_BACK_URL}/lecture`, token, false);
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[445px] mx-auto mt-[122px] pb-[96px]">
       {token && (
@@ -69,12 +67,13 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           <div className="mt-2 text-gray-300 mb-7">
             내가 신청한 강좌를 복습해보세요
           </div>
-          {lectures && lectures.data && (
+          {userLecturesData && userLecturesData.length > 0 && (
             <div className="lecture-carousel">
               <Slider {...settings}>
-                {lectures.data.map((lecture) => {
+                {userLecturesData.map((lecture) => {
                   return (
                     <LectureCard
+                      key={lecture.id}
                       id={lecture.id}
                       title={lecture.title}
                       thumbnail={lecture.thumbnail}
@@ -92,8 +91,10 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
               </Slider>
             </div>
           )}
-          {(!lectures || !lectures.data || lectures.data.length === 0) && (
-            <div className="text-center ">강좌가 존재하지 않습니다</div>
+          {(!userLecturesData || userLecturesData.length <= 0) && (
+            <Skeleton className="w-full h-[300px] text-center">
+              강좌가 존재하지 않습니다
+            </Skeleton>
           )}
         </>
       )}
@@ -103,12 +104,13 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       <div className="mt-2 text-gray-300 mb-7">
         완료 혹은 진행중인 전체 강좌를 살펴보세요
       </div>
-      {allLectures && allLectures.data && (
+      {allLecturesData && allLecturesData.length > 0 && (
         <div className="lecture-carousel">
           <Slider {...settings}>
-            {allLectures.data.map((lecture) => {
+            {allLecturesData.map((lecture) => {
               return (
                 <LectureCard
+                  key={lecture.id}
                   id={lecture.id}
                   title={lecture.title}
                   thumbnail={lecture.thumbnail}
@@ -126,8 +128,10 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           </Slider>
         </div>
       )}
-      {(!allLectures || !allLectures.data || allLectures.data.length === 0) && (
-        <div className="text-center ">강좌가 존재하지 않습니다</div>
+      {(!allLecturesData || allLecturesData.length <= 0) && (
+        <Skeleton className="w-full h-[300px] text-center">
+          강좌가 존재하지 않습니다
+        </Skeleton>
       )}
     </div>
   );

@@ -60,10 +60,12 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     ? useGetSWR<ILectureDetail>(
         `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
         token,
+        true,
       )
     : useGetSWR<ILectureDetail>(
         `${process.env.REACT_APP_BACK_URL}/lecture/guest/${id}`,
         null,
+        true,
       );
   const onPlayLectureHandler = async () => {
     if (informationLecture && informationLecture.data) {
@@ -341,6 +343,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 informationLecture.data.images.map((url) => {
                   return (
                     <img
+                      key={url}
                       className="mb-[20px] last:mb-0"
                       width="80%"
                       src={url}
@@ -502,6 +505,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       .map((review) => {
                         return (
                           <LectureReviewCard
+                            key={selectedReviewFilter + review.id}
                             created_at={review.created_at}
                             id={+review.id}
                             nickname={review.nickname}
@@ -522,7 +526,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       .map((review) => {
                         return (
                           <LectureReviewCard
-                            key={review.id}
+                            key={selectedReviewFilter + review.id}
                             created_at={review.created_at}
                             id={+review.id}
                             nickname={review.nickname}
@@ -543,6 +547,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       .map((review) => {
                         return (
                           <LectureReviewCard
+                            key={selectedReviewFilter + review.id}
                             created_at={review.created_at}
                             id={+review.id}
                             nickname={review.nickname}

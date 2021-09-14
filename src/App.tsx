@@ -9,7 +9,7 @@ import {
 import Footer from './components/common/Footer';
 import Header from './components/common/header/Header';
 import { useLocalStorage } from './hooks';
-import { getMe, useGetSWR } from './hooks/api';
+import { getMe } from './hooks/api';
 import MainLayout from './pages/MainLayout';
 import SigninLayout from './pages/SigninLayout';
 import SignupLayout from './pages/SignupLayout';
@@ -20,7 +20,7 @@ import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IResourceContent } from './interfaces';
+import { unmountComponentAtNode } from 'react-dom';
 
 const AppRouterWrapper: FC = () => {
   return (
@@ -38,17 +38,17 @@ const AppRouterWrapper: FC = () => {
 };
 
 const App: FC = () => {
-  const history = useHistory<{ isFirst: boolean }>();
   const [userType, setUserType] = useState<string | null>(null);
   const [userNickname, setUserNickname] = useState<string | null>(null);
-  const [rememberToken, setRememeberToken] = useLocalStorage<boolean | null>(
+  const [rememberToken, setRememeberToken] = useLocalStorage<string | null>(
     'rememberToken',
-    localStorage.getItem('rememberToken') === 'true',
+    localStorage.getItem('rememberToken') === 'true' ? 'true' : 'false',
   );
-  const [token, setToken] = useLocalStorage<string | null>('token', null);
-  const { data: adminEmail } = useGetSWR<IResourceContent[]>(
-    `${process.env.REACT_APP_BACK_URL}/resource/admin_email`,
-    null,
+  const [token, setToken] = useLocalStorage<string | null>(
+    'token',
+    localStorage.getItem('token') && localStorage.getItem('token') !== 'null'
+      ? localStorage.getItem('token')
+      : null,
   );
   useEffect(() => {
     if (token !== null) {
@@ -66,14 +66,21 @@ const App: FC = () => {
       setUserType(null);
     }
   }, [token]);
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setToken(
-      history.location.state && history.location.state.isFirst && rememberToken
-        ? token
-        : null,
-    );
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('unload', (event) => {
+  //     event.preventDefault();
+  //     localStorage.getItem('rememberToken') === 'false'
+  //       ? setToken('')
+  //       : setToken(token);
+  //   });
+  //   return () =>
+  //     window.removeEventListener('unload', (event) => {
+  //       event.preventDefault();
+  //       localStorage.getItem('rememberToken') === 'false'
+  //         ? setToken('')
+  //         : setToken(token);
+  //     });
+  // }, []);
   return (
     <>
       <Header
@@ -168,7 +175,7 @@ const App: FC = () => {
           }
         />
       </Switch>
-      <Footer adminEmail={adminEmail} />
+      <Footer />
     </>
   );
 };

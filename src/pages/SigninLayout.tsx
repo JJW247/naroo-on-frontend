@@ -11,9 +11,9 @@ interface SigninLayoutProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  rememberToken: boolean | null;
+  rememberToken: string | null;
   setRememberToken: (
-    value: boolean | ((val: boolean | null) => boolean | null) | null,
+    value: string | ((val: string | null) => string | null) | null,
   ) => void;
 }
 
@@ -25,7 +25,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({
 }) => {
   const history = useHistory();
   useEffect(() => {
-    setToken(null);
+    setToken('');
   }, []);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -43,14 +43,11 @@ const SigninLayout: FC<SigninLayoutProps> = ({
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
-        history.replace({
-          pathname: '/',
-          state: { isFirst: true },
-        });
+        history.replace('/');
       }
     } catch (error: any) {
       console.error(error);
-      const messages = error.response.data.message;
+      const messages = error.response?.data?.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
           toast.error(message);
@@ -95,8 +92,10 @@ const SigninLayout: FC<SigninLayoutProps> = ({
           <input
             className="mr-[5px]"
             type="checkbox"
-            checked={rememberToken ? rememberToken : undefined}
-            onChange={(event) => setRememberToken(event.target.checked)}
+            checked={rememberToken === 'true' ? true : false}
+            onChange={(event) =>
+              setRememberToken(event.target.checked ? 'true' : 'false')
+            }
           />
           자동 로그인
         </div>

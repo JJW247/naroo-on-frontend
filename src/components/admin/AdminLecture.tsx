@@ -50,10 +50,10 @@ const AdminLecture: FC<AdminLectureProps> = ({
 }) => {
   const { data: allLecturesData, mutate: allLecturesMutate } = useGetSWR<
     ILectureInList[]
-  >(`${process.env.REACT_APP_BACK_URL}/lecture/all`, null);
+  >(`${process.env.REACT_APP_BACK_URL}/lecture/all`, null, true);
   const { data: allResourcesData, mutate: allResourcesMutate } = useGetSWR<
     IResources[]
-  >(`${process.env.REACT_APP_BACK_URL}/resource`, token);
+  >(`${process.env.REACT_APP_BACK_URL}/resource`, token, true);
   const [selectedMenu, setSelectedMenu] = useState<ADMIN_MENU>(
     CONST_ADMIN_MENU.LECTURE_ADD,
   );

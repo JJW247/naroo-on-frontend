@@ -13,7 +13,7 @@ interface HeaderProps {
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   setRememberToken: (
-    value: boolean | ((val: boolean | null) => boolean | null) | null,
+    value: string | ((val: string | null) => string | null) | null,
   ) => void;
   nickname: string | null;
   userType: string | null;
@@ -31,9 +31,10 @@ const Header: FC<HeaderProps> = ({
   const { data: headerLogo } = useGetSWR<IResourceContent[]>(
     `${process.env.REACT_APP_BACK_URL}/resource/header_logo`,
     null,
+    false,
   );
   const logoutHandler = () => {
-    setToken(null);
+    setToken('');
     history.replace(history.location.pathname);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);

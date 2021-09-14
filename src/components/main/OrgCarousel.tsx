@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
 import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
@@ -44,6 +45,7 @@ const OrgCarousel: FC = () => {
   const { data } = useGetSWR<IResourceContent[]>(
     `${process.env.REACT_APP_BACK_URL}/resource/org_carousel`,
     null,
+    false,
   );
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto mt-[139px] mb-[66px]">
@@ -55,12 +57,14 @@ const OrgCarousel: FC = () => {
           data.map((element) => {
             return (
               <img
-                className="max-w-[1182px] max-h-[96px]"
+                key={element.content}
+                className="max-h-[96px]"
                 src={element.content}
               />
             );
           })}
       </Slider>
+      {!data && <Skeleton className="w-full h-[96px]" />}
     </div>
   );
 };

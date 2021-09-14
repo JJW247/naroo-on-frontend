@@ -62,7 +62,7 @@ const LectureCard: FC<LectureCardProps> = ({
         <div className="flex flex-wrap mt-5">
           {tags.map((tag) => {
             return (
-              <div className="py-[5px]">
+              <div className="py-[5px]" key={tag.id}>
                 <Tag name={tag.name} />
               </div>
             );

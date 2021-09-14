@@ -9,14 +9,11 @@ import { FC } from 'react';
 import { useGetSWR } from '../../hooks/api';
 import { IResourceContent } from '../../interfaces';
 
-interface FooterProps {
-  adminEmail: IResourceContent[] | undefined;
-}
-
-const Footer: FC<FooterProps> = ({ adminEmail }) => {
+const Footer: FC = () => {
   const { data: footerLogo } = useGetSWR<IResourceContent[]>(
     `${process.env.REACT_APP_BACK_URL}/resource/footer_logo`,
     null,
+    false,
   );
   return (
     <div>
@@ -50,17 +47,7 @@ const Footer: FC<FooterProps> = ({ adminEmail }) => {
             <br className="block xl:hidden lg:block md:hidden" />
             <span className="2xl:pl-[20px] xl:pl-[20px] md:pl-[20px] lg:pl-0 sm:pl-0 xs:pl-0">
               <FontAwesomeIcon className="text-xs" icon={faEnvelope} />
-              {adminEmail && adminEmail.length > 0 ? (
-                <a
-                  href={`mailto:${adminEmail ? adminEmail[0].content : ''}
-                  `}
-                >
-                  {' '}
-                  {adminEmail ? adminEmail[0].content : ''}
-                </a>
-              ) : (
-                ''
-              )}
+              <a href="mailto:mpnaroo@naver.com"> mpnaroo@naver.com</a>
             </span>
           </div>
         </div>

@@ -1,9 +1,15 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import RecentReviewCard from '../components/review/RecentReviewCard';
-import { getRecentReviews } from '../hooks/api';
+import { useGetSWR } from '../hooks/api';
+import { IRecentReviews } from '../interfaces';
 
 const LectureReviewLayout: FC = () => {
-  const recentReviews = getRecentReviews();
+  const { data: recentReviewsData } = useGetSWR<IRecentReviews[]>(
+    `${process.env.REACT_APP_BACK_URL}/lecture/review/recent`,
+    null,
+    true,
+  );
   return (
     <div className="flex flex-wrap justify-center">
       <div className="mt-[51px] mb-[12px] w-[1143px] text-[48px] leading-[65px] font-semibold">
@@ -12,13 +18,15 @@ const LectureReviewLayout: FC = () => {
       <div className="w-[1143px] mb-[51px]">
         마포런에서만 수강할 수 있는 특별한 프로그램을 만나보세요.
       </div>
-      <ul>
-        {recentReviews &&
-          recentReviews.data &&
-          recentReviews.data.map((review) => (
-            <div className="first:mt-0 mt-[52px] last:mb-[75px]">
+
+      {recentReviewsData && recentReviewsData.length > 0 ? (
+        <ul>
+          {recentReviewsData.map((review) => (
+            <div
+              key={review.lecture_id + '/' + review.student_id}
+              className="first:mt-0 mt-[52px] last:mb-[75px]"
+            >
               <RecentReviewCard
-                key={review.lecture_id + '/' + review.student_id}
                 created_at={review.created_at}
                 student_id={review.student_id}
                 student_nickname={review.student_nickname}
@@ -29,7 +37,15 @@ const LectureReviewLayout: FC = () => {
               />
             </div>
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <div className="w-[1089px]">
+          <Skeleton
+            className="w-full h-[155px] first:mt-0 mt-[52px] last:mb-[75px] ml-[21px] mr-[21px] bg-[#F9F9F9] border-[1px] border-[#DCDDDF] rounded-[4px]"
+            count={3}
+          />
+        </div>
+      )}
     </div>
   );
 };

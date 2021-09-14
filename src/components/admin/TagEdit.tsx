@@ -83,6 +83,7 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
             tags.data.map((tag) => {
               return (
                 <UpdateTag
+                  key={tag.id}
                   token={token}
                   setToken={setToken}
                   id={tag.id}

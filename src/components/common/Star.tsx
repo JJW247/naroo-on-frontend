@@ -9,117 +9,61 @@ interface StarProps {
 }
 
 const Star: FC<StarProps> = ({ width, rating }) => {
-  const contents = () => {
-    if (rating >= 0) {
-      const stars = [];
-      if (rating === 0) {
+  const stars = [];
+  let keyIndex = 0;
+  if (rating >= 0) {
+    if (rating === 0) {
+      for (let i = 0; i < 5; i++) {
         stars.push(
-          <>
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />
-          </>,
+          <img
+            src={StarUnchecked}
+            width={width}
+            className={`text-yellow my-auto`}
+          />,
         );
-      } else {
-        // for (let i = 0; i < Math.floor(rating); i++) {
-        //   stars.push(
-        //     <img
-        //       src={StarChecked}
-        //       width={width}
-        //       className={`text-yellow my-auto`}
-        //     />,
-        //   );
-        // }
-        // if(Math.round(rating - Math.floor(rating)) === 1) {
-        //   stars.push(
-        //     <img
-        //       src={StarHalfChecked}
-        //       width={width}
-        //       className={`text-yellow my-auto`}
-        //     />,
-        //   );
-        // }
-        // if((5 - Math.ceil()))
-        // if (((5 - rating) * 2) % 2 === 1) {
-        //   stars.push(
-        //     <img
-        //       src={StarHalfChecked}
-        //       width={width}
-        //       className={`text-yellow my-auto`}
-        //     />,
-        //   );
-        // }
-        // for (let i = 0; i < 5 - stars.length; i++) {
-        //   stars.push(
-        //     <img
-        //       src={StarUnchecked}
-        //       width={width}
-        //       className={`text-yellow my-auto`}
-        //     />,
-        //   );
-        // }
-        for (let i = 0; i < (Math.floor(rating) * 10) / 10; i++) {
-          stars.push(
-            <img
-              src={StarChecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />,
-          );
-        }
-        if ((rating * 10) % 10 !== 0) {
-          stars.push(
-            <img
-              src={StarHalfChecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />,
-          );
-        }
-        for (let i = 0; i < 5 - Math.ceil(rating); i++) {
-          stars.push(
-            <img
-              src={StarUnchecked}
-              width={width}
-              className={`text-yellow my-auto`}
-            />,
-          );
-        }
       }
-      stars.push(<span>({rating === 0 ? 0 : rating})</span>);
-      return stars;
     } else {
-      return <></>;
+      for (let i = 0; i < (Math.floor(rating) * 10) / 10; i++) {
+        stars.push(
+          <img
+            src={StarChecked}
+            width={width}
+            className={`text-yellow my-auto`}
+          />,
+        );
+      }
+      if ((rating * 10) % 10 !== 0) {
+        stars.push(
+          <img
+            src={StarHalfChecked}
+            width={width}
+            className={`text-yellow my-auto`}
+          />,
+        );
+      }
+      for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+        stars.push(
+          <img
+            src={StarUnchecked}
+            width={width}
+            className={`text-yellow my-auto`}
+          />,
+        );
+      }
     }
-  };
+    stars.push(<span>({rating === 0 ? 0 : rating})</span>);
+  }
   return (
-    <>
+    <div>
       {rating >= 0 && (
-        <div className="flex items-center bg-transparent">{contents()}</div>
+        <div className="flex items-center bg-transparent">
+          {stars.length > 0 &&
+            stars.map((star) => {
+              return <div key={keyIndex++}>{star}</div>;
+            })}
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -37,6 +37,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
             {allLecturesData.map((lecture) => {
               return (
                 <LectureEditCard
+                  key={lecture.id}
                   id={lecture.id}
                   title={lecture.title}
                   description={lecture.description}

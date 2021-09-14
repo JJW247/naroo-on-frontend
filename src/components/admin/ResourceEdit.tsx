@@ -30,15 +30,13 @@ const ResourceEdit: FC<ResourceEditProps> = ({
   return (
     <div className="mt-[30px]">
       {allResourcesData &&
-        allResourcesData.map((resource) => {
-          if (resource) {
-            return (
+        allResourcesData.map((resource) => (
+          <div key={resource.type + resource.content_id}>
+            {resource ? (
               <>
                 {+resource.content_id === 0 ? (
                   <div className="mt-[20px]">
-                    {resource.type === 'admin_email'
-                      ? '관리자 이메일 : '
-                      : resource.type === 'header_logo'
+                    {resource.type === 'header_logo'
                       ? 'Header 로고 URL : '
                       : resource.type === 'footer_logo'
                       ? 'Footer 로고 URL : '
@@ -71,11 +69,11 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                   )}
                 </div>
               </>
-            );
-          } else {
-            return <div>리소스가 존재하지 않습니다!</div>;
-          }
-        })}
+            ) : (
+              <div>리소스가 존재하지 않습니다!</div>
+            )}
+          </div>
+        ))}
     </div>
   );
 };

@@ -23,6 +23,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
     useGetSWR<ILectureInListAdmin[]>(
       `${process.env.REACT_APP_BACK_URL}/lecture/admin/status`,
       token,
+      true,
     );
   const [studentFilter, setStudentFilter] =
     useState<{ value: string; label: string }>();

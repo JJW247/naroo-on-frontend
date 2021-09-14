@@ -168,7 +168,10 @@ const RegisterTag: FC<RegisterTagProps> = ({
             {tags.length > 0 &&
               tags.map((tag) => {
                 return (
-                  <div className="flex items-center py-[5px] pr-[20px]">
+                  <div
+                    key={tag.id}
+                    className="flex items-center py-[5px] pr-[20px]"
+                  >
                     <Tag name={tag.name} />
                     <FontAwesomeIcon
                       className="ml-[5px]"

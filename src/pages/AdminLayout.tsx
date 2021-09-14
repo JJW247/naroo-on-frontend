@@ -14,14 +14,17 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
   const teachers = useGetSWR<ITeacherEditInAdmin[]>(
     `${process.env.REACT_APP_BACK_URL}/auth/admin/teacher`,
     token,
+    true,
   );
   const students = useGetSWR<IStudentEditInAdmin[]>(
     `${process.env.REACT_APP_BACK_URL}/auth/admin/student`,
     token,
+    true,
   );
   const tags = useGetSWR<ITags[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag`,
     token,
+    true,
   );
   return (
     <div className="min-h-screen bg-white font-noto">
