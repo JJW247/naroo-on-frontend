@@ -51,7 +51,12 @@ const LectureCard: FC<LectureCardProps> = ({
   };
   return (
     <div className="w-full min-h-[443.5px] max-h-[443.5px] justify-self-center pr-[24px]">
-      <img className="rounded-xl" src={thumbnail} alt="lecture" />
+      <img
+        height="443.5px"
+        className="object-none rounded-xl"
+        src={thumbnail}
+        alt="lecture"
+      />
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
         {/* {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
         {status && ' / '} */}
