@@ -52,8 +52,9 @@ const LectureCard: FC<LectureCardProps> = ({
   return (
     <div className="w-full min-h-[443.5px] max-h-[443.5px] justify-self-center pr-[24px]">
       <img
+        width="356px"
         height="261px"
-        className="object-fill rounded-xl min-h-[261px] max-h-[261px]"
+        className="object-fill rounded-xl min-w-[356px] max-w-[356px] min-h-[261px] max-h-[261px]"
         src={thumbnail}
         alt="lecture"
       />
