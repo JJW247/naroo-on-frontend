@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 import { ITags } from '../../interfaces';
 import Star from '../common/Star';
 import Tag from '../common/Tag';
@@ -39,12 +40,21 @@ const LectureCard: FC<LectureCardProps> = ({
   average_rating,
   reviews,
 }) => {
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+    variableWidth: true,
+  };
   return (
-    <div className="w-full justify-self-center pr-[24px]">
+    <div className="w-full min-h-[443.5px] max-h-[443.5px] justify-self-center pr-[24px]">
       <img className="rounded-xl" src={thumbnail} alt="lecture" />
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
-        {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
-        {status && ' / '}
+        {/* {type === 'online' ? '온라인' : type === 'offline' ? '오프라인' : ''}{' '}
+        {status && ' / '} */}
         {status === 'accept'
           ? '승인 완료'
           : status === 'apply'
@@ -57,17 +67,19 @@ const LectureCard: FC<LectureCardProps> = ({
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
         {teacherNickname}
       </div>
-      <Star width="16" rating={+average_rating} />
+      {/* <Star width="16" rating={+average_rating} /> */}
       {tags && tags.length > 0 && (
-        <div className="flex flex-wrap mt-5">
+        // <div className="flex flex-wrap justify-start mt-5">
+        <Slider className="flex w-full" {...settings}>
           {tags.map((tag) => {
             return (
-              <div className="py-[5px]" key={tag.id}>
+              <div className="max-w-max py-[5px]" key={tag.id}>
                 <Tag name={tag.name} />
               </div>
             );
           })}
-        </div>
+        </Slider>
+        // </div>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import NoticeCarousel from '../components/main/NoticeCarousel';
 import LectureCarousel from '../components/main/LectureCarousel';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 interface MainLayoutProps {
   token: string | null;
@@ -48,7 +49,13 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   } finally {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
-        <NoticeCarousel />
+        {/* <NoticeCarousel /> */}
+        <Link to="/info">
+          <img
+            className="w-full max-h-[320px] object-fit"
+            src="https://cdn.pixabay.com/photo/2021/08/26/00/46/bridge-6574734_960_720.jpg"
+          />
+        </Link>
         <LectureCarousel token={token} setToken={setToken} />
         <OrgCarousel />
       </div>

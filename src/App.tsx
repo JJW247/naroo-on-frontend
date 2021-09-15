@@ -51,7 +51,7 @@ const App: FC = () => {
       : '',
   );
   useEffect(() => {
-    if (token !== null) {
+    if (token !== '') {
       getMe(token).then((me) => {
         if (me) {
           if (me.role) {
@@ -88,8 +88,16 @@ const App: FC = () => {
           exact
           path="/"
           render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
+            token !== '' ? (
+              userType === 'admin' ? (
+                <AdminLayout token={token} setToken={setToken} />
+              ) : (
+                <MainLayout
+                  token={token}
+                  setToken={setToken}
+                  requestToken={null}
+                />
+              )
             ) : (
               <MainLayout
                 token={token}
@@ -147,7 +155,7 @@ const App: FC = () => {
             )
           }
         />
-        <Route
+        {/* <Route
           path="/review"
           render={() =>
             userType === 'admin' ? (
@@ -156,7 +164,7 @@ const App: FC = () => {
               <LectureReviewLayout />
             )
           }
-        />
+        /> */}
         <Route
           path="/info"
           render={() =>

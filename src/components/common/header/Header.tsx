@@ -36,6 +36,7 @@ const Header: FC<HeaderProps> = ({
   const logoutHandler = () => {
     setToken('');
     history.replace(history.location.pathname);
+    console.log(history.location.pathname);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
   const [isVisibleMenu, setIsVisibleMenu] = useState<boolean>(false);
@@ -96,7 +97,7 @@ const Header: FC<HeaderProps> = ({
                     강의
                   </button>
                 </Link>
-                <Link to="/review">
+                {/* <Link to="/review">
                   <button
                     className={`mr-[46px] text-[18px] leading-[27px] font-semibold ${
                       location.pathname === '/review'
@@ -106,7 +107,7 @@ const Header: FC<HeaderProps> = ({
                   >
                     강의 리뷰
                   </button>
-                </Link>
+                </Link> */}
                 <Link to="/info">
                   <button
                     className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
@@ -206,7 +207,7 @@ const Header: FC<HeaderProps> = ({
                       강의
                     </button>
                   </Link>
-                  <Link to="/review">
+                  {/* <Link to="/review">
                     <button
                       className={`block w-full px-[10px] py-[10px]  ${
                         location.pathname === '/review'
@@ -216,7 +217,7 @@ const Header: FC<HeaderProps> = ({
                     >
                       강의 리뷰
                     </button>
-                  </Link>
+                  </Link> */}
                   <Link to="/info">
                     <button
                       className={`block w-full px-[10px] py-[10px]  ${

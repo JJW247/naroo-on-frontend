@@ -190,7 +190,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         <>
           <div className="w-full h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] flex items-center justify-center">
             <img
-              className="mr-[32px] rounded-[8px]"
+              className="mr-[32px] rounded-[8px] object-none"
               width="555px"
               height="361px"
               src={
@@ -219,7 +219,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         : ''}
                     </u>
                   </div>
-                  <div className="flex items-center mb-[12px]">
+                  {/* <div className="flex items-center mb-[12px]">
                     <div className="text-[12px] leading-[14px] font-normal text-white">
                       <Star
                         width="16"
@@ -236,7 +236,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         : 0}
                       개의 수강평
                     </div>
-                  </div>
+                  </div> */}
                   <div className="max-w-[739px] text-[18px] text-white leading-[25px] font-semibold">
                     {informationLecture.data.description
                       ? informationLecture.data.description
@@ -270,7 +270,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     {informationLecture.data.status === 'accept' && '학습 하기'}
                   </button>
                 )}
-                <div className="mt-[13px] text-[14px] leading-[19px] text-white font-semibold">
+                <div className="mt-[13px] text-[21px] leading-[28.5px] text-white font-semibold">
                   {informationLecture.data.expired && (
                     <Moment
                       date={new Date(informationLecture.data.expired)}
@@ -310,7 +310,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             >
               공지사항
             </button>
-            <button
+            {/* <button
               className={`w-[120px] text-[16px] leading-[22px] font-medium ${
                 selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW
                   ? 'text-[#8DC556]'
@@ -321,7 +321,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               }
             >
               수강 후기
-            </button>
+            </button> */}
             <button
               className={`w-[120px] text-[16px] leading-[22px] font-medium ${
                 selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA
@@ -425,7 +425,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           )}
-          {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW && (
+          {/* {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW && (
             <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
               <div>
                 <span className="text-[20px] leading-[150%] font-semibold mr-[10px]">
@@ -592,7 +592,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   </form>
                 )}
             </div>
-          )}
+          )} */}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA && (
             <div className="w-[1554px] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
               강의 문의 사항

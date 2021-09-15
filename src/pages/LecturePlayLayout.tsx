@@ -38,7 +38,17 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                   </div>
                 )}
                 <div className="w-[100vw] flex">
-                  {lectureVideoData.videos.map((video) => {
+                  <div className="flex-grow w-full">
+                    <iframe
+                      className="w-full min-h-[69.1vh] max-h-[69.1vh]"
+                      src={lectureVideoData.videos[0].url}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                  )
+                  {/* {lectureVideoData.videos.map((video) => {
                     if (+video.id === positionVideo) {
                       return (
                         <div
@@ -55,8 +65,8 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                         </div>
                       );
                     }
-                  })}
-                  <div className="flex-grow-0 flex items-start w-[15%] min-h-[69.1vh] max-h-[69.1vh]">
+                  })} */}
+                  {/* <div className="flex-grow-0 flex items-start w-[15%] min-h-[69.1vh] max-h-[69.1vh]">
                     <div className="flex flex-col w-full">
                       {lectureVideoData.videos.map((video) => {
                         return (
@@ -75,14 +85,14 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </>
             )}
             {lectureVideoData.status !== 'accept' && (
               <>
                 <div className="flex p-[10px] items-center">
-                  <div className="text-white text-xs py-1">
+                  <div className="py-1 text-xs text-white">
                     잘못된 접근입니다!
                   </div>
                 </div>
