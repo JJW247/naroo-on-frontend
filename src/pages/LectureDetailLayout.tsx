@@ -190,7 +190,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         <>
           <div className="w-full h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] flex items-center justify-center">
             <img
-              className="mr-[32px] rounded-[8px] object-cover"
+              className="mr-[32px] rounded-[8px] min-w-[555px] max-w-[555px] min-h-[361px] max-h-[361px] object-fill"
               width="555px"
               height="361px"
               src={
