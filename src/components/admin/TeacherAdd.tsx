@@ -36,7 +36,7 @@ const TeacherAdd: FC<TeacherAddProps> = ({
       event.preventDefault();
 
       const response = await axios.post(
-        `${process.env.REACT_APP_BACK_URL}/auth/admin/teacher`,
+        `${process.env.REACT_APP_BACK_URL}/user/admin/teacher`,
         {
           email,
           password,

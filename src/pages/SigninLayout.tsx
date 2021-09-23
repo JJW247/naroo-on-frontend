@@ -34,7 +34,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({
       event.preventDefault();
 
       const response = await axios.post(
-        `${process.env.REACT_APP_BACK_URL}/auth/signin`,
+        `${process.env.REACT_APP_BACK_URL}/user/signin`,
         {
           email,
           password,

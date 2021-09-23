@@ -60,7 +60,7 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
       }
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/auth/admin/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
         {
           [fieldType]: updateFieldName,
         },

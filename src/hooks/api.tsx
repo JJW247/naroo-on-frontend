@@ -55,7 +55,7 @@ export async function getMe(token: string | null) {
     return null;
   }
   const response = await axios.get(
-    `${process.env.REACT_APP_BACK_URL}/auth/me`,
+    `${process.env.REACT_APP_BACK_URL}/user/me`,
     tokenHeader(token),
   );
   if (response.statusText === 'OK') {

@@ -12,12 +12,12 @@ interface AdminLayoutProps {
 
 const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
   const teachers = useGetSWR<ITeacherEditInAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/auth/admin/teacher`,
+    `${process.env.REACT_APP_BACK_URL}/user/admin/teacher`,
     token,
     true,
   );
   const students = useGetSWR<IStudentEditInAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/auth/admin/student`,
+    `${process.env.REACT_APP_BACK_URL}/user/admin/student`,
     token,
     true,
   );

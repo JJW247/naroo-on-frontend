@@ -19,7 +19,7 @@ const TeacherEdit: FC<TeacherEditProps> = ({ token, setToken, teachers }) => {
   const onClickDeleteUser = async (id: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/auth/admin/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

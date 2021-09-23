@@ -20,7 +20,7 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   try {
     if (requestToken) {
       const { data, error } = useGetSWR<{ token: string | null }>(
-        `${process.env.REACT_APP_BACK_URL}/auth/verify?requestToken=${requestToken}`,
+        `${process.env.REACT_APP_BACK_URL}/user/verify?requestToken=${requestToken}`,
         null,
         false,
       );
