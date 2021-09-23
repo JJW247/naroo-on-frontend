@@ -47,7 +47,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
           if (studentFilter) {
             if (studentFilter.value === lectureStatus.student_id) {
               return (
-                <>
+                <div key={lectureStatus.student_id + lectureStatus.lecture_id}>
                   <div className="w-full mt-[40px]">{lectureStatus.title}</div>
                   <div className="w-full">
                     {lectureStatus.expired
@@ -69,7 +69,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                       mutate={lectureStatusesMutate}
                     />
                   </div>
-                </>
+                </div>
               );
             }
           }

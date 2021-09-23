@@ -15,12 +15,10 @@ import SigninLayout from './pages/SigninLayout';
 import SignupLayout from './pages/SignupLayout';
 import LetcureDetailLayout from './pages/LectureDetailLayout';
 import LecturePlayLayout from './pages/LecturePlayLayout';
-import LectureReviewLayout from './pages/LectureReviewLayout';
 import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { unmountComponentAtNode } from 'react-dom';
 
 const AppRouterWrapper: FC = () => {
   return (
@@ -38,6 +36,7 @@ const AppRouterWrapper: FC = () => {
 };
 
 const App: FC = () => {
+  const history = useHistory();
   const [userType, setUserType] = useState<string | null>(null);
   const [userNickname, setUserNickname] = useState<string | null>(null);
   const [rememberToken, setRememeberToken] = useLocalStorage<string | null>(
@@ -50,29 +49,37 @@ const App: FC = () => {
       ? localStorage.getItem('token')
       : '',
   );
-  useEffect(() => {
-    if (token !== '') {
-      getMe(token).then((me) => {
+  const checkMe = () => {
+    getMe(token)
+      .then((me) => {
         if (me) {
-          if (me.role) {
-            setUserType(me.role);
-          }
-          if (me.nickname) {
-            setUserNickname(me.nickname);
-          }
+          setUserType(me.role ? me.role : null);
+          setUserNickname(me.nickname ? me.nickname : null);
         }
+      })
+      .catch((error) => {
+        setToken('');
+        history.replace('/');
       });
-    } else {
-      setUserType(null);
-    }
+  };
+  useEffect(() => {
+    checkMe();
   }, [token]);
-  const clearTokenHandler = (event: Event) => {
-    event.preventDefault();
+  const clearTokenHandler = () => {
     localStorage.getItem('rememberToken') === 'false' ? setToken('') : null;
   };
   useEffect(() => {
+    checkMe();
+    window.addEventListener('storage', (event: Event) => {
+      checkMe();
+    });
     window.addEventListener('unload', clearTokenHandler);
-    return () => window.removeEventListener('unload', clearTokenHandler);
+    return () => {
+      window.removeEventListener('storage', (event: Event) => {
+        checkMe();
+      });
+      window.removeEventListener('unload', clearTokenHandler);
+    };
   }, []);
   return (
     <>

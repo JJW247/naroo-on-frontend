@@ -36,7 +36,6 @@ const Header: FC<HeaderProps> = ({
   const logoutHandler = () => {
     setToken('');
     history.replace(history.location.pathname);
-    console.log(history.location.pathname);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
   const [isVisibleMenu, setIsVisibleMenu] = useState<boolean>(false);

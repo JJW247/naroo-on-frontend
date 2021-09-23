@@ -156,7 +156,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     try {
       event.preventDefault();
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/notice/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/admin/lecture/notice/${id}`,
         {
           title: noticeTitle,
           description: noticeDescription,
@@ -354,46 +354,39 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
           )}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE && (
             <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
-              {token &&
-                informationLecture.data &&
-                (userType === 'admin' ||
-                  (userType === 'teacher' &&
-                    informationLecture.data.teacher_nickname ===
-                      userNickname)) && (
-                  <form
-                    className="mt-[47px] w-full"
-                    onSubmit={onSubmitNoticeHandler}
-                  >
-                    <div className="mt-[67px] mb-[29px]">
-                      <div>
-                        <label htmlFor="notice_title">공지사항 제목</label>
-                      </div>
-                      <input
-                        className="w-full border-[1px] border-[#C4C4C4]"
-                        type="text"
-                        value={noticeTitle}
-                        onChange={onChangeNoticeTitle}
-                      />
-                    </div>
-                    <div className="mb-[29px]">
-                      <div>
-                        <label htmlFor="notice_description">
-                          공지사항 내용
-                        </label>
-                      </div>
-                      <textarea
-                        className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
-                        value={noticeDescription}
-                        onChange={onChangeNoticeDescription}
-                      />
+              {token && informationLecture.data && userType === 'admin' && (
+                <form
+                  className="mt-[47px] w-full"
+                  onSubmit={onSubmitNoticeHandler}
+                >
+                  <div className="mt-[67px] mb-[29px]">
+                    <div>
+                      <label htmlFor="notice_title">공지사항 제목</label>
                     </div>
                     <input
-                      type="submit"
-                      className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                      value="공지사항 등록"
+                      className="w-full border-[1px] border-[#C4C4C4]"
+                      type="text"
+                      value={noticeTitle}
+                      onChange={onChangeNoticeTitle}
                     />
-                  </form>
-                )}
+                  </div>
+                  <div className="mb-[29px]">
+                    <div>
+                      <label htmlFor="notice_description">공지사항 내용</label>
+                    </div>
+                    <textarea
+                      className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
+                      value={noticeDescription}
+                      onChange={onChangeNoticeDescription}
+                    />
+                  </div>
+                  <input
+                    type="submit"
+                    className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+                    value="공지사항 등록"
+                  />
+                </form>
+              )}
               <div>
                 {informationLecture.data.notices &&
                   informationLecture.data.notices
