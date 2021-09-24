@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FC, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -17,7 +17,7 @@ import LetcureDetailLayout from './pages/LectureDetailLayout';
 import LecturePlayLayout from './pages/LecturePlayLayout';
 import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AppRouterWrapper: FC = () => {
@@ -42,12 +42,14 @@ const App: FC = () => {
   const [rememberToken, setRememeberToken] = useLocalStorage<string | null>(
     'rememberToken',
     localStorage.getItem('rememberToken') === 'true' ? 'true' : 'false',
+    true,
   );
   const [token, setToken] = useLocalStorage<string | null>(
     'token',
     localStorage.getItem('token') && localStorage.getItem('token') !== 'null'
       ? localStorage.getItem('token')
       : '',
+    true,
   );
   const checkMe = () => {
     getMe(token)
@@ -65,19 +67,24 @@ const App: FC = () => {
   useEffect(() => {
     checkMe();
   }, [token]);
+  const tokenStorageWatcher = useCallback(
+    (e: StorageEvent) => {
+      if (e.newValue !== '') {
+        setToken(e.newValue);
+      }
+    },
+    [token],
+  );
   const clearTokenHandler = () => {
-    localStorage.getItem('rememberToken') === 'false' ? setToken('') : null;
+    localStorage.getItem('rememberToken') === 'false'
+      ? localStorage.setItem('token', '')
+      : null;
   };
   useEffect(() => {
-    checkMe();
-    window.addEventListener('storage', (event: Event) => {
-      checkMe();
-    });
+    window.addEventListener('storage', tokenStorageWatcher);
     window.addEventListener('unload', clearTokenHandler);
     return () => {
-      window.removeEventListener('storage', (event: Event) => {
-        checkMe();
-      });
+      window.removeEventListener('storage', tokenStorageWatcher);
       window.removeEventListener('unload', clearTokenHandler);
     };
   }, []);
