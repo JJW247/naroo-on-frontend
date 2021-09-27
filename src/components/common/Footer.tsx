@@ -54,7 +54,7 @@ const Footer: FC = () => {
       </div>
       <div className="w-full h-[29px] bg-[#575757] flex justify-center items-center">
         <span className="text-[#bfbfbf] font-light text-[12px] leading-[25px]">
-          © Mapo Naroo All Rights Reserved.
+          © Naroo-On All Rights Reserved.
         </span>
       </div>
     </div>

@@ -117,6 +117,10 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
                 ? '강의 제목 : '
                 : fieldType === 'description'
                 ? '강의 설명 : '
+                : fieldType === 'video_title'
+                ? '강의 영상 제목 : '
+                : fieldType === 'video_url'
+                ? '강의 영상 URL : '
                 : ''}
               {userField && userField}
             </div>

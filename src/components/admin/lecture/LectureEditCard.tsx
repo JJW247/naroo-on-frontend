@@ -26,6 +26,8 @@ interface LectureEditCardProps {
   status: string | null;
   expired: string | null;
   tags: ITags[] | [] | null;
+  videoTitle: string;
+  videoUrl: string;
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -50,6 +52,8 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   status,
   expired,
   tags,
+  videoTitle,
+  videoUrl,
   token,
   setToken,
   allTags,
@@ -138,14 +142,16 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       <Link to={`/lecture/${id}`}>
         <img className="rounded-xl" src={thumbnail} alt="lecture" />
       </Link>
-      <UpdateLectureField
-        token={token}
-        setToken={setToken}
-        fieldType="thumbnail"
-        lectureId={id}
-        userField={thumbnail}
-        mutate={mutate}
-      />
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
+        <UpdateLectureField
+          token={token}
+          setToken={setToken}
+          fieldType="thumbnail"
+          lectureId={id}
+          userField={thumbnail}
+          mutate={mutate}
+        />
+      </div>
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
         {!expired && <div>강의 만료 일시가 설정되어 있지 않습니다!</div>}
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -158,7 +164,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           />
         </MuiPickersUtilsProvider>
       </div>
-      <div className="mt-[10px] font-medium text-gray-400 bg-white h-11">
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
         <UpdateLectureField
           token={token}
           setToken={setToken}
@@ -213,6 +219,26 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           fieldType="description"
           lectureId={id}
           userField={description}
+          mutate={mutate}
+        />
+      </div>
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
+        <UpdateLectureField
+          token={token}
+          setToken={setToken}
+          fieldType="video_title"
+          lectureId={id}
+          userField={videoTitle}
+          mutate={mutate}
+        />
+      </div>
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
+        <UpdateLectureField
+          token={token}
+          setToken={setToken}
+          fieldType="video_url"
+          lectureId={id}
+          userField={videoUrl}
           mutate={mutate}
         />
       </div>

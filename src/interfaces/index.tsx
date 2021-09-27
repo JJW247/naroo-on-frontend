@@ -24,6 +24,8 @@ export interface ILectureInList {
   status: string | null;
   expired: string | null;
   tags: ITags[] | [] | null;
+  video_title: string;
+  video_url: string;
 }
 
 export interface ILectureInListAdmin {
