@@ -90,7 +90,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     try {
       event.preventDefault();
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/admin/lecture/notice/${id}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${id}`,
         {
           title: noticeTitle,
           description: noticeDescription,
@@ -105,6 +105,31 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         setNoticeTitle('');
         setNoticeDescription('');
         informationLecture?.mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
+  const onClickDeleteNoticeHandler = async (noticeId: string) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${informationLecture.data?.id}?id=${noticeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        informationLecture.mutate();
       }
     } catch (error: any) {
       console.error(error);
@@ -312,6 +337,15 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
                               {moment(notice.created_at).format('HH시 mm분')}
                             </div>
+                            <div className="flex-1"></div>
+                            <button
+                              className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
+                              onClick={() => {
+                                onClickDeleteNoticeHandler(notice.id);
+                              }}
+                            >
+                              삭제
+                            </button>
                           </div>
                           <div>작성자 : {notice.creator_nickname}</div>
                           <div>제목 : {notice.title}</div>
