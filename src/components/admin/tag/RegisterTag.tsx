@@ -81,7 +81,9 @@ const RegisterTag: FC<RegisterTagProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        mutate();
+        setTimeout(() => {
+          mutate();
+        }, 500);
         setUpdateToggle(!updateToggle);
       }
     } catch (error: any) {
@@ -164,23 +166,25 @@ const RegisterTag: FC<RegisterTagProps> = ({
       ) : (
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center py-[10px] mt-5">
-            {tags &&
-              tags.length > 0 &&
-              tags.map((tag) => {
-                return (
-                  <div
-                    key={tag.id}
-                    className="flex items-center py-[5px] pr-[20px]"
-                  >
-                    <Tag name={tag.name} />
-                    <FontAwesomeIcon
-                      className="ml-[5px]"
-                      icon={faTrash}
-                      onClick={() => onClickUnregisterTag(tag.id)}
-                    />
-                  </div>
-                );
-              })}
+            <>
+              {tags &&
+                tags.length > 0 &&
+                tags.map((tag) => {
+                  return (
+                    <div
+                      key={tag.id}
+                      className="flex items-center py-[5px] pr-[20px]"
+                    >
+                      <Tag name={tag.name} />
+                      <FontAwesomeIcon
+                        className="ml-[5px]"
+                        icon={faTrash}
+                        onClick={() => onClickUnregisterTag(tag.id)}
+                      />
+                    </div>
+                  );
+                })}
+            </>
           </div>
           <FontAwesomeIcon icon={faEdit} onClick={onClickUpdateToggle} />
         </div>
