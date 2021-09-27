@@ -35,19 +35,16 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                     })}
                   </div>
                 )}
-                <div className="w-[100vw] flex">
+                <div className="w-[100vw] flex pl-[9px] py-[9px] text-4xl text-white font-medium">
                   {lectureVideoData.video_title}
                 </div>
-                <div className="w-[100vw] flex">
-                  <div className="flex-grow w-full">
-                    <iframe
-                      className="w-full min-h-[69.1vh] max-h-[69.1vh]"
-                      src={lectureVideoData.video_url}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
+                <div className="w-[100vw] flex aspect-w-16 aspect-h-9">
+                  <iframe
+                    src={lectureVideoData.video_url}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
                   )
                 </div>
               </>
