@@ -51,7 +51,7 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
         <Link to="/info">
           <img
             className="w-full max-h-[320px] object-fit"
-            src="https://cdn.pixabay.com/photo/2021/08/26/00/46/bridge-6574734_960_720.jpg"
+            src={`https://drive.google.com/uc?export=download&id=1a-kBV6dXhXFSc2FxpV29ow0hq3vbtlco`}
           />
         </Link>
         <LectureCarousel token={token} setToken={setToken} />
