@@ -34,12 +34,14 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
           toast.error(messages);
         }
         setToken('');
+        localStorage.setItem('token', '');
         history.replace('/');
       }
       if (data) {
         if (data.token) {
           toast.success('이메일 인증이 완료되었습니다!');
           setToken(data.token);
+          localStorage.setItem('token', data.token);
           history.replace('/');
         }
       }

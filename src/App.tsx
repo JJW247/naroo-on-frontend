@@ -70,7 +70,8 @@ const App: FC = () => {
   }, [token]);
   const tokenStorageWatcher = useCallback(
     (e: StorageEvent) => {
-      setToken(e.newValue);
+      setToken(e.newValue ? e.newValue : '');
+      localStorage.setItem('token', e.newValue ? e.newValue : '');
       checkMe(e.newValue);
     },
     [token],

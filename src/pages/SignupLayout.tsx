@@ -16,6 +16,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
   const history = useHistory();
   useEffect(() => {
     setToken('');
+    localStorage.setItem('token', '');
   }, []);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');

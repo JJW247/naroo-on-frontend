@@ -26,6 +26,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({
   const history = useHistory();
   useEffect(() => {
     setToken('');
+    localStorage.setItem('token', '');
   }, []);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -43,6 +44,7 @@ const SigninLayout: FC<SigninLayoutProps> = ({
 
       if (response.statusText === 'Created') {
         setToken(response.data.token);
+        localStorage.setItem('token', response.data.token);
         history.replace('/');
       }
     } catch (error: any) {
