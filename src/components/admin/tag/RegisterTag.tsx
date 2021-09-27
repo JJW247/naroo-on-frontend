@@ -81,8 +81,8 @@ const RegisterTag: FC<RegisterTagProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        setUpdateToggle(!updateToggle);
         mutate();
+        setUpdateToggle(!updateToggle);
       }
     } catch (error: any) {
       console.error(error);
@@ -164,7 +164,8 @@ const RegisterTag: FC<RegisterTagProps> = ({
       ) : (
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center py-[10px] mt-5">
-            {tags.length > 0 &&
+            {tags &&
+              tags.length > 0 &&
               tags.map((tag) => {
                 return (
                   <div

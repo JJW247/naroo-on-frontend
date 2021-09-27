@@ -2,6 +2,7 @@ import axios from 'axios';
 import { FormEvent } from 'react';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
+import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../hooks';
 import { DataResponse } from '../../hooks/api';
 import { ITags } from '../../interfaces';
@@ -12,10 +13,19 @@ interface TagEditProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  tags: DataResponse<ITags[]>;
+  tagsData: ITags[] | undefined;
+  tagsMutate: (
+    data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<ITags[] | undefined>;
 }
 
-const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
+const TagEdit: FC<TagEditProps> = ({
+  token,
+  setToken,
+  tagsData,
+  tagsMutate,
+}) => {
   const [tagName, onChangeTagName, setTagName] = useInput('');
   const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
@@ -38,7 +48,7 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
       );
 
       if (response.statusText === 'Created') {
-        tags.mutate();
+        tagsMutate();
         setTagName('');
       }
     } catch (error: any) {
@@ -78,9 +88,9 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
       </form>
       <div className="">
         <div>
-          {tags &&
-            tags.data &&
-            tags.data.map((tag) => {
+          {tagsData &&
+            tagsData.length > 0 &&
+            tagsData.map((tag) => {
               return (
                 <UpdateTag
                   key={tag.id}
@@ -88,7 +98,7 @@ const TagEdit: FC<TagEditProps> = ({ token, setToken, tags }) => {
                   setToken={setToken}
                   id={tag.id}
                   name={tag.name}
-                  mutate={tags.mutate}
+                  mutate={tagsMutate}
                 />
               );
             })}

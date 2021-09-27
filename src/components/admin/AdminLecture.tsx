@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useState } from 'react';
 import { FC } from 'react';
+import { MutatorCallback } from 'swr/dist/types';
 import { DataResponse, useGetSWR } from '../../hooks/api';
 import {
   ILectureInList,
@@ -21,7 +22,11 @@ interface AdminLectureProps {
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   students: DataResponse<IStudentEditInAdmin[]>;
-  tags: DataResponse<ITags[]>;
+  tagsData: ITags[] | undefined;
+  tagsMutate: (
+    data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<ITags[] | undefined>;
 }
 
 export const CONST_ADMIN_MENU = {
@@ -39,7 +44,8 @@ const AdminLecture: FC<AdminLectureProps> = ({
   token,
   setToken,
   students,
-  tags,
+  tagsData,
+  tagsMutate,
 }) => {
   const { data: allLecturesData, mutate: allLecturesMutate } = useGetSWR<
     ILectureInList[]
@@ -237,7 +243,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
             setToken={setToken}
             allLecturesData={allLecturesData}
             allLecturesMutate={allLecturesMutate}
-            allTags={tags.data ? (tags.data.length > 0 ? tags.data : []) : []}
+            allTags={tagsData ? (tagsData.length > 0 ? tagsData : []) : []}
           />
         </div>
       )}
@@ -279,7 +285,12 @@ const AdminLecture: FC<AdminLectureProps> = ({
       )}
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
         <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <TagEdit token={token} setToken={setToken} tags={tags} />
+          <TagEdit
+            token={token}
+            setToken={setToken}
+            tagsData={tagsData}
+            tagsMutate={tagsMutate}
+          />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT && (

@@ -16,7 +16,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
     token,
     true,
   );
-  const tags = useGetSWR<ITags[]>(
+  const { data: tagsData, mutate: tagsMutate } = useGetSWR<ITags[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag`,
     token,
     true,
@@ -27,7 +27,8 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
         token={token}
         setToken={setToken}
         students={students}
-        tags={tags}
+        tagsData={tagsData}
+        tagsMutate={tagsMutate}
       />
     </div>
   );
