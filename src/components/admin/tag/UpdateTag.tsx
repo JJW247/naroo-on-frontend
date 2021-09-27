@@ -47,7 +47,7 @@ const UpdateTag: FC<UpdateTagProps> = ({
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/${id}`,
         {
-          tagName: updateTagName,
+          name: updateTagName,
         },
         {
           headers: {

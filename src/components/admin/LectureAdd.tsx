@@ -66,57 +66,14 @@ const LectureAdd: FC<LectureAddProps> = ({
     },
     [lectureImageOptions],
   );
-  const [lectureVideoOptions, setLectureVideoOptions] = useState<
-    {
-      value: string;
-      label: string;
-    }[]
-  >([]);
-  const [lectureVideoTitles, setLectureVideoTitles] = useState<string[]>([]);
-  const onHandleVideosChange = useCallback(
-    (changedOptions, { action, removedValue }) => {
-      switch (action) {
-        case 'create-option':
-          setLectureVideoTitles([...lectureVideoTitles, changedOptions.value]);
-          break;
-        case 'remove-value':
-        case 'pop-value':
-          setLectureVideoTitles(
-            lectureVideoTitles.filter((title) => title !== removedValue),
-          );
-          break;
-        case 'clear':
-          break;
-        default:
-      }
-      if (action === 'create-option') {
-      }
-      setLectureVideoOptions(changedOptions);
-    },
-    [lectureVideoOptions],
-  );
-  const onHandleVideosCreate = useCallback(
-    (changedOptions) => {
-      setLectureVideoOptions([
-        ...lectureVideoOptions,
-        { value: changedOptions, label: changedOptions },
-      ]);
-    },
-    [lectureVideoOptions],
-  );
+  const [videoTitle, onChangeVideoTitle] = useInput('');
+  const [videoUrl, onChangeVideoUrl] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
       const images = [];
       for (const image of lectureImageOptions) {
         images.push(image.value);
-      }
-      const videos = [];
-      for (const index of Object.keys(lectureVideoOptions)) {
-        videos.push({
-          url: lectureVideoOptions[+index].value,
-          title: lectureVideoTitles[+index],
-        });
       }
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/lecture/create`,
@@ -127,7 +84,8 @@ const LectureAdd: FC<LectureAddProps> = ({
           description,
           teacherName,
           images,
-          videos,
+          videoTitle,
+          videoUrl,
         },
         {
           headers: {
@@ -230,38 +188,25 @@ const LectureAdd: FC<LectureAddProps> = ({
       </div>
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="videos">강의 영상</label>
+          <label htmlFor="video_title">강의 영상 제목</label>
         </div>
-        <CreatableSelect
-          isMulti
-          isClearable
-          components={{ DropdownIndicator: null }}
-          options={lectureVideoOptions}
-          value={lectureVideoOptions}
-          onChange={onHandleVideosChange}
-          onCreateOption={onHandleVideosCreate}
-          formatCreateLabel={() => '비메오 URL 추가하기'}
-          noOptionsMessage={() => null}
-          placeholder="강의 영상 URL을 추가하세요!"
+        <input
+          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          type="text"
+          value={videoTitle}
+          onChange={onChangeVideoTitle}
         />
-        {lectureVideoOptions.length > 0 &&
-          lectureVideoOptions.map((video, index) => (
-            <>
-              <div>
-                <label htmlFor="video-title">영상 URL {index} 제목</label>
-              </div>
-              <input
-                className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-                type="text"
-                value={lectureVideoTitles[index]}
-                onChange={(event) => {
-                  const titles = [...lectureVideoTitles];
-                  titles[index] = event.target.value;
-                  setLectureVideoTitles(titles);
-                }}
-              />
-            </>
-          ))}
+      </div>
+      <div className="mb-[29px]">
+        <div>
+          <label htmlFor="video_url">강의 영상 URL</label>
+        </div>
+        <input
+          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          type="text"
+          value={videoUrl}
+          onChange={onChangeVideoUrl}
+        />
       </div>
       <input
         type="submit"

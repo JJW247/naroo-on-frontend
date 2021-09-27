@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useParams } from 'react-router-dom';
@@ -15,7 +14,6 @@ interface LecturePlayLayoutProps {
 
 const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
   const { id } = useParams<{ id: string }>();
-  const [positionVideo, setPositionVideo] = useState<number>(1);
   const { data: lectureVideoData } = useGetSWR<ILectureVideoDetail>(
     `${process.env.REACT_APP_BACK_URL}/lecture/video/${id}`,
     token,
@@ -25,8 +23,8 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
     <>
       {token &&
         lectureVideoData &&
-        lectureVideoData.videos &&
-        lectureVideoData.videos.length > 0 && (
+        lectureVideoData.video_url &&
+        lectureVideoData.video_title && (
           <div className="bg-gray-500">
             {lectureVideoData.status === 'accept' && (
               <>
@@ -38,10 +36,13 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                   </div>
                 )}
                 <div className="w-[100vw] flex">
+                  {lectureVideoData.video_title}
+                </div>
+                <div className="w-[100vw] flex">
                   <div className="flex-grow w-full">
                     <iframe
                       className="w-full min-h-[69.1vh] max-h-[69.1vh]"
-                      src={lectureVideoData.videos[0].url}
+                      src={lectureVideoData.video_url}
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen

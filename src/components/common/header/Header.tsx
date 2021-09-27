@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { FC } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -9,14 +9,14 @@ import Ellipsis from './Ellipsis';
 
 interface HeaderProps {
   token: string | null;
-  setToken: (
-    value: string | ((val: string | null) => string | null) | null,
-  ) => void;
+  setToken: Dispatch<SetStateAction<string | null>>;
   setRememberToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
   nickname: string | null;
   userType: string | null;
+  setUserType: Dispatch<SetStateAction<string | null>>;
+  setUserNickname: Dispatch<SetStateAction<string | null>>;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -25,6 +25,8 @@ const Header: FC<HeaderProps> = ({
   setRememberToken,
   nickname,
   userType,
+  setUserType,
+  setUserNickname,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -35,6 +37,9 @@ const Header: FC<HeaderProps> = ({
   );
   const logoutHandler = () => {
     setToken('');
+    localStorage.setItem('token', '');
+    setUserType('');
+    setUserNickname('');
     history.replace(history.location.pathname);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
@@ -83,7 +88,7 @@ const Header: FC<HeaderProps> = ({
             )}
           </Link>
           <div className="flex flex-nowrap">
-            {((token && nickname && userType !== 'admin') || !token) && (
+            {((token && userType !== 'admin') || token === '') && (
               <>
                 <Link to="/">
                   <button
@@ -138,7 +143,7 @@ const Header: FC<HeaderProps> = ({
               )}
             </div>
           )}
-          {!token && (
+          {token === '' && (
             <div className="2xl:ml-[457px] xl:ml-[343px] lg:ml-[180px] md:ml-[30px]">
               <Link to="/signin">
                 <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] 2xl:w-[99px] xl:w-[99px] lg:w-[80px] md:w-[60px]">
@@ -171,7 +176,7 @@ const Header: FC<HeaderProps> = ({
               ''
             )}
           </Link>
-          {((token && nickname && userType !== 'admin') || !token) && (
+          {((token && userType !== 'admin') || token === '') && (
             <>
               <button
                 className="rounded-[1px] w-[200px]"
@@ -235,7 +240,7 @@ const Header: FC<HeaderProps> = ({
               )}
             </div>
           )}
-          {!token && (
+          {token === '' && (
             <div>
               <Link to="/signin">
                 <button className="bg-white font-[10px] leading-[10px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[60px] h-[41px]">

@@ -60,7 +60,7 @@ const App: FC = () => {
         }
       })
       .catch((error) => {
-        setToken('');
+        localStorage.setItem('token', '');
         history.replace('/');
       });
   };
@@ -69,9 +69,34 @@ const App: FC = () => {
   }, [token]);
   const tokenStorageWatcher = useCallback(
     (e: StorageEvent) => {
-      if (e.newValue !== '') {
-        setToken(e.newValue);
-      }
+      // if (e.newValue !== '') {
+      //   setToken(e.newValue);
+      //   getMe(e.newValue)
+      //     .then((me) => {
+      //       if (me) {
+      //         setUserType(me.role ? me.role : null);
+      //         setUserNickname(me.nickname ? me.nickname : null);
+      //         console.log(me.role);
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       setToken('');
+      //       history.replace('/');
+      //     });
+      // }
+      setToken(e.newValue);
+      getMe(e.newValue)
+        .then((me) => {
+          if (me) {
+            setUserType(me.role ? me.role : null);
+            setUserNickname(me.nickname ? me.nickname : null);
+            console.log(me.role);
+          }
+        })
+        .catch((error) => {
+          localStorage.setItem('token', '');
+          history.replace('/');
+        });
     },
     [token],
   );
@@ -95,6 +120,8 @@ const App: FC = () => {
         setToken={setToken}
         setRememberToken={setRememeberToken}
         userType={userType}
+        setUserType={setUserType}
+        setUserNickname={setUserNickname}
         nickname={userNickname}
       />
       <Switch>

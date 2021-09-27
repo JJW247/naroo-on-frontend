@@ -50,12 +50,8 @@ export interface ILectureDetail {
   teacher_nickname: string;
   status: string | null;
   expired: string | null;
-  videos:
-    | {
-        id: string;
-      }[]
-    | []
-    | null;
+  video_title: string;
+  video_url: string;
   notices: INoticesInLecture[];
   tags: ITags[] | [] | null;
   users: string;
@@ -70,14 +66,8 @@ export interface ILectureVideoDetail {
   teacher_nickname: string;
   status: string | null;
   expired: string | null;
-  videos:
-    | {
-        id: string;
-        title: string;
-        url: string;
-      }[]
-    | []
-    | null;
+  video_title: string;
+  video_url: string;
   tags: ITags[] | [] | null;
   users: string;
 }
