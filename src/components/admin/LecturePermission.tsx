@@ -53,7 +53,6 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                     {lectureStatus.expired
                       ? lectureStatus.expired
                       : '만료 기간 없음'}{' '}
-                    / {lectureStatus.type}
                   </div>
                   <div className="flex flex-wrap items-center w-full justify-evenly">
                     {lectureStatus.thumbnail && (

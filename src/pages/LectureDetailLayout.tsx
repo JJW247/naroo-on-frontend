@@ -1,7 +1,5 @@
-import { FC, FormEvent, useCallback, useMemo } from 'react';
+import { FC, FormEvent } from 'react';
 import { useParams } from 'react-router';
-import Select from 'react-select';
-import Star from '../components/common/Star';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { useGetSWR } from '../hooks/api';
@@ -9,7 +7,6 @@ import Moment from 'react-moment';
 import 'moment/locale/ko';
 import moment from 'moment';
 import axios from 'axios';
-import LectureReviewCard from '../components/lecture/LectureReviewCard';
 import { useInput } from '../hooks';
 import { toast } from 'react-toastify';
 import { ILectureDetail } from '../interfaces';
@@ -26,22 +23,11 @@ interface LetcureDetailLayoutProps {
 export const CONST_LECTURE_DETAIL_MENU = {
   LECTURE_INTRODUCE: 'lecture_introduce',
   LECTURE_NOTICE: 'lecture_notice',
-  LECTURE_REVIEW: 'lecture_review',
   LECTURE_QNA: 'lecture_qna',
 } as const;
 
 export type LECTURE_DETAIL_MENU =
   typeof CONST_LECTURE_DETAIL_MENU[keyof typeof CONST_LECTURE_DETAIL_MENU];
-
-export const CONST_REVIEW_FILTER = {
-  REVIEW_RECENT: 'review_recent',
-  REVIEW_DESC: 'review_desc',
-  REVIEW_ASC: 'review_asc',
-  REVIEW_ADD: 'review_add',
-} as const;
-
-export type REVIEW_FILTER =
-  typeof CONST_REVIEW_FILTER[keyof typeof CONST_REVIEW_FILTER];
 
 const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   token,
@@ -54,8 +40,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   const [selectedMenu, setSelectedMenu] = useState<LECTURE_DETAIL_MENU>(
     CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE,
   );
-  const [selectedReviewFilter, setSelectedReviewFilter] =
-    useState<REVIEW_FILTER>(CONST_REVIEW_FILTER.REVIEW_RECENT);
   const informationLecture = token
     ? useGetSWR<ILectureDetail>(
         `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
@@ -96,56 +80,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             toast.error(messages);
           }
         }
-      }
-    }
-  };
-  const [review, onChangeReview, setReview] = useInput('');
-  const [rating, setRating] = useState(null);
-  const ratingOptions = useMemo(() => {
-    return [
-      { value: 1, label: 1 },
-      { value: 2, label: 2 },
-      { value: 3, label: 3 },
-      { value: 4, label: 4 },
-      { value: 5, label: 5 },
-    ];
-  }, []);
-  const onHandleRatingChange = useCallback(
-    (changedOption) => {
-      setRating(changedOption.value);
-    },
-    [ratingOptions],
-  );
-  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
-      const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/review/${id}`,
-        {
-          review,
-          rating,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        setReview('');
-        setRating(null);
-        setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_RECENT);
-        informationLecture?.mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
       }
     }
   };
@@ -219,24 +153,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         : ''}
                     </u>
                   </div>
-                  {/* <div className="flex items-center mb-[12px]">
-                    <div className="text-[12px] leading-[14px] font-normal text-white">
-                      <Star
-                        width="16"
-                        rating={
-                          informationLecture.data.average_rating
-                            ? +informationLecture.data.average_rating
-                            : 0
-                        }
-                      />
-                    </div>
-                    <div className="ml-[8px] text-white text-[14px] leading-[150%] font-medium">
-                      {informationLecture.data.reviews
-                        ? informationLecture.data.reviews.length
-                        : 0}
-                      개의 수강평
-                    </div>
-                  </div> */}
                   <div className="max-w-[739px] text-[18px] text-white leading-[25px] font-semibold">
                     {informationLecture.data.description
                       ? informationLecture.data.description
@@ -310,18 +226,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             >
               공지사항
             </button>
-            {/* <button
-              className={`w-[120px] text-[16px] leading-[22px] font-medium ${
-                selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW
-                  ? 'text-[#8DC556]'
-                  : 'text-[#808695]'
-              }`}
-              onClick={() =>
-                setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW)
-              }
-            >
-              수강 후기
-            </button> */}
             <button
               className={`w-[120px] text-[16px] leading-[22px] font-medium ${
                 selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA
@@ -418,174 +322,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           )}
-          {/* {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_REVIEW && (
-            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
-              <div>
-                <span className="text-[20px] leading-[150%] font-semibold mr-[10px]">
-                  수강후기
-                </span>
-                <span className="text-[20px] leading-[150%] font-semibold text-transparent bg-clip-text bg-gradient-to-br from-[#8DC556] to-[#00A0E9]">
-                  {informationLecture.data
-                    ? informationLecture.data.average_rating
-                    : 0}
-                </span>
-              </div>
-              <div className="flex items-center justify-start pt-[10px] pb-[20px]">
-                <button
-                  className={`text-[14px] leading-[150%] mr-[20px] ${
-                    selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_RECENT
-                      ? 'font-semibold text-[#17233d]'
-                      : 'font-medium text-[#808695]'
-                  }`}
-                  onClick={() =>
-                    setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_RECENT)
-                  }
-                >
-                  최신 순
-                </button>
-                <button
-                  className={`text-[14px] leading-[150%] mr-[20px] ${
-                    selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_DESC
-                      ? 'font-semibold text-[#17233d]'
-                      : 'font-medium text-[#808695]'
-                  }`}
-                  onClick={() =>
-                    setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_DESC)
-                  }
-                >
-                  높은 별점 순
-                </button>
-                <button
-                  className={`text-[14px] leading-[150%] mr-[20px] ${
-                    selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_ASC
-                      ? 'font-semibold text-[#17233d]'
-                      : 'font-medium text-[#808695]'
-                  }`}
-                  onClick={() =>
-                    setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_ASC)
-                  }
-                >
-                  낮은 별점 순
-                </button>
-                {token &&
-                  userType === 'student' &&
-                  informationLecture.data &&
-                  informationLecture.data.status === 'accept' && (
-                    <button
-                      className={`text-[14px] leading-[150%] ${
-                        selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_ADD
-                          ? 'font-semibold text-[#17233d]'
-                          : 'font-medium text-[#808695]'
-                      }`}
-                      onClick={() =>
-                        setSelectedReviewFilter(CONST_REVIEW_FILTER.REVIEW_ADD)
-                      }
-                    >
-                      후기 작성
-                    </button>
-                  )}
-              </div>
-              {selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_RECENT && (
-                <div className="">
-                  {informationLecture.data.reviews &&
-                    informationLecture.data.reviews
-                      .sort((a: any, b: any) => {
-                        return (
-                          new Date(b.created_at).getTime() -
-                          new Date(a.created_at).getTime()
-                        );
-                      })
-                      .map((review) => {
-                        return (
-                          <LectureReviewCard
-                            key={selectedReviewFilter + review.id}
-                            created_at={review.created_at}
-                            id={+review.id}
-                            nickname={review.nickname}
-                            review={review.review}
-                            rating={review.rating}
-                          />
-                        );
-                      })}
-                </div>
-              )}
-              {selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_DESC && (
-                <div className="">
-                  {informationLecture.data.reviews &&
-                    informationLecture.data.reviews
-                      .sort((a: any, b: any) => {
-                        return +b.rating - +a.rating;
-                      })
-                      .map((review) => {
-                        return (
-                          <LectureReviewCard
-                            key={selectedReviewFilter + review.id}
-                            created_at={review.created_at}
-                            id={+review.id}
-                            nickname={review.nickname}
-                            review={review.review}
-                            rating={review.rating}
-                          />
-                        );
-                      })}
-                </div>
-              )}
-              {selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_ASC && (
-                <div className="">
-                  {informationLecture.data.reviews &&
-                    informationLecture.data.reviews
-                      .sort((a: any, b: any) => {
-                        return +a.rating - +b.rating;
-                      })
-                      .map((review) => {
-                        return (
-                          <LectureReviewCard
-                            key={selectedReviewFilter + review.id}
-                            created_at={review.created_at}
-                            id={+review.id}
-                            nickname={review.nickname}
-                            review={review.review}
-                            rating={review.rating}
-                          />
-                        );
-                      })}
-                </div>
-              )}
-              {token &&
-                userType === 'student' &&
-                informationLecture.data &&
-                informationLecture.data.status === 'accept' &&
-                selectedReviewFilter === CONST_REVIEW_FILTER.REVIEW_ADD && (
-                  <form className="mt-[47px] w-full" onSubmit={onSubmitHandler}>
-                    <div className="mt-[67px] mb-[29px]">
-                      <div>
-                        <label htmlFor="review">수강 후기</label>
-                      </div>
-                      <textarea
-                        className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
-                        value={review}
-                        onChange={onChangeReview}
-                      />
-                    </div>
-                    <div className="mb-[29px]">
-                      <div>
-                        <label htmlFor="type">별점</label>
-                      </div>
-                      <Select
-                        options={ratingOptions}
-                        onChange={onHandleRatingChange}
-                        placeholder="강의 유형을 선택하세요!"
-                      />
-                    </div>
-                    <input
-                      type="submit"
-                      className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                      value="후기 작성"
-                    />
-                  </form>
-                )}
-            </div>
-          )} */}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA && (
             <div className="w-[1554px] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
               강의 문의 사항

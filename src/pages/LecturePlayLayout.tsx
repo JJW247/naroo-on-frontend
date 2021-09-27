@@ -48,44 +48,6 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                     ></iframe>
                   </div>
                   )
-                  {/* {lectureVideoData.videos.map((video) => {
-                    if (+video.id === positionVideo) {
-                      return (
-                        <div
-                          key={video.id + video.url}
-                          className="flex-grow w-full"
-                        >
-                          <iframe
-                            className="w-full min-h-[69.1vh] max-h-[69.1vh]"
-                            src={video.url}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
-                        </div>
-                      );
-                    }
-                  })} */}
-                  {/* <div className="flex-grow-0 flex items-start w-[15%] min-h-[69.1vh] max-h-[69.1vh]">
-                    <div className="flex flex-col w-full">
-                      {lectureVideoData.videos.map((video) => {
-                        return (
-                          <button
-                            key={video.id + video.url}
-                            className="px-[20px] py-[20px] mb-[20px] flex items-center"
-                            onClick={() => setPositionVideo(+video.id)}
-                          >
-                            <div className="rounded-full w-[60px] h-[60px] mr-[20px] flex items-center justify-center bg-white leading-[150%] font-semibold">
-                              {video.id}강
-                            </div>
-                            <div className="leading-[150%] font-semibold text-white">
-                              {video.title}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div> */}
                 </div>
               </>
             )}

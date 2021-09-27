@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import AdminLecture from '../components/admin/AdminLecture';
 import { useGetSWR } from '../hooks/api';
-import { IStudentEditInAdmin, ITags, ITeacherEditInAdmin } from '../interfaces';
+import { IStudentEditInAdmin, ITags } from '../interfaces';
 
 interface AdminLayoutProps {
   token: string | null;
@@ -11,11 +11,6 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
-  const teachers = useGetSWR<ITeacherEditInAdmin[]>(
-    `${process.env.REACT_APP_BACK_URL}/user/admin/teacher`,
-    token,
-    true,
-  );
   const students = useGetSWR<IStudentEditInAdmin[]>(
     `${process.env.REACT_APP_BACK_URL}/user/admin/student`,
     token,
@@ -31,7 +26,6 @@ const AdminLayout: FC<AdminLayoutProps> = ({ token, setToken }) => {
       <AdminLecture
         token={token}
         setToken={setToken}
-        teachers={teachers}
         students={students}
         tags={tags}
       />

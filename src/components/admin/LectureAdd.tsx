@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
+import { FC, FormEvent, useCallback, useState } from 'react';
 import { useInput } from '../../hooks';
-import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -9,7 +8,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
-import { ILectureInList, ITeacherEditInAdmin } from '../../interfaces';
+import { ILectureInList } from '../../interfaces';
 import { ADMIN_MENU, CONST_ADMIN_MENU } from './AdminLecture';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
@@ -29,7 +28,6 @@ interface LectureAddProps {
       | undefined,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<ILectureInList[] | undefined>;
-  teachers: ITeacherEditInAdmin[] | undefined;
 }
 
 const LectureAdd: FC<LectureAddProps> = ({
@@ -38,44 +36,15 @@ const LectureAdd: FC<LectureAddProps> = ({
   setSelectedMenu,
   allLecturesData,
   allLecturesMutate,
-  teachers,
 }) => {
   const [title, onChangeTitle] = useInput('');
   const [thumbnail, onChangeThumbnail] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [type, setType] = useState('online');
-  const typesOptions = useMemo(() => {
-    return [
-      { value: 'online', label: '온라인 강의' },
-      { value: 'offline', label: '오프라인 강의' },
-    ];
-  }, []);
-  const onHandleTypesOptionsChange = useCallback(
-    (changedOption) => {
-      setType(changedOption.value);
-    },
-    [typesOptions],
-  );
   const [expiredAt, setExpiredAt] = useState<Date | null>(new Date());
   const onHandleExpiredAt = (date: Date | null) => {
     setExpiredAt(date);
   };
-  const [teacher, setTeacher] = useState(null);
-  const teachersOptions = useMemo(() => {
-    const filteredTeachers = [];
-    if (teachers) {
-      for (const teacher of teachers) {
-        filteredTeachers.push({ value: teacher.id, label: teacher.nickname });
-      }
-    }
-    return filteredTeachers;
-  }, [teachers]);
-  const onHandleTeacherChange = useCallback(
-    (changedOption) => {
-      setTeacher(changedOption.value);
-    },
-    [teachersOptions],
-  );
+  const [teacherName, onChangeTeacherName] = useInput('');
   const [lectureImageOptions, setLectureImageOptions] = useState<
     {
       value: string;
@@ -155,9 +124,8 @@ const LectureAdd: FC<LectureAddProps> = ({
           title,
           thumbnail,
           expiredAt,
-          type,
           description,
-          teacherId: teacher,
+          teacherName,
           images,
           videos,
         },
@@ -198,16 +166,6 @@ const LectureAdd: FC<LectureAddProps> = ({
       </div>
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="type">강의 유형</label>
-        </div>
-        <Select
-          options={typesOptions}
-          onChange={onHandleTypesOptionsChange}
-          placeholder="강의 유형을 선택하세요!"
-        />
-      </div>
-      <div className="mb-[29px]">
-        <div>
           <label htmlFor="expired_at">강의 만료 일시</label>
         </div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -244,17 +202,18 @@ const LectureAdd: FC<LectureAddProps> = ({
       </div>
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="description">강사</label>
+          <label htmlFor="teacher-name">강사 이름</label>
         </div>
-        <Select
-          options={teachersOptions}
-          onChange={onHandleTeacherChange}
-          placeholder="강사를 선택하세요!"
+        <input
+          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          type="text"
+          value={teacherName}
+          onChange={onChangeTeacherName}
         />
       </div>
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="description">강의 소개 이미지</label>
+          <label htmlFor="images">강의 소개 이미지</label>
         </div>
         <CreatableSelect
           isMulti
@@ -271,7 +230,7 @@ const LectureAdd: FC<LectureAddProps> = ({
       </div>
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="description">강의 영상</label>
+          <label htmlFor="videos">강의 영상</label>
         </div>
         <CreatableSelect
           isMulti
@@ -289,7 +248,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           lectureVideoOptions.map((video, index) => (
             <>
               <div>
-                <label htmlFor="description">영상 URL {index} 제목</label>
+                <label htmlFor="video-title">영상 URL {index} 제목</label>
               </div>
               <input
                 className="w-full h-[51px] border-[1px] border-[#C4C4C4]"

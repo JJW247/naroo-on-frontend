@@ -8,14 +8,6 @@ export interface IResources {
   content: string;
 }
 
-export interface ITeacherEditInAdmin {
-  id: string;
-  email: string | null;
-  nickname: string | null;
-  phone: string | null;
-  introduce: string | null;
-}
-
 export interface IStudentEditInAdmin {
   id: string;
   email: string;
@@ -28,22 +20,10 @@ export interface ILectureInList {
   title: string;
   description: string;
   thumbnail: string;
-  teacher_id: string;
   teacher_nickname: string;
-  type: string;
   status: string | null;
   expired: string | null;
   tags: ITags[] | [] | null;
-  average_rating: string;
-  reviews:
-    | {
-        created_at: string;
-        id: string;
-        nickname: string;
-        review: string;
-        rating: number;
-      }[]
-    | [];
 }
 
 export interface ILectureInListAdmin {
@@ -51,32 +31,9 @@ export interface ILectureInListAdmin {
   lecture_id: string;
   title: string;
   thumbnail: string;
-  teacher_id: string;
   teacher_nickname: string;
-  type: string;
   status: string | null;
   expired: string | null;
-}
-
-export const CONST_RATING_TYPE = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
-} as const;
-
-export type RATING_TYPE =
-  typeof CONST_RATING_TYPE[keyof typeof CONST_RATING_TYPE];
-
-export interface IRecentReviews {
-  created_at: string;
-  student_id: string;
-  student_nickname: string;
-  lecture_id: string;
-  lecture_title: string;
-  review: string;
-  rating: string;
 }
 
 export interface ITags {
@@ -90,9 +47,7 @@ export interface ILectureDetail {
   description: string;
   thumbnail: string;
   images: string[];
-  teacher_id: string;
   teacher_nickname: string;
-  type: string;
   status: string | null;
   expired: string | null;
   videos:
@@ -103,16 +58,6 @@ export interface ILectureDetail {
     | null;
   notices: INoticesInLecture[];
   tags: ITags[] | [] | null;
-  average_rating: string;
-  reviews:
-    | {
-        created_at: string;
-        id: string;
-        nickname: string;
-        review: string;
-        rating: number;
-      }[]
-    | [];
   users: string;
 }
 
@@ -122,9 +67,7 @@ export interface ILectureVideoDetail {
   description: string;
   thumbnail: string;
   images: string[];
-  teacher_id: string;
   teacher_nickname: string;
-  type: string;
   status: string | null;
   expired: string | null;
   videos:
@@ -142,7 +85,6 @@ export interface ILectureVideoDetail {
 export interface INoticesInLecture {
   id: string;
   created_at: string;
-  creator_id: string;
   creator_nickname: string;
   title: string;
   description: string;

@@ -5,7 +5,7 @@ import { FC, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
-import { IStudentEditInAdmin, ITeacherEditInAdmin } from '../../../interfaces';
+import { IStudentEditInAdmin } from '../../../interfaces';
 
 interface UpdateUserFieldProps {
   token: string | null;
@@ -15,23 +15,14 @@ interface UpdateUserFieldProps {
   fieldType: string;
   id: string;
   userField: string | null;
-  mutate:
-    | ((
-        data?:
-          | IStudentEditInAdmin[]
-          | Promise<IStudentEditInAdmin[]>
-          | MutatorCallback<IStudentEditInAdmin[]>
-          | undefined,
-        shouldRevalidate?: boolean | undefined,
-      ) => Promise<IStudentEditInAdmin[] | undefined>)
-    | ((
-        data?:
-          | ITeacherEditInAdmin[]
-          | Promise<ITeacherEditInAdmin[]>
-          | MutatorCallback<ITeacherEditInAdmin[]>
-          | undefined,
-        shouldRevalidate?: boolean | undefined,
-      ) => Promise<ITeacherEditInAdmin[] | undefined>);
+  mutate: (
+    data?:
+      | IStudentEditInAdmin[]
+      | Promise<IStudentEditInAdmin[]>
+      | MutatorCallback<IStudentEditInAdmin[]>
+      | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<IStudentEditInAdmin[] | undefined>;
 }
 
 const UpdateUserField: FC<UpdateUserFieldProps> = ({
@@ -124,8 +115,6 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
                 ? '닉네임 : '
                 : fieldType === 'phone'
                 ? '휴대폰 번호 : '
-                : fieldType === 'introduce'
-                ? '강사 소개 : '
                 : ''}
               {userField && userField}
               {!userField &&

@@ -1,7 +1,7 @@
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
@@ -147,30 +147,29 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
   };
   return (
     <>
-      {(type === 'notice_carousel' || type === 'org_carousel') &&
-        +content_id === 0 && (
-          <form className="w-full p-[10px]" onSubmit={onSubmitAddHandler}>
-            <div className="flex items-center mb-[10px]">
-              <label
-                className="min-w-max text-[16px] leading-[22px] mb-[10px]"
-                htmlFor="resource"
-              >
-                이미지 URL
-              </label>
-              <input
-                className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-                type="text"
-                value={resourceUrl}
-                onChange={onChangeResourceUrl}
-              />
-            </div>
+      {type === 'org_carousel' && +content_id === 0 && (
+        <form className="w-full p-[10px]" onSubmit={onSubmitAddHandler}>
+          <div className="flex items-center mb-[10px]">
+            <label
+              className="min-w-max text-[16px] leading-[22px] mb-[10px]"
+              htmlFor="resource"
+            >
+              이미지 URL
+            </label>
             <input
-              type="submit"
-              className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-              value="리소스 추가"
+              className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+              type="text"
+              value={resourceUrl}
+              onChange={onChangeResourceUrl}
             />
-          </form>
-        )}
+          </div>
+          <input
+            type="submit"
+            className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+            value="리소스 추가"
+          />
+        </form>
+      )}
       {updateToggle ? (
         <form
           className="flex items-center py-[10px]"
@@ -200,7 +199,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         <div className="flex items-center p-[10px]">
           <div className="w-full">
             <div>
-              {type === 'notice_carousel' || type === 'org_carousel' ? (
+              {type === 'org_carousel' ? (
                 <>{`#${
                   resourceIndex && resourceIndex >= 0 && resourceIndex
                 } : `}</>

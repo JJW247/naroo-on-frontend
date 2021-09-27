@@ -7,7 +7,6 @@ import {
   IResources,
   IStudentEditInAdmin,
   ITags,
-  ITeacherEditInAdmin,
 } from '../../interfaces';
 import LectureAdd from './LectureAdd';
 import LectureEdit from './LectureEdit';
@@ -15,15 +14,12 @@ import LecturePermission from './LecturePermission';
 import ResourceEdit from './ResourceEdit';
 import StudentEdit from './StudentEdit';
 import TagEdit from './TagEdit';
-import TeacherAdd from './TeacherAdd';
-import TeacherEdit from './TeacherEdit';
 
 interface AdminLectureProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  teachers: DataResponse<ITeacherEditInAdmin[]>;
   students: DataResponse<IStudentEditInAdmin[]>;
   tags: DataResponse<ITags[]>;
 }
@@ -32,8 +28,6 @@ export const CONST_ADMIN_MENU = {
   LECTURE_ADD: 'lecture_add',
   LECTURE_EDIT: 'lecture_edit',
   LECTURE_PERMISSION: 'lecture_permission',
-  TEACHER_ADD: 'teacher_add',
-  TEACHER_EDIT: 'teacher_edit',
   STUDENT_EDIT: 'student_edit',
   TAG_EDIT: 'tag_edit',
   RESOURCE_EDIT: 'resource_edit',
@@ -44,7 +38,6 @@ export type ADMIN_MENU = typeof CONST_ADMIN_MENU[keyof typeof CONST_ADMIN_MENU];
 const AdminLecture: FC<AdminLectureProps> = ({
   token,
   setToken,
-  teachers,
   students,
   tags,
 }) => {
@@ -94,26 +87,6 @@ const AdminLecture: FC<AdminLectureProps> = ({
           onClick={() => setSelectedMenu(CONST_ADMIN_MENU.LECTURE_PERMISSION)}
         >
           강의 승인
-        </button>
-        <button
-          className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
-            selectedMenu === CONST_ADMIN_MENU.TEACHER_ADD
-              ? 'text-[#8DC556] border-[#8DC556]'
-              : 'text-[#515A6E]'
-          }`}
-          onClick={() => setSelectedMenu(CONST_ADMIN_MENU.TEACHER_ADD)}
-        >
-          강사 추가
-        </button>
-        <button
-          className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
-            selectedMenu === CONST_ADMIN_MENU.TEACHER_EDIT
-              ? 'text-[#8DC556] border-[#8DC556]'
-              : 'text-[#515A6E]'
-          }`}
-          onClick={() => setSelectedMenu(CONST_ADMIN_MENU.TEACHER_EDIT)}
-        >
-          강사 관리
         </button>
         <button
           className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
@@ -203,34 +176,6 @@ const AdminLecture: FC<AdminLectureProps> = ({
 
               <button
                 className={`block w-full px-[10px] py-[10px]  ${
-                  selectedMenu === CONST_ADMIN_MENU.TEACHER_ADD
-                    ? 'text-[#8DC556]'
-                    : 'text-[#515A6E]'
-                }`}
-                onClick={() => {
-                  setSelectedMenu(CONST_ADMIN_MENU.TEACHER_ADD);
-                  setIsVisibleMenu(false);
-                }}
-              >
-                강사 추가
-              </button>
-
-              <button
-                className={`block w-full px-[10px] py-[10px]  ${
-                  selectedMenu === CONST_ADMIN_MENU.TEACHER_EDIT
-                    ? 'text-[#8DC556]'
-                    : 'text-[#515A6E]'
-                }`}
-                onClick={() => {
-                  setSelectedMenu(CONST_ADMIN_MENU.TEACHER_EDIT);
-                  setIsVisibleMenu(false);
-                }}
-              >
-                강사 관리
-              </button>
-
-              <button
-                className={`block w-full px-[10px] py-[10px]  ${
                   selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT
                     ? 'text-[#8DC556]'
                     : 'text-[#515A6E]'
@@ -282,7 +227,6 @@ const AdminLecture: FC<AdminLectureProps> = ({
             setSelectedMenu={setSelectedMenu}
             allLecturesData={allLecturesData}
             allLecturesMutate={allLecturesMutate}
-            teachers={teachers.data}
           />
         </div>
       )}
@@ -294,7 +238,6 @@ const AdminLecture: FC<AdminLectureProps> = ({
             allLecturesData={allLecturesData}
             allLecturesMutate={allLecturesMutate}
             allTags={tags.data ? (tags.data.length > 0 ? tags.data : []) : []}
-            teachers={teachers.data}
           />
         </div>
       )}
@@ -327,21 +270,6 @@ const AdminLecture: FC<AdminLectureProps> = ({
                 : []
             }
           />
-        </div>
-      )}
-      {selectedMenu === CONST_ADMIN_MENU.TEACHER_ADD && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <TeacherAdd
-            token={token}
-            setToken={setToken}
-            setSelectedMenu={setSelectedMenu}
-            teachers={teachers}
-          />
-        </div>
-      )}
-      {selectedMenu === CONST_ADMIN_MENU.TEACHER_EDIT && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
-          <TeacherEdit token={token} setToken={setToken} teachers={teachers} />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (

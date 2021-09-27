@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import OrgCarousel from '../components/main/OrgCarousel';
 import { useGetSWR } from '../hooks/api';
-import NoticeCarousel from '../components/main/NoticeCarousel';
 import LectureCarousel from '../components/main/LectureCarousel';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
@@ -49,7 +48,6 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   } finally {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
-        {/* <NoticeCarousel /> */}
         <Link to="/info">
           <img
             className="w-full max-h-[320px] object-fit"

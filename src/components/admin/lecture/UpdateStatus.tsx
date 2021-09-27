@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
-import { useInput } from '../../../hooks';
 import { ILectureInListAdmin } from '../../../interfaces';
 import Select from 'react-select';
 import { toast } from 'react-toastify';

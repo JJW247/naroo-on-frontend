@@ -5,7 +5,6 @@ import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
-import { useInput } from '../../../hooks';
 import { ILectureInList, ITags } from '../../../interfaces';
 import Tag from '../../common/Tag';
 

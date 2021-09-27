@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
-import { ILectureInList, ITags, ITeacherEditInAdmin } from '../../interfaces';
+import { ILectureInList, ITags } from '../../interfaces';
 import LectureEditCard from './lecture/LectureEditCard';
 
 interface LecturesEditProps {
@@ -18,7 +18,6 @@ interface LecturesEditProps {
     shouldRevalidate?: boolean | undefined,
   ) => Promise<ILectureInList[] | undefined>;
   allTags: ITags[] | [];
-  teachers: ITeacherEditInAdmin[] | undefined;
 }
 
 const LectureEdit: FC<LecturesEditProps> = ({
@@ -27,7 +26,6 @@ const LectureEdit: FC<LecturesEditProps> = ({
   allLecturesData,
   allLecturesMutate,
   allTags,
-  teachers,
 }) => {
   return (
     <div className="flex items-center justify-center mt-[30px]">
@@ -42,15 +40,10 @@ const LectureEdit: FC<LecturesEditProps> = ({
                   title={lecture.title}
                   description={lecture.description}
                   thumbnail={lecture.thumbnail}
-                  teacherId={lecture.teacher_id}
                   teacherNickname={lecture.teacher_nickname}
-                  type={lecture.type}
                   status={null}
                   expired={lecture.expired}
                   tags={lecture.tags}
-                  reviews={lecture.reviews}
-                  teachers={teachers}
-                  average_rating={lecture.average_rating}
                   token={token}
                   setToken={setToken}
                   allTags={allTags}

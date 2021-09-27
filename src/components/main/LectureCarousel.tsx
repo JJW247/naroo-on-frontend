@@ -81,14 +81,10 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
                       id={lecture.id}
                       title={lecture.title}
                       thumbnail={lecture.thumbnail}
-                      teacherId={lecture.teacher_id}
                       teacherNickname={lecture.teacher_nickname}
-                      type={lecture.type}
                       status={lecture.status}
                       expired={lecture.expired}
                       tags={lecture.tags}
-                      reviews={lecture.reviews}
-                      average_rating={lecture.average_rating}
                     />
                   );
                 })}
@@ -118,14 +114,10 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
                   id={lecture.id}
                   title={lecture.title}
                   thumbnail={lecture.thumbnail}
-                  teacherId={lecture.teacher_id}
                   teacherNickname={lecture.teacher_nickname}
-                  type={lecture.type}
                   status={null}
                   expired={lecture.expired}
                   tags={lecture.tags}
-                  reviews={lecture.reviews}
-                  average_rating={lecture.average_rating}
                 />
               );
             })}

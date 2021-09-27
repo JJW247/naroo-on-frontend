@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import useSWR, { SWRResponse } from 'swr';
+import useSWR from 'swr';
 import { MutatorCallback } from 'swr/dist/types';
 
 export interface DataResponse<T> {

@@ -169,16 +169,6 @@ const App: FC = () => {
             )
           }
         />
-        {/* <Route
-          path="/review"
-          render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <LectureReviewLayout />
-            )
-          }
-        /> */}
         <Route
           path="/info"
           render={() =>

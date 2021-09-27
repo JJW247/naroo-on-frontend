@@ -25,7 +25,6 @@ const ResourceEdit: FC<ResourceEditProps> = ({
   allResourcesData,
   allResourcesMutate,
 }) => {
-  let noticeIndex = 0;
   let orgIndex = 0;
   return (
     <div className="mt-[30px]">
@@ -40,8 +39,6 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                       ? 'Header 로고 URL : '
                       : resource.type === 'footer_logo'
                       ? 'Footer 로고 URL : '
-                      : resource.type === 'notice_carousel'
-                      ? `메인 슬라이더 이미지 URL : `
                       : resource.type === 'org_carousel'
                       ? `기관 슬라이더 이미지 URL : `
                       : ''}
@@ -59,11 +56,7 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                       content={resource.content}
                       mutate={allResourcesMutate}
                       resourceIndex={
-                        resource.type === 'notice_carousel'
-                          ? noticeIndex++
-                          : resource.type === 'org_carousel'
-                          ? orgIndex++
-                          : null
+                        resource.type === 'org_carousel' ? orgIndex++ : null
                       }
                     />
                   )}
