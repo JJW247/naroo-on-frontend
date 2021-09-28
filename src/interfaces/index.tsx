@@ -43,6 +43,27 @@ export interface ITags {
   name: string;
 }
 
+export interface INoticesInLecture {
+  id: string;
+  created_at: string;
+  creator_nickname: string;
+  title: string;
+  description: string;
+}
+
+export interface IQnasInLecture {
+  question_id: string;
+  answer_id: string;
+  creator_id: string;
+  creator_nickname: string;
+  question_created_at: string;
+  question_title: string;
+  question_description: string;
+  answer_created_at: string;
+  answer_title: string;
+  answer_description: string;
+}
+
 export interface ILectureDetail {
   id: string;
   title: string;
@@ -57,6 +78,7 @@ export interface ILectureDetail {
   notices: INoticesInLecture[];
   tags: ITags[] | [] | null;
   users: string;
+  qnas: IQnasInLecture[];
 }
 
 export interface ILectureVideoDetail {
@@ -72,12 +94,4 @@ export interface ILectureVideoDetail {
   video_url: string;
   tags: ITags[] | [] | null;
   users: string;
-}
-
-export interface INoticesInLecture {
-  id: string;
-  created_at: string;
-  creator_nickname: string;
-  title: string;
-  description: string;
 }

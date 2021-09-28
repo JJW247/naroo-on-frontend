@@ -55,30 +55,34 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     if (informationLecture && informationLecture.data) {
       if (informationLecture.data.status === 'accept') {
         history.push(`/lecture-play/${id}`);
-      } else if (informationLecture.data.status === null) {
-        try {
-          const response = await axios.put(
-            `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
+      } else if (!informationLecture.data.status) {
+        if (token !== '' && userType === 'student') {
+          try {
+            const response = await axios.put(
+              `${process.env.REACT_APP_BACK_URL}/lecture/${id}`,
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
               },
-            },
-          );
-          if (response.statusText === 'OK') {
-            await informationLecture.mutate();
+            );
+            if (response.statusText === 'OK') {
+              await informationLecture.mutate();
+            }
+          } catch (error: any) {
+            console.error(error);
+            const messages = error.response.data.message;
+            if (Array.isArray(messages)) {
+              messages.map((message) => {
+                toast.error(message);
+              });
+            } else {
+              toast.error(messages);
+            }
           }
-        } catch (error: any) {
-          console.error(error);
-          const messages = error.response.data.message;
-          if (Array.isArray(messages)) {
-            messages.map((message) => {
-              toast.error(message);
-            });
-          } else {
-            toast.error(messages);
-          }
+        } else {
+          history.push('/signin');
         }
       }
     }
@@ -122,6 +126,134 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${informationLecture.data?.id}?id=${noticeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        informationLecture.mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
+  const [questionTitle, onChangeQuestionTitle, setQuestionTitle] = useInput('');
+  const [
+    questionDescription,
+    onChangeQuestionDescription,
+    setQuestionDescription,
+  ] = useInput('');
+  const onSubmitQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/lecture/question/${id}`,
+        {
+          title: questionTitle,
+          description: questionDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'Created') {
+        setQuestionTitle('');
+        setQuestionDescription('');
+        informationLecture?.mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
+  const onClickDeleteQuestionHandler = async (questionId: string) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/question/${informationLecture.data?.id}?id=${questionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        informationLecture.mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
+  const [answerTitle, onChangeAnswerTitle, setAnswerTitle] = useInput('');
+  const [answerDescription, onChangeAnswerDescription, setAnswerDescription] =
+    useInput('');
+  const onSubmitAnswerHandler = async (
+    event: FormEvent<HTMLFormElement>,
+    questionId: string,
+  ) => {
+    try {
+      event.preventDefault();
+      console.log(questionId);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/answer`,
+        {
+          question_id: questionId.toString(),
+          title: answerTitle,
+          description: answerDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'Created') {
+        setAnswerTitle('');
+        setAnswerDescription('');
+        informationLecture?.mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
+  const onClickDeleteAnswerHandler = async (answerId: string) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/answer/${answerId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -191,15 +323,13 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     onClick={onPlayLectureHandler}
                     className={`rounded-[4px] w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                       informationLecture.data.status === 'apply' ||
-                      informationLecture.data.status === 'reject' ||
-                      (!token && informationLecture.data.status === null)
+                      informationLecture.data.status === 'reject'
                         ? 'disabled:opacity-50'
                         : ''
                     }`}
                     disabled={
                       informationLecture.data.status === 'apply' ||
-                      informationLecture.data.status === 'reject' ||
-                      (!token && informationLecture.data.status === null)
+                      informationLecture.data.status === 'reject'
                         ? true
                         : false
                     }
@@ -318,6 +448,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               )}
               <div>
                 {informationLecture.data.notices &&
+                  informationLecture.data.notices.length > 0 &&
                   informationLecture.data.notices
                     .sort((a: any, b: any) => {
                       return (
@@ -338,14 +469,16 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                               {moment(notice.created_at).format('HH시 mm분')}
                             </div>
                             <div className="flex-1"></div>
-                            <button
-                              className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
-                              onClick={() => {
-                                onClickDeleteNoticeHandler(notice.id);
-                              }}
-                            >
-                              삭제
-                            </button>
+                            {token && userType === 'admin' && (
+                              <button
+                                className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
+                                onClick={() => {
+                                  onClickDeleteNoticeHandler(notice.id);
+                                }}
+                              >
+                                삭제
+                              </button>
+                            )}
                           </div>
                           <div>작성자 : {notice.creator_nickname}</div>
                           <div>제목 : {notice.title}</div>
@@ -353,12 +486,190 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         </div>
                       );
                     })}
+                {(!informationLecture.data.notices ||
+                  informationLecture.data.notices.length === 0) && (
+                  <div className="my-[20px] border-2">
+                    <div className="flex items-center justify-center">
+                      공지사항이 존재하지 않습니다!
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA && (
-            <div className="w-[1554px] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
-              강의 문의 사항
+            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
+              {token && informationLecture.data && userType === 'student' && (
+                <form
+                  className="mt-[47px] w-full"
+                  onSubmit={onSubmitQuestionHandler}
+                >
+                  <div className="mt-[67px] mb-[29px]">
+                    <div>
+                      <label htmlFor="question_title">문의 제목</label>
+                    </div>
+                    <input
+                      className="w-full border-[1px] border-[#C4C4C4]"
+                      type="text"
+                      value={questionTitle}
+                      onChange={onChangeQuestionTitle}
+                    />
+                  </div>
+                  <div className="mb-[29px]">
+                    <div>
+                      <label htmlFor="question_description">문의 내용</label>
+                    </div>
+                    <textarea
+                      className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
+                      value={questionDescription}
+                      onChange={onChangeQuestionDescription}
+                    />
+                  </div>
+                  <input
+                    type="submit"
+                    className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+                    value="문의사항 등록"
+                  />
+                </form>
+              )}
+              <div>
+                {informationLecture.data.qnas &&
+                  informationLecture.data.qnas.length > 0 &&
+                  informationLecture.data.qnas
+                    .sort((a: any, b: any) => {
+                      return (
+                        new Date(b.question_created_at).getTime() -
+                        new Date(a.question_created_at).getTime()
+                      );
+                    })
+                    .map((qna) => {
+                      console.log(qna);
+                      return (
+                        <>
+                          <div
+                            className="mt-[20px] border-2"
+                            key={qna.question_id}
+                          >
+                            <div className="flex items-center">
+                              <div className="font-medium text-[14px] leading-[150%] text-[#808695] mb-[8px] mr-[8px]">
+                                {moment(qna.question_created_at).format(
+                                  'YYYY년 MM월 DD일 ',
+                                )}
+                              </div>
+                              <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
+                                {moment(qna.question_created_at).format(
+                                  'HH시 mm분',
+                                )}
+                              </div>
+                              <div className="flex-1"></div>
+                              {token &&
+                                userType === 'student' &&
+                                userNickname === qna.creator_nickname && (
+                                  <button
+                                    className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
+                                    onClick={() => {
+                                      onClickDeleteQuestionHandler(
+                                        qna.question_id,
+                                      );
+                                    }}
+                                  >
+                                    삭제
+                                  </button>
+                                )}
+                            </div>
+                            <div>작성자 : {qna.creator_nickname}</div>
+                            <div>문의 제목 : {qna.question_title}</div>
+                            <div>문의 내용 : {qna.question_description}</div>
+                          </div>
+                          {token &&
+                            informationLecture.data &&
+                            userType === 'admin' && (
+                              <form
+                                className="mt-[47px] w-full"
+                                onSubmit={(event) => {
+                                  onSubmitAnswerHandler(event, qna.question_id);
+                                }}
+                              >
+                                <div className="mt-[67px] mb-[29px]">
+                                  <div>
+                                    <label htmlFor="answer_title">
+                                      응답 제목
+                                    </label>
+                                  </div>
+                                  <input
+                                    className="w-full border-[1px] border-[#C4C4C4]"
+                                    type="text"
+                                    value={answerTitle}
+                                    onChange={onChangeAnswerTitle}
+                                  />
+                                </div>
+                                <div className="mb-[29px]">
+                                  <div>
+                                    <label htmlFor="answer_description">
+                                      응답 내용
+                                    </label>
+                                  </div>
+                                  <textarea
+                                    className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
+                                    value={answerDescription}
+                                    onChange={onChangeAnswerDescription}
+                                  />
+                                </div>
+                                <input
+                                  type="submit"
+                                  className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+                                  value="응답사항 등록"
+                                />
+                              </form>
+                            )}
+                          {qna.answer_id &&
+                            qna.answer_title &&
+                            qna.answer_description && (
+                              <div
+                                className="mb-[20px] border-2"
+                                key={qna.answer_id}
+                              >
+                                <div className="flex items-center">
+                                  <div className="font-medium text-[14px] leading-[150%] text-[#808695] mb-[8px] mr-[8px]">
+                                    {moment(qna.answer_created_at).format(
+                                      'YYYY년 MM월 DD일 ',
+                                    )}
+                                  </div>
+                                  <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
+                                    {moment(qna.answer_created_at).format(
+                                      'HH시 mm분',
+                                    )}
+                                  </div>
+                                  <div className="flex-1"></div>
+                                  {token && userType === 'admin' && (
+                                    <button
+                                      className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
+                                      onClick={() => {
+                                        onClickDeleteAnswerHandler(
+                                          qna.answer_id,
+                                        );
+                                      }}
+                                    >
+                                      삭제
+                                    </button>
+                                  )}
+                                </div>
+                                <div>응답 제목 : {qna.answer_title}</div>
+                                <div>응답 내용 : {qna.answer_description}</div>
+                              </div>
+                            )}
+                        </>
+                      );
+                    })}
+                {(!informationLecture.data.qnas ||
+                  informationLecture.data.qnas.length === 0) && (
+                  <div className="my-[20px] border-2">
+                    <div className="flex items-center justify-center">
+                      문의사항이 존재하지 않습니다!
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </>

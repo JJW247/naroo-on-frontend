@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
   useHistory,
+  Redirect,
 } from 'react-router-dom';
 import Footer from './components/common/Footer';
 import Header from './components/common/header/Header';
@@ -62,7 +63,11 @@ const App: FC = () => {
       .catch((error) => {
         setToken('');
         localStorage.setItem('token', '');
-        history.replace('/');
+        if (history.location.pathname.includes('lecture-play')) {
+          history.replace('/');
+        } else {
+          history.replace(history.location.pathname);
+        }
       });
   };
   useEffect(() => {
@@ -166,7 +171,7 @@ const App: FC = () => {
           path="/lecture-play/:id"
           render={() =>
             userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
+              <Redirect to="/" />
             ) : (
               <LecturePlayLayout token={token} setToken={setToken} />
             )
@@ -175,11 +180,7 @@ const App: FC = () => {
         <Route
           path="/info"
           render={() =>
-            userType === 'admin' ? (
-              <AdminLayout token={token} setToken={setToken} />
-            ) : (
-              <IntroduceLayout />
-            )
+            userType === 'admin' ? <Redirect to="/" /> : <IntroduceLayout />
           }
         />
       </Switch>
