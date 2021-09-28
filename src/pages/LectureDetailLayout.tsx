@@ -291,7 +291,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               }
             />
             <div>
-              <div className="w-[737px] min-h-[96px] mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
+              <div className="w-[737px] max-h-[96px] overflow-hidden mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
                 {informationLecture.data.title && informationLecture.data.title}
               </div>
               <div className="text-right text-[18px] mb-[12px] text-white leading-[25px] font-semibold">
@@ -310,7 +310,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         : ''}
                     </u>
                   </div>
-                  <div className="max-w-[739px] text-[18px] text-white leading-[25px] font-semibold">
+                  <div className="max-w-[739px] max-h-[130px] overflow-hidden text-[18px] text-white leading-[25px] font-semibold">
                     {informationLecture.data.description
                       ? informationLecture.data.description
                       : ''}
@@ -365,8 +365,8 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   : ''
               }
             />
-            <div className="flex mx-auto justify-center items-center min-h-[96px] mt-[1vh] mb-[32px] px-[2vw]">
-              <div className="flex-1 overflow-hidden max-w-max text-white text-[3vw] leading-[3vw] mr-[2vw] font-semibold">
+            <div className="flex mx-auto justify-center items-center min-h-[96px] max-h-[96px] mt-[1vh] mb-[32px] px-[2vw]">
+              <div className="flex-1 overflow-hidden max-w-max max-h-[75px] text-white text-[3vw] leading-[4vw] mr-[2vw] font-semibold">
                 {informationLecture.data.title && informationLecture.data.title}
               </div>
               {(userType === 'student' || !token) && (
