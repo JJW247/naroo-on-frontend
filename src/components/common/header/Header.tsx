@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { FC } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Search from '../../../assets/images/Search.svg';
 import { useGetSWR } from '../../../hooks/api';
 import { IResourceContent } from '../../../interfaces';
 import Ellipsis from './Ellipsis';
@@ -114,9 +113,6 @@ const Header: FC<HeaderProps> = ({
                 </Link>
                 <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
                   문의하기
-                </button>
-                <button>
-                  <img src={Search} alt="Search" />
                 </button>
               </>
             )}
