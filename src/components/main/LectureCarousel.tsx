@@ -72,7 +72,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
             내가 신청한 강좌를 복습해보세요
           </div>
           {userLecturesData && userLecturesData.length > 0 && (
-            <div className="lecture-carousel">
+            <div>
               <Slider {...settings}>
                 {userLecturesData.map((lecture) => {
                   return (
@@ -105,7 +105,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         완료 혹은 진행중인 전체 강좌를 살펴보세요
       </div>
       {allLecturesData && allLecturesData.length > 0 && (
-        <div className="lecture-carousel">
+        <div className="">
           <Slider {...settings}>
             {allLecturesData.map((lecture) => {
               return (
