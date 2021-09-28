@@ -30,6 +30,8 @@ export interface ILectureInList {
 
 export interface ILectureInListAdmin {
   student_id: string;
+  student_email: string;
+  student_nickname: string;
   lecture_id: string;
   title: string;
   thumbnail: string;

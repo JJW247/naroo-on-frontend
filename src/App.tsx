@@ -63,6 +63,8 @@ const App: FC = () => {
       .catch((error) => {
         setToken('');
         localStorage.setItem('token', '');
+        setUserType(null);
+        setUserNickname(null);
         if (history.location.pathname.includes('lecture-play')) {
           history.replace('/');
         } else {

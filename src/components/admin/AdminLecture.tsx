@@ -252,7 +252,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
           <LecturePermission
             token={token}
             setToken={setToken}
-            students={
+            studentOptions={
               students.data
                 ? students.data.length > 0
                   ? students.data.map((student) => {
@@ -264,13 +264,14 @@ const AdminLecture: FC<AdminLectureProps> = ({
                   : []
                 : []
             }
-            lectures={
+            lectureOptions={
               allLecturesData
                 ? allLecturesData.length > 0
                   ? allLecturesData.map((lecture) => {
-                      if (lecture.status !== 'invisible') {
-                        return lecture;
-                      }
+                      return {
+                        value: lecture.id,
+                        label: `[${lecture.teacher_nickname}] ${lecture.title}`,
+                      };
                     })
                   : []
                 : []

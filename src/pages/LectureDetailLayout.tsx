@@ -543,9 +543,8 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       );
                     })
                     .map((qna) => {
-                      console.log(qna);
                       return (
-                        <>
+                        <div key={qna.question_id}>
                           <div
                             className="mt-[20px] border-2"
                             key={qna.question_id}
@@ -658,7 +657,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                                 <div>응답 내용 : {qna.answer_description}</div>
                               </div>
                             )}
-                        </>
+                        </div>
                       );
                     })}
                 {(!informationLecture.data.qnas ||
