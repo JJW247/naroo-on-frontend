@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import Tag from '../components/common/Tag';
 import { useGetSWR } from '../hooks/api';
 import { ILectureVideoDetail } from '../interfaces';
@@ -14,6 +15,15 @@ interface LecturePlayLayoutProps {
 
 const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
   const { id } = useParams<{ id: string }>();
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+    variableWidth: true,
+  };
   const { data: lectureVideoData } = useGetSWR<ILectureVideoDetail>(
     `${process.env.REACT_APP_BACK_URL}/lecture/video/${id}`,
     token,
@@ -29,13 +39,17 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
             {lectureVideoData.status === 'accept' && (
               <>
                 {lectureVideoData.tags && lectureVideoData.tags.length > 0 && (
-                  <div className="flex p-[10px]">
+                  <Slider className="flex w-full px-[5px]" {...settings}>
                     {lectureVideoData.tags.map((tag) => {
-                      return <Tag key={tag.id} name={tag.name} />;
+                      return (
+                        <div className="max-w-max py-[5px]" key={tag.id}>
+                          <Tag name={tag.name} />
+                        </div>
+                      );
                     })}
-                  </div>
+                  </Slider>
                 )}
-                <div className="w-[100vw] flex pl-[9px] py-[9px] text-4xl text-white font-medium">
+                <div className="w-[100vw] flex pl-[9px] pb-[9px] text-4xl text-white font-medium">
                   {lectureVideoData.video_title}
                 </div>
                 <div className="w-[100vw] flex aspect-w-16 aspect-h-9">

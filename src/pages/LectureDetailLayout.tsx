@@ -279,7 +279,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     <>
       {informationLecture && informationLecture.data && (
         <>
-          <div className="w-full h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] flex items-center justify-center">
+          <div className="hidden 2xl:flex w-full h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
             <img
               className="mr-[32px] rounded-[8px] min-w-[555px] max-w-[555px] min-h-[361px] max-h-[361px] object-fill"
               width="555px"
@@ -356,6 +356,44 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           </div>
+          <div className="w-full 2xl:hidden max-h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
+            <img
+              className="mx-auto rounded-[8px] min-w-[70%] max-w-[70%] min-h-[361px] max-h-[361px] object-fill"
+              src={
+                informationLecture.data.thumbnail
+                  ? informationLecture.data.thumbnail
+                  : ''
+              }
+            />
+            <div className="flex mx-auto justify-center items-center min-h-[96px] mt-[1vh] mb-[32px] px-[2vw]">
+              <div className="flex-1 overflow-hidden max-w-max text-white text-[3vw] leading-[3vw] mr-[2vw] font-semibold">
+                {informationLecture.data.title && informationLecture.data.title}
+              </div>
+              {(userType === 'student' || !token) && (
+                <button
+                  onClick={onPlayLectureHandler}
+                  className={`flex-1 rounded-[4px] max-w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
+                    informationLecture.data.status === 'apply' ||
+                    informationLecture.data.status === 'reject'
+                      ? 'disabled:opacity-50'
+                      : ''
+                  }`}
+                  disabled={
+                    informationLecture.data.status === 'apply' ||
+                    informationLecture.data.status === 'reject'
+                      ? true
+                      : false
+                  }
+                >
+                  {token && !informationLecture.data.status && '수강 신청'}
+                  {informationLecture.data.status === 'apply' && '승인 대기'}
+                  {informationLecture.data.status === 'reject' && '승인 거부'}
+                  {!token && !informationLecture.data.status && '로그인 필요'}
+                  {informationLecture.data.status === 'accept' && '학습 하기'}
+                </button>
+              )}
+            </div>
+          </div>
           <div className="w-full h-[64px] flex justify-center items-center">
             <button
               className={`w-[120px] text-[16px] leading-[22px] font-medium ${
@@ -395,7 +433,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             </button>
           </div>
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE && (
-            <div className="max-w-[1554px] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px] flex flex-wrap justify-center">
+            <div className="max-w-[1554px] min-h-[300px] pt-[50px] pb-[60px] mx-auto 2xl:ml-[360px] 2xl:mr-[360px] flex flex-wrap justify-center">
               {informationLecture.data.images &&
                 Array.isArray(informationLecture.data.images) &&
                 informationLecture.data.images.length > 0 &&
@@ -412,7 +450,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             </div>
           )}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE && (
-            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
+            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] mx-auto 2xl:ml-[360px] 2xl:mr-[360px]">
               {token && informationLecture.data && userType === 'admin' && (
                 <form
                   className="mt-[47px] w-full"
@@ -498,7 +536,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             </div>
           )}
           {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA && (
-            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] ml-[360px] mr-[360px]">
+            <div className="max-w-[70%] min-h-[300px] pt-[50px] pb-[60px] mx-auto 2xl:ml-[360px] 2xl:mr-[360px]">
               {token && informationLecture.data && userType === 'student' && (
                 <form
                   className="mt-[47px] w-full"
