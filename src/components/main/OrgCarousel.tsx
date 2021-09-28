@@ -50,7 +50,7 @@ const OrgCarousel: FC = () => {
   return (
     <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto mt-[139px] mb-[66px]">
       <div className="text-center text-[#515A6E] leading-[150%] 2xl:text-[36px] xl:text-[24px] md:text-[24px] lg:text-[24px] font-semibold mb-[28px]">
-        이미 다양한 기관들이 마포런과 함께하고 있어요.
+        이미 다양한 기관들이 나루온과 함께하고 있어요.
       </div>
       <Slider {...settings}>
         {data &&
