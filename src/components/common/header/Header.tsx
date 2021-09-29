@@ -87,7 +87,7 @@ const Header: FC<HeaderProps> = ({
             )}
           </Link>
           <div className="flex flex-nowrap">
-            {((token && userType !== 'admin') || token === '') && (
+            {((token && userType !== 'admin') || token === '' || !token) && (
               <>
                 <Link to="/">
                   <button
@@ -139,7 +139,7 @@ const Header: FC<HeaderProps> = ({
               )}
             </div>
           )}
-          {token === '' && (
+          {(token === '' || !token) && (
             <div className="2xl:ml-[457px] xl:ml-[343px] lg:ml-[180px] md:ml-[30px]">
               <Link to="/signin">
                 <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] 2xl:w-[99px] xl:w-[99px] lg:w-[80px] md:w-[60px]">
@@ -172,7 +172,7 @@ const Header: FC<HeaderProps> = ({
               ''
             )}
           </Link>
-          {((token && userType !== 'admin') || token === '') && (
+          {((token && userType !== 'admin') || token === '' || !token) && (
             <>
               <button
                 className="rounded-[1px] w-[200px]"
@@ -236,7 +236,7 @@ const Header: FC<HeaderProps> = ({
               )}
             </div>
           )}
-          {token === '' && (
+          {(token === '' || !token) && (
             <div>
               <Link to="/signin">
                 <button className="bg-white font-[10px] leading-[10px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] w-[60px] h-[41px]">
