@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ITags } from '../../interfaces';
@@ -34,11 +34,11 @@ const LectureCard: FC<LectureCardProps> = ({
   };
   return (
     <div className="w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] lecture-card-container">
-      <img
-        height="261px"
-        className="object-fill rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px]"
-        src={thumbnail}
-        alt="lecture"
+      <div
+        className="rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px] bg-cover lecture-card-container"
+        style={{
+          backgroundImage: `url(${thumbnail})`,
+        }}
       />
       <div className="flex flex-wrap items-center w-full min-h-[183px] max-h-[183px] pt-[12px]">
         {status && (
