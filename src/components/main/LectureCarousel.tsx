@@ -67,6 +67,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         <>
           <div className="text-2xl font-semibold text-gray-400">
             내가 신청한 강좌
+            {userLecturesData && userLecturesData.length > 0
+              ? ` (${userLecturesData.length})`
+              : ''}
           </div>
           <div className="mt-2 text-gray-300 mb-7">
             내가 신청한 강좌를 복습해보세요
@@ -100,6 +103,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       )}
       <div className=" mt-[122px] text-2xl font-semibold text-gray-400">
         모든 강좌
+        {allLecturesData && allLecturesData.length > 0
+          ? ` (${allLecturesData.length})`
+          : ''}
       </div>
       <div className="mt-2 text-gray-300 mb-7">
         완료 혹은 진행중인 전체 강좌를 살펴보세요
