@@ -43,6 +43,7 @@ const LecturePermission: FC<LecturePermissionProps> = ({
   }>();
   const onHandleFilterChange = useCallback(
     (changedOption) => {
+      console.log(changedOption);
       setSelectedFilter(changedOption);
       if (changedOption.value === 'lecture') {
         setStudentFilter({ value: '', label: '' });
@@ -121,8 +122,11 @@ const LecturePermission: FC<LecturePermissionProps> = ({
           if (studentFilter) {
             if (studentFilter.value === lectureStatus.student_id) {
               return (
-                <div key={lectureStatus.student_id + lectureStatus.lecture_id}>
-                  <div className="w-full mt-[40px]">{lectureStatus.title}</div>
+                <div
+                  key={lectureStatus.student_id + lectureStatus.lecture_id}
+                  className="border-[1px] border-black my-[20px] p-[10px]"
+                >
+                  <div className="w-full">{lectureStatus.title}</div>
                   <div className="w-full">
                     {lectureStatus.expired
                       ? lectureStatus.expired
@@ -133,6 +137,8 @@ const LecturePermission: FC<LecturePermissionProps> = ({
                       <img src={lectureStatus.thumbnail} width="200" />
                     )}
                     <div>{lectureStatus.teacher_nickname}</div>
+                  </div>
+                  <div className="w-full">
                     <UpdateStatus
                       token={token}
                       setToken={setToken}

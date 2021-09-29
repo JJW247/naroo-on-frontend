@@ -117,8 +117,8 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px]">
-          <div className="w-full">
+        <div className="flex items-center py-[10px] w-full">
+          <div className="w-full overflow-x-hidden">
             <div>
               {fieldType === 'email'
                 ? '이메일 : '

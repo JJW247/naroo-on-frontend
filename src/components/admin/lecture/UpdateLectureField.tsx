@@ -106,8 +106,8 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px]">
-          <div className="w-full">
+        <div className="flex items-center py-[10px] w-full">
+          <div className="w-full overflow-x-hidden">
             <div className="text-xs bg-white text-shuttle-gray">
               {fieldType === 'thumbnail'
                 ? '썸네일 URL : '

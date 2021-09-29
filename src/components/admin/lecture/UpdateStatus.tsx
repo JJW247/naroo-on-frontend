@@ -100,7 +100,7 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
           onSubmit={onSubmitUpdateTag}
         >
           <Select
-            className="min-w-full"
+            className="w-full"
             options={statusOptions}
             onChange={onHandleChange}
           />
@@ -117,7 +117,7 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px]">
+        <div className="flex items-center py-[10px] w-full">
           <div className="w-full">
             상태 :{' '}
             {status === null

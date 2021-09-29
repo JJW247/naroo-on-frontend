@@ -226,7 +226,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </>
       </div>
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_ADD && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+        <div className="max-w-[90%] overflow-hidden mx-auto">
           <LectureAdd
             token={token}
             setToken={setToken}
@@ -237,7 +237,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_EDIT && (
-        <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto">
+        <div className="max-w-[90%] overflow-hidden mx-auto">
           <LectureEdit
             token={token}
             setToken={setToken}
@@ -248,7 +248,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_PERMISSION && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+        <div className="max-w-[90%] mx-auto">
           <LecturePermission
             token={token}
             setToken={setToken}
@@ -280,12 +280,12 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+        <div className="max-w-[90%] overflow-hidden mx-auto">
           <StudentEdit token={token} setToken={setToken} students={students} />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+        <div className="max-w-[90%] overflow-hidden mx-auto">
           <TagEdit
             token={token}
             setToken={setToken}
@@ -295,7 +295,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT && (
-        <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto">
+        <div className="max-w-[90%] overflow-hidden mx-auto">
           <ResourceEdit
             token={token}
             setToken={setToken}

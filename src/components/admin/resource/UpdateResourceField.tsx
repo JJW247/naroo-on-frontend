@@ -196,8 +196,8 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center p-[10px]">
-          <div className="w-full">
+        <div className="flex items-center w-full p-[10px]">
+          <div className="w-full overflow-x-hidden">
             <div>
               {type === 'org_carousel' ? (
                 <>{`#${
