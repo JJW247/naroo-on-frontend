@@ -33,7 +33,7 @@ const LectureCard: FC<LectureCardProps> = ({
     variableWidth: true,
   };
   return (
-    <div className="w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] shadow">
+    <div className="w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] lecture-card-container">
       <img
         height="261px"
         className="object-fill rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px]"
@@ -42,7 +42,7 @@ const LectureCard: FC<LectureCardProps> = ({
       />
       <div className="flex flex-wrap items-center w-full min-h-[183px] max-h-[183px] pt-[12px]">
         {status && (
-          <div className="w-full px-[10px] text-[12px] bg-white text-[#808695]">
+          <div className="w-full px-[10px] text-[12px] text-[#808695]">
             {status === 'accept'
               ? '승인 완료'
               : status === 'apply'
@@ -50,10 +50,10 @@ const LectureCard: FC<LectureCardProps> = ({
               : ''}
           </div>
         )}
-        <div className="w-full max-h-[48px] overflow-hidden px-[20px] text-[16px] font-semibold leading-[150%] text-[#17233D] bg-white">
+        <div className="w-full max-h-[48px] overflow-hidden px-[20px] text-[16px] font-semibold leading-[150%] text-[#17233D]">
           <Link to={`/lecture/${id}`}>{title}</Link>
         </div>
-        <div className="w-full px-[20px] bg-white font-medium text-[12px] leading-[150%] text-[#808695]">
+        <div className="w-full px-[20px] font-medium text-[12px] leading-[150%] text-[#808695]">
           {teacherNickname}
         </div>
         {tags && tags.length > 0 && (
