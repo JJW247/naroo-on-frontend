@@ -67,7 +67,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         <>
           <div className="text-2xl font-semibold text-gray-400">
             내가 신청한 강좌
-            {userLecturesData && userLecturesData.length > 0
+            {userLecturesData && userLecturesData.length >= 0
               ? ` (${userLecturesData.length})`
               : ''}
           </div>
@@ -103,7 +103,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       )}
       <div className=" mt-[122px] text-2xl font-semibold text-gray-400">
         모든 강좌
-        {allLecturesData && allLecturesData.length > 0
+        {allLecturesData && allLecturesData.length >= 0
           ? ` (${allLecturesData.length})`
           : ''}
       </div>
@@ -131,9 +131,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         </div>
       )}
       {(!allLecturesData || allLecturesData.length <= 0) && (
-        <Skeleton className="w-full h-[300px] text-center">
-          강좌가 존재하지 않습니다
-        </Skeleton>
+        <div className="flex w-full h-[300px] justify-center items-center">
+          강좌가 존재하지 않습니다!
+        </div>
       )}
     </div>
   );
