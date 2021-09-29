@@ -237,7 +237,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_EDIT && (
-        <div className="max-w-[90%] overflow-hidden mx-auto">
+        <div className="max-w-[90%] overflow-x-hidden mx-auto">
           <LectureEdit
             token={token}
             setToken={setToken}
