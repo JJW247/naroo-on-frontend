@@ -16,6 +16,7 @@ interface LecturePlayLayoutProps {
 const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
   const { id } = useParams<{ id: string }>();
   const settings = {
+    arrows: false,
     dots: false,
     infinite: false,
     speed: 500,
