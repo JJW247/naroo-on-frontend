@@ -35,12 +35,19 @@ const LectureCard: FC<LectureCardProps> = ({
   };
   return (
     <div className="w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] lecture-card-container">
-      <div
-        className="rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px] bg-cover lecture-card-container"
-        style={{
-          backgroundImage: `url(${thumbnail})`,
+      <Link
+        to={`/lecture/${id}`}
+        onMouseDown={(event) => {
+          event.stopPropagation();
         }}
-      />
+      >
+        <div
+          className="rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px] bg-cover lecture-card-container"
+          style={{
+            backgroundImage: `url(${thumbnail})`,
+          }}
+        />
+      </Link>
       <div className="flex flex-wrap items-center w-full min-h-[183px] max-h-[183px] pt-[12px]">
         {status && (
           <div className="w-full px-[10px] text-[12px] text-[#808695]">
@@ -52,24 +59,30 @@ const LectureCard: FC<LectureCardProps> = ({
           </div>
         )}
         <div className="w-full max-h-[48px] overflow-hidden px-[20px] text-[16px] font-semibold leading-[150%] text-[#17233D]">
-          <Link to={`/lecture/${id}`}>{title}</Link>
+          {title}
         </div>
         <div className="w-full px-[20px] font-medium text-[12px] leading-[150%] text-[#808695]">
           {teacherNickname}
         </div>
         {tags && tags.length > 0 && (
-          <Slider
-            className="flex w-full md:max-w-[261px] px-[20px] mb-[16px]"
-            {...settings}
+          <div
+            onMouseDown={(event) => {
+              event.stopPropagation();
+            }}
           >
-            {tags.map((tag) => {
-              return (
-                <div className="max-w-max py-[5px]" key={tag.id}>
-                  <Tag name={tag.name} />
-                </div>
-              );
-            })}
-          </Slider>
+            <Slider
+              className="flex w-full md:max-w-[261px] px-[20px] mb-[16px]"
+              {...settings}
+            >
+              {tags.map((tag) => {
+                return (
+                  <div className="max-w-max py-[5px]" key={tag.id}>
+                    <Tag name={tag.name} />
+                  </div>
+                );
+              })}
+            </Slider>
+          </div>
         )}
       </div>
     </div>
