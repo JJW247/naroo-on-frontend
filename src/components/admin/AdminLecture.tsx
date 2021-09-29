@@ -6,7 +6,7 @@ import { DataResponse, useGetSWR } from '../../hooks/api';
 import {
   ILectureInList,
   IResources,
-  IStudentEditInAdmin,
+  IStudentEdit,
   ITags,
 } from '../../interfaces';
 import LectureAdd from './LectureAdd';
@@ -21,7 +21,7 @@ interface AdminLectureProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  students: DataResponse<IStudentEditInAdmin[]>;
+  students: DataResponse<IStudentEdit[]>;
   tagsData: ITags[] | undefined;
   tagsMutate: (
     data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,

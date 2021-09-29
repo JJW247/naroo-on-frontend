@@ -8,7 +8,7 @@ export interface IResources {
   content: string;
 }
 
-export interface IStudentEditInAdmin {
+export interface IStudentEdit {
   id: string;
   email: string;
   nickname: string;

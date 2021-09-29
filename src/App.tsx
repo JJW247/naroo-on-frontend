@@ -20,6 +20,7 @@ import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MyInfoLayout from './pages/MyInfoLayout';
 
 const AppRouterWrapper: FC = () => {
   return (
@@ -157,6 +158,20 @@ const App: FC = () => {
               />
             );
           }}
+        />
+        <Route
+          path="/myinfo"
+          render={() =>
+            token !== '' ? (
+              userType === 'admin' ? (
+                <Redirect to="/" />
+              ) : (
+                <MyInfoLayout token={token} setToken={setToken} />
+              )
+            ) : (
+              <Redirect to="/" />
+            )
+          }
         />
         <Route
           path="/lecture/:id"

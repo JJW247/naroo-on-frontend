@@ -1,11 +1,11 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, FormEventHandler, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
-import { IStudentEditInAdmin } from '../../../interfaces';
+import { IStudentEdit } from '../../../interfaces';
 
 interface UpdateUserFieldProps {
   token: string | null;
@@ -15,14 +15,23 @@ interface UpdateUserFieldProps {
   fieldType: string;
   id: string;
   userField: string | null;
-  mutate: (
-    data?:
-      | IStudentEditInAdmin[]
-      | Promise<IStudentEditInAdmin[]>
-      | MutatorCallback<IStudentEditInAdmin[]>
-      | undefined,
-    shouldRevalidate?: boolean | undefined,
-  ) => Promise<IStudentEditInAdmin[] | undefined>;
+  mutate:
+    | ((
+        data?:
+          | IStudentEdit[]
+          | Promise<IStudentEdit[]>
+          | MutatorCallback<IStudentEdit[]>
+          | undefined,
+        shouldRevalidate?: boolean | undefined,
+      ) => Promise<IStudentEdit[] | undefined>)
+    | ((
+        data?:
+          | IStudentEdit
+          | Promise<IStudentEdit>
+          | MutatorCallback<IStudentEdit>
+          | undefined,
+        shouldRevalidate?: boolean | undefined,
+      ) => Promise<IStudentEdit | undefined>);
 }
 
 const UpdateUserField: FC<UpdateUserFieldProps> = ({
@@ -40,56 +49,57 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
     setUpdateToggle(!updateToggle);
     setUpdateFieldName(userField);
   };
-  const onSubmitUpdateTag = async (event: FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
+  const onSubmitUpdateField: FormEventHandler<HTMLFormElement> | undefined =
+    async (event: FormEvent<HTMLFormElement>) => {
+      try {
+        event.preventDefault();
 
-      if (!updateFieldName || updateFieldName === userField) {
-        setUpdateToggle(!updateToggle);
-        setUpdateFieldName(userField);
-        return;
-      }
+        if (!updateFieldName || updateFieldName === userField) {
+          setUpdateToggle(!updateToggle);
+          setUpdateFieldName(userField);
+          return;
+        }
 
-      const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
-        {
-          [fieldType]: updateFieldName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await axios.put(
+          `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
+          {
+            [fieldType]: updateFieldName,
           },
-        },
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
-      if (response.statusText === 'OK') {
-        setUpdateToggle(!updateToggle);
-        mutate();
+        if (response.statusText === 'OK') {
+          setUpdateToggle(!updateToggle);
+          mutate();
+        }
+      } catch (error: any) {
+        console.error(error);
+        const messages = error.response.data.message;
+        if (Array.isArray(messages)) {
+          messages.map((message) => {
+            toast.error(message);
+          });
+        } else {
+          toast.error(messages);
+        }
       }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
-    }
-  };
+    };
   return (
     <>
       {updateToggle ? (
         <form
           className="flex items-center py-[10px]"
-          onSubmit={onSubmitUpdateTag}
+          onSubmit={onSubmitUpdateField}
         >
           <div className="w-full">
             <input
               className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
               type="text"
-              value={updateFieldName}
+              value={updateFieldName ? updateFieldName : ''}
               onChange={onChangeUpdateFieldName}
             />
           </div>
@@ -100,6 +110,7 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
           />
           <button
             className="rounded-[4px] min-w-max"
+            type="button"
             onClick={onClickUpdateToggle}
           >
             취소

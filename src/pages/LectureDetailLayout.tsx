@@ -527,7 +527,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 {(!informationLecture.data.notices ||
                   informationLecture.data.notices.length === 0) && (
                   <div className="my-[20px] border-2">
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center min-h-[200px]">
                       공지사항이 존재하지 않습니다!
                     </div>
                   </div>
@@ -701,7 +701,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 {(!informationLecture.data.qnas ||
                   informationLecture.data.qnas.length === 0) && (
                   <div className="my-[20px] border-2">
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center min-h-[200px]">
                       문의사항이 존재하지 않습니다!
                     </div>
                   </div>

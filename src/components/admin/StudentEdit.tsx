@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { DataResponse } from '../../hooks/api';
-import { IStudentEditInAdmin } from '../../interfaces';
+import { IStudentEdit } from '../../interfaces';
 import UpdateUserField from './user/UpdateUserField';
 
 interface StudentEditProps {
@@ -12,7 +12,7 @@ interface StudentEditProps {
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  students: DataResponse<IStudentEditInAdmin[]>;
+  students: DataResponse<IStudentEdit[]>;
 }
 
 const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
