@@ -226,7 +226,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </>
       </div>
       {selectedMenu === CONST_ADMIN_MENU.LECTURE_ADD && (
-        <div className="max-w-[90%] overflow-hidden mx-auto">
+        <div className="max-w-[90%] overflow-w-hidden mx-auto">
           <LectureAdd
             token={token}
             setToken={setToken}
@@ -280,12 +280,12 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (
-        <div className="max-w-[90%] overflow-hidden mx-auto">
+        <div className="max-w-[90%] overflow-w-hidden mx-auto">
           <StudentEdit token={token} setToken={setToken} students={students} />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
-        <div className="max-w-[90%] overflow-hidden mx-auto">
+        <div className="max-w-[90%] overflow-w-hidden mx-auto">
           <TagEdit
             token={token}
             setToken={setToken}
@@ -295,7 +295,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.RESOURCE_EDIT && (
-        <div className="max-w-[90%] overflow-hidden mx-auto">
+        <div className="max-w-[90%] overflow-w-hidden mx-auto">
           <ResourceEdit
             token={token}
             setToken={setToken}
