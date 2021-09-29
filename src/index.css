@@ -63,6 +63,14 @@ body {
   font-weight: 600;
 }
 
+.slick-prev:before {
+  color: black !important;
+}
+
+.slick-next:before {
+  color: black !important;
+}
+
 .dropdown {
   background: white;
   -webkit-border-radius: 6px;

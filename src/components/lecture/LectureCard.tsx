@@ -24,6 +24,7 @@ const LectureCard: FC<LectureCardProps> = ({
   tags,
 }) => {
   const settings = {
+    arrows: false,
     dots: false,
     infinite: false,
     speed: 500,

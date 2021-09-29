@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
 import { useGetSWR } from '../../hooks/api';
@@ -14,7 +14,7 @@ interface LectureCarouselProps {
 
 const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
