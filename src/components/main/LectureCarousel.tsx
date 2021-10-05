@@ -94,7 +94,8 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
               </Slider>
             </div>
           )}
-          {(!userLecturesData || userLecturesData.length <= 0) && (
+          {!userLecturesData && <Skeleton className="w-full h-[300px]" />}
+          {userLecturesData && userLecturesData.length === 0 && (
             <div className="flex w-full h-[300px] justify-center items-center">
               신청한 강좌가 존재하지 않습니다!
             </div>
@@ -130,7 +131,8 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           </Slider>
         </div>
       )}
-      {(!allLecturesData || allLecturesData.length <= 0) && (
+      {!allLecturesData && <Skeleton className="w-full h-[300px]" />}
+      {allLecturesData && allLecturesData.length === 0 && (
         <div className="flex w-full h-[300px] justify-center items-center">
           강좌가 존재하지 않습니다!
         </div>
