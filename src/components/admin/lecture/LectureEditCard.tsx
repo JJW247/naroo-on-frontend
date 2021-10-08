@@ -235,7 +235,7 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
                 lectureId={id}
                 userField={image}
                 mutate={mutate}
-                imageIndex={index}
+                imageIndex={index + 1}
               />
             );
           })}

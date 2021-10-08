@@ -35,20 +35,20 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
   mutate,
   resourceIndex,
 }) => {
+  const [addPreview, setAddPreview] = useState<any>('');
+  const [preview, setPreview] = useState<any>(content);
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
-  const [updateFieldName, onChangeUpdateFieldName, setUpdateFieldName] =
-    useInput('');
   const onClickUpdateToggle = () => {
     setUpdateToggle(!updateToggle);
-    setUpdateFieldName(content);
+    setPreview(content);
   };
   const onSubmitUpdateResource = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      if (!updateFieldName || updateFieldName === content) {
+      if (!preview || preview === content) {
         setUpdateToggle(!updateToggle);
-        setUpdateFieldName(content);
+        setPreview(content);
         return;
       }
 
@@ -57,7 +57,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         {
           type,
           content_id,
-          content: updateFieldName,
+          content: preview,
         },
         {
           headers: {
@@ -107,12 +107,11 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       }
     }
   };
-  const [resourceUrl, onChangeResourceUrl, setResourceUrl] = useInput('');
   const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      if (!resourceUrl) {
+      if (!addPreview) {
         return;
       }
 
@@ -120,7 +119,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         `${process.env.REACT_APP_BACK_URL}/resource`,
         {
           type,
-          content: resourceUrl,
+          content: addPreview,
         },
         {
           headers: {
@@ -131,7 +130,7 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
 
       if (response.statusText === 'Created') {
         mutate();
-        setResourceUrl('');
+        setAddPreview('');
       }
     } catch (error: any) {
       console.error(error);
@@ -149,18 +148,32 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
     <>
       {type === 'org_carousel' && +content_id === 0 && (
         <form className="w-full p-[10px]" onSubmit={onSubmitAddHandler}>
+          {addPreview && (
+            <div className="mb-[15px]">
+              <img className="rounded-xl" src={addPreview} />
+            </div>
+          )}
           <div className="flex items-center mb-[10px]">
             <label
-              className="min-w-max text-[16px] leading-[22px] mb-[10px]"
+              className="min-w-max text-[16px] leading-[22px] m-[10px]"
               htmlFor="resource"
             >
-              이미지 URL
+              이미지 파일
             </label>
             <input
-              className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-              type="text"
-              value={resourceUrl}
-              onChange={onChangeResourceUrl}
+              className="w-full p-[10px]"
+              type="file"
+              onChange={(event) => {
+                if (!event.target.files || !event.target.files[0]) {
+                  return;
+                }
+                const imageFile = event.target.files[0];
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(imageFile);
+                fileReader.onload = (readerEvent) => {
+                  setAddPreview(readerEvent.target?.result);
+                };
+              }}
             />
           </div>
           <input
@@ -172,28 +185,43 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       )}
       {updateToggle ? (
         <form
-          className="flex items-center py-[10px]"
+          className="items-center p-[10px]"
           onSubmit={onSubmitUpdateResource}
         >
-          <div className="w-full">
+          {preview && (
+            <div className="mb-[29px]">
+              <img className="rounded-xl" src={preview} />
+            </div>
+          )}
+          <div className="flex w-full">
             <input
-              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
-              type="text"
-              value={updateFieldName}
-              onChange={onChangeUpdateFieldName}
+              className="w-full px-[10px]"
+              type="file"
+              onChange={(event) => {
+                if (!event.target.files || !event.target.files[0]) {
+                  return;
+                }
+                const imageFile = event.target.files[0];
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(imageFile);
+                fileReader.onload = (readerEvent) => {
+                  setPreview(readerEvent.target?.result);
+                };
+              }}
             />
+            <input
+              className="rounded-[4px] min-w-max mx-[10px]"
+              type="submit"
+              value="수정"
+            />
+            <button
+              type="button"
+              className="rounded-[4px] min-w-max"
+              onClick={onClickUpdateToggle}
+            >
+              취소
+            </button>
           </div>
-          <input
-            className="rounded-[4px] min-w-max mx-[10px]"
-            type="submit"
-            value="수정"
-          />
-          <button
-            className="rounded-[4px] min-w-max"
-            onClick={onClickUpdateToggle}
-          >
-            취소
-          </button>
         </form>
       ) : (
         <div className="flex items-center w-full p-[10px]">
@@ -202,11 +230,13 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
               {type === 'org_carousel' ? (
                 <>{`#${
                   resourceIndex && resourceIndex >= 0 && resourceIndex
-                } : `}</>
+                }`}</>
               ) : (
                 ''
               )}
-              {content && content}
+              {preview && (
+                <img className="rounded-xl" src={preview} alt="resource_img" />
+              )}
             </div>
           </div>
           <FontAwesomeIcon

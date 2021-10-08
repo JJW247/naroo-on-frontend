@@ -84,20 +84,27 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
     <>
       {updateToggle ? (
         <form
-          className="flex items-center py-[10px]"
+          className="w-full items-center p-[10px] border-[1px] border-[#C4C4C4]"
           onSubmit={onSubmitUpdateImage}
         >
+          <div>
+            <label htmlFor="image-file">
+              {fieldType === 'thumbnail'
+                ? '썸네일'
+                : fieldType === 'img_description'
+                ? '강의 설명'
+                : ''}{' '}
+              이미지 {imageIndex ? '#' + imageIndex + ' ' : ''}파일
+            </label>
+          </div>
           {preview && (
             <div className="mb-[29px]">
-              <img src={preview} />
+              <img className="rounded-xl" src={preview} />
             </div>
           )}
-          <div className="mb-[29px]">
-            <div>
-              <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
-            </div>
+          <div className="flex">
             <input
-              className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+              className="w-full px-[10px]"
               type="file"
               onChange={(event) => {
                 if (!event.target.files || !event.target.files[0]) {
@@ -111,42 +118,41 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
                 };
               }}
             />
+            <input
+              className="rounded-[4px] min-w-max mx-[10px]"
+              type="submit"
+              value="수정"
+            />
+            <button
+              type="button"
+              className="rounded-[4px] min-w-max"
+              onClick={onClickUpdateToggle}
+            >
+              취소
+            </button>
           </div>
-          <input
-            className="rounded-[4px] min-w-max mx-[10px]"
-            type="submit"
-            value="수정"
-          />
-          <button
-            className="rounded-[4px] min-w-max"
-            onClick={onClickUpdateToggle}
-          >
-            취소
-          </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px] w-full">
+        <div className="flex items-center p-[10px] w-full border-[1px] border-[#C4C4C4]">
           <div className="w-full overflow-x-hidden">
             <div className="text-xs bg-white text-shuttle-gray">
               {fieldType === 'thumbnail'
-                ? '썸네일 파일 : '
+                ? '썸네일 이미지 파일'
                 : fieldType === 'img_description'
-                ? `이미지 ${imageIndex ? '#' + imageIndex + ' ' : ''}파일 : `
+                ? `강의 설명 이미지 ${
+                    imageIndex ? '#' + imageIndex + ' ' : ''
+                  }파일`
                 : ''}
               {fieldType === 'thumbnail' && userField ? (
                 <Link to={`/lecture/${lectureId}`}>
-                  <img
-                    className="block rounded-xl"
-                    src={userField}
-                    alt="lecture"
-                  />
+                  <img className="rounded-xl" src={userField} alt="lecture" />
                 </Link>
               ) : (
                 ''
               )}
               {fieldType === 'img_description' && userField ? (
                 <img
-                  className="block rounded-xl"
+                  className="rounded-xl"
                   src={userField}
                   alt="lecture_description_img"
                 />

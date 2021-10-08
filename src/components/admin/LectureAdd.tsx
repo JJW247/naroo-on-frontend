@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FC, FormEvent, useCallback, useState } from 'react';
+import { FC, FormEvent, useCallback, useRef, useState } from 'react';
 import { useInput } from '../../hooks';
 import CreatableSelect from 'react-select/creatable';
 import 'date-fns';
@@ -12,6 +12,7 @@ import { ILectureInList } from '../../interfaces';
 import { ADMIN_MENU, CONST_ADMIN_MENU } from './AdminLecture';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
+import Slider from 'react-slick';
 
 interface LectureAddProps {
   token: string | null;
@@ -37,6 +38,14 @@ const LectureAdd: FC<LectureAddProps> = ({
   allLecturesData,
   allLecturesMutate,
 }) => {
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+  };
   const [title, onChangeTitle] = useInput('');
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [description, onChangeDescription] = useInput('');
@@ -47,8 +56,8 @@ const LectureAdd: FC<LectureAddProps> = ({
   const [teacherName, onChangeTeacherName] = useInput('');
   const [lectureImageOptions, setLectureImageOptions] = useState<
     {
-      value: string;
-      label: string;
+      value: string | ArrayBuffer | null | undefined;
+      label: string | ArrayBuffer | null | undefined;
     }[]
   >([]);
   const onHandleImagesChange = useCallback(
@@ -66,6 +75,29 @@ const LectureAdd: FC<LectureAddProps> = ({
     },
     [lectureImageOptions],
   );
+  const inputFileRef = useRef<any>(null);
+  const onMenuOpenSelectImages = () => {
+    if (inputFileRef && inputFileRef.current) {
+      inputFileRef.current.click();
+    }
+  };
+  const onFileChange = (event: any) => {
+    if (!event.target.files || !event.target.files[0]) {
+      return;
+    }
+    const imageFile = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(imageFile);
+    fileReader.onload = (readerEvent) => {
+      setLectureImageOptions([
+        ...lectureImageOptions,
+        {
+          value: readerEvent.target?.result,
+          label: `이미지 #${(lectureImageOptions.length + 1).toString()}`,
+        },
+      ]);
+    };
+  };
   const [videoTitle, onChangeVideoTitle] = useInput('');
   const [videoUrl, onChangeVideoUrl] = useInput('');
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -138,7 +170,7 @@ const LectureAdd: FC<LectureAddProps> = ({
       </div>
       {thumbnail && (
         <div className="mb-[29px]">
-          <img src={thumbnail} />
+          <img className="rounded-xl" src={thumbnail} />
         </div>
       )}
       <div className="mb-[29px]">
@@ -146,7 +178,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full border-[1px] border-[#C4C4C4] p-[20px]"
           type="file"
           onChange={(event) => {
             if (!event.target.files || !event.target.files[0]) {
@@ -187,6 +219,26 @@ const LectureAdd: FC<LectureAddProps> = ({
         <div>
           <label htmlFor="images">강의 소개 이미지</label>
         </div>
+        <input
+          className="hidden"
+          type="file"
+          ref={inputFileRef}
+          onChange={onFileChange}
+        />
+        <Slider {...settings}>
+          {lectureImageOptions &&
+            lectureImageOptions.length > 0 &&
+            lectureImageOptions.map((lectureImageOption) => {
+              if (lectureImageOption.value) {
+                return (
+                  <img
+                    className="w-[25%] h-[300px] rounded-xl mb-[15px]"
+                    src={lectureImageOption.value.toString()}
+                  />
+                );
+              }
+            })}
+        </Slider>
         <CreatableSelect
           isMulti
           isClearable
@@ -195,6 +247,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           value={lectureImageOptions}
           onChange={onHandleImagesChange}
           onCreateOption={onHandleImagesCreate}
+          onMenuOpen={onMenuOpenSelectImages}
           formatCreateLabel={() => '이미지 URL 추가하기'}
           noOptionsMessage={() => null}
           placeholder="강의 소개 이미지 URL을 추가하세요!"
