@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
@@ -74,7 +75,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           <div className="mt-2 text-gray-300 mb-7">
             내가 신청한 강좌를 복습해보세요
           </div>
-          {userLecturesData && userLecturesData.length > 0 && (
+          {userLecturesData &&
+          isArray(userLecturesData) &&
+          userLecturesData.length > 0 ? (
             <div>
               <Slider {...settings}>
                 {userLecturesData.map((lecture) => {
@@ -93,12 +96,12 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
                 })}
               </Slider>
             </div>
-          )}
-          {!userLecturesData && <Skeleton className="w-full h-[300px]" />}
-          {userLecturesData && userLecturesData.length === 0 && (
+          ) : isArray(userLecturesData) && userLecturesData.length === 0 ? (
             <div className="flex w-full h-[300px] justify-center items-center">
               신청한 강좌가 존재하지 않습니다!
             </div>
+          ) : (
+            <Skeleton className="w-full h-[300px]" />
           )}
         </>
       )}
@@ -111,7 +114,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       <div className="mt-2 text-gray-300 mb-7">
         완료 혹은 진행중인 전체 강좌를 살펴보세요
       </div>
-      {allLecturesData && allLecturesData.length > 0 && (
+      {allLecturesData &&
+      isArray(allLecturesData) &&
+      allLecturesData.length > 0 ? (
         <div className="">
           <Slider {...settings}>
             {allLecturesData.map((lecture) => {
@@ -130,12 +135,12 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
             })}
           </Slider>
         </div>
-      )}
-      {!allLecturesData && <Skeleton className="w-full h-[300px]" />}
-      {allLecturesData && allLecturesData.length === 0 && (
+      ) : allLecturesData && allLecturesData.length === 0 ? (
         <div className="flex w-full h-[300px] justify-center items-center">
           강좌가 존재하지 않습니다!
         </div>
+      ) : (
+        <Skeleton className="w-full h-[300px]" />
       )}
     </div>
   );
