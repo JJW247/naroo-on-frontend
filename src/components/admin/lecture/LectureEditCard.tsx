@@ -17,6 +17,7 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { useInput } from '../../../hooks';
 import UpdateImageField from './UpdateImageField';
+import moment from 'moment';
 
 interface LectureEditCardProps {
   id: string;
@@ -62,11 +63,49 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   allTags,
   mutate,
 }) => {
+  const [updateExpiredToggle, setUpdateExpiredToggle] =
+    useState<boolean>(false);
+  const onClickUpdateExpiredToggle = () => {
+    setUpdateExpiredToggle(!updateExpiredToggle);
+    setExpiredAt(expired ? new Date(expired) : null);
+  };
   const [expiredAt, setExpiredAt] = useState<Date | null>(
-    expired ? new Date(expired) : new Date(),
+    expired ? new Date(expired) : null,
   );
   const onHandleExpiredAt = (date: Date | null) => {
     setExpiredAt(date);
+  };
+  const onSubmitUpdateExpired = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
+        {
+          expired: expiredAt,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'OK') {
+        setUpdateExpiredToggle(!updateExpiredToggle);
+        mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
   };
   const onClickDeleteLecture = async () => {
     try {
@@ -154,16 +193,45 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         />
       </div>
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
-        {!expired && <div>강의 만료 일시가 설정되어 있지 않습니다!</div>}
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDateTimePicker
-            format="yyyy년 MM월 dd일 hh시 mm분 ss초"
-            value={expiredAt}
-            margin="normal"
-            onChange={onHandleExpiredAt}
-            className="w-full"
-          />
-        </MuiPickersUtilsProvider>
+        {updateExpiredToggle ? (
+          <form
+            className="flex items-center py-[10px]"
+            onSubmit={onSubmitUpdateExpired}
+          >
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                format="yyyy년 MM월 dd일 hh시 mm분 ss초"
+                value={expiredAt}
+                margin="normal"
+                onChange={onHandleExpiredAt}
+                className="w-full"
+              />
+            </MuiPickersUtilsProvider>
+            <input
+              className="rounded-[4px] min-w-max mx-[10px]"
+              type="submit"
+              value="수정"
+            />
+            <button
+              className="rounded-[4px] min-w-max"
+              onClick={onClickUpdateExpiredToggle}
+            >
+              취소
+            </button>
+          </form>
+        ) : (
+          <div className="flex items-center py-[10px]">
+            <div className="flex rounded-full text-gray-200 bg-harp w-full items-center p-[10px] text-xs mr-[10px]">
+              {!expired && <div>강의 만료 일시가 설정되어 있지 않습니다!</div>}
+              {expired && moment(expired).format('YYYY-MM-DD HH:mm:ss')}
+            </div>
+            <FontAwesomeIcon
+              className="mx-[10px]"
+              icon={faEdit}
+              onClick={onClickUpdateExpiredToggle}
+            />
+          </div>
+        )}
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
         <UpdateLectureField

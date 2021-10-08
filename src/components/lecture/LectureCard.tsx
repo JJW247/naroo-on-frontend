@@ -55,6 +55,8 @@ const LectureCard: FC<LectureCardProps> = ({
               ? '승인 완료'
               : status === 'apply'
               ? '승인 대기'
+              : status === 'expired'
+              ? '수강 만료'
               : ''}
           </div>
         )}

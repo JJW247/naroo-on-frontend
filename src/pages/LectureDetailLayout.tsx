@@ -323,13 +323,15 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     onClick={onPlayLectureHandler}
                     className={`rounded-[4px] w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                       informationLecture.data.status === 'apply' ||
-                      informationLecture.data.status === 'reject'
+                      informationLecture.data.status === 'reject' ||
+                      informationLecture.data.status === 'expired'
                         ? 'disabled:opacity-50'
                         : ''
                     }`}
                     disabled={
                       informationLecture.data.status === 'apply' ||
-                      informationLecture.data.status === 'reject'
+                      informationLecture.data.status === 'reject' ||
+                      informationLecture.data.status === 'expired'
                         ? true
                         : false
                     }
@@ -339,18 +341,28 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     {informationLecture.data.status === 'reject' && '승인 거부'}
                     {!token && !informationLecture.data.status && '로그인 필요'}
                     {informationLecture.data.status === 'accept' && '학습 하기'}
+                    {informationLecture.data.status === 'expired' &&
+                      '수강 만료'}
                   </button>
                 )}
                 <div className="mt-[13px] text-[21px] leading-[28.5px] text-white font-semibold">
                   {informationLecture.data.expired && (
-                    <Moment
-                      date={new Date(informationLecture.data.expired)}
-                      durationFromNow
-                      filter={(date) => {
-                        return date.replace('-', '');
-                      }}
-                      format="마감까지 DD일 HH시간 mm분 남았어요!"
-                    />
+                    <>
+                      {new Date(
+                        informationLecture.data.expired,
+                      ).toISOString() >= new Date().toISOString() ? (
+                        <Moment
+                          date={new Date(informationLecture.data.expired)}
+                          durationFromNow
+                          filter={(date) => {
+                            return date.replace('-', '');
+                          }}
+                          format="마감까지 DD일 HH시간 mm분 남았어요!"
+                        />
+                      ) : (
+                        '수강 기간이 만료된 강의입니다!'
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -374,13 +386,15 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   onClick={onPlayLectureHandler}
                   className={`flex-1 rounded-[4px] max-w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                     informationLecture.data.status === 'apply' ||
-                    informationLecture.data.status === 'reject'
+                    informationLecture.data.status === 'reject' ||
+                    informationLecture.data.status === 'expired'
                       ? 'disabled:opacity-50'
                       : ''
                   }`}
                   disabled={
                     informationLecture.data.status === 'apply' ||
-                    informationLecture.data.status === 'reject'
+                    informationLecture.data.status === 'reject' ||
+                    informationLecture.data.status === 'expired'
                       ? true
                       : false
                   }
@@ -390,6 +404,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   {informationLecture.data.status === 'reject' && '승인 거부'}
                   {!token && !informationLecture.data.status && '로그인 필요'}
                   {informationLecture.data.status === 'accept' && '학습 하기'}
+                  {informationLecture.data.status === 'expired' && '수강 만료'}
                 </button>
               )}
             </div>
