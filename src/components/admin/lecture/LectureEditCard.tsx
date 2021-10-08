@@ -16,10 +16,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { useInput } from '../../../hooks';
+import UpdateImageField from './UpdateImageField';
 
 interface LectureEditCardProps {
   id: string;
   title: string;
+  images: string[];
   description: string;
   thumbnail: string;
   teacherNickname: string;
@@ -46,6 +48,7 @@ interface LectureEditCardProps {
 const LectureEditCard: FC<LectureEditCardProps> = ({
   id,
   title,
+  images,
   description,
   thumbnail,
   teacherNickname,
@@ -139,17 +142,15 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
         <div>강의 삭제하기</div>
         <FontAwesomeIcon className="ml-[20px]" icon={faTrash} />
       </button>
-      <Link to={`/lecture/${id}`}>
-        <img className="rounded-xl" src={thumbnail} alt="lecture" />
-      </Link>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
-        <UpdateLectureField
+        <UpdateImageField
           token={token}
           setToken={setToken}
           fieldType="thumbnail"
           lectureId={id}
           userField={thumbnail}
           mutate={mutate}
+          imageIndex={null}
         />
       </div>
       <div className="mt-3 text-xs bg-white text-shuttle-gray">
@@ -221,6 +222,23 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
           userField={description}
           mutate={mutate}
         />
+      </div>
+      <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
+        {images &&
+          images.length > 0 &&
+          images.map((image, index) => {
+            return (
+              <UpdateImageField
+                token={token}
+                setToken={setToken}
+                fieldType="img_description"
+                lectureId={id}
+                userField={image}
+                mutate={mutate}
+                imageIndex={index}
+              />
+            );
+          })}
       </div>
       <div className="mb-1 text-xs bg-white text-shuttle-gray mt-[10px]">
         <UpdateLectureField

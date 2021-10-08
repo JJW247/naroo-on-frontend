@@ -18,6 +18,7 @@ export interface IStudentEdit {
 export interface ILectureInList {
   id: string;
   title: string;
+  images: string[];
   description: string;
   thumbnail: string;
   teacher_nickname: string;

@@ -2,12 +2,13 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { ILectureInList } from '../../../interfaces';
 
-interface UpdateLectureFieldProps {
+interface UpdateImageFieldProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
@@ -23,37 +24,38 @@ interface UpdateLectureFieldProps {
       | undefined,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<ILectureInList[] | undefined>;
+  imageIndex: number | null;
 }
 
-const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
+const UpdateImageField: FC<UpdateImageFieldProps> = ({
   token,
   setToken,
   fieldType,
   lectureId,
   userField,
   mutate,
+  imageIndex,
 }) => {
+  const [preview, setPreview] = useState<any>(userField);
   const [updateToggle, setUpdateToggle] = useState<boolean>(false);
-  const [updateFieldName, onChangeUpdateFieldName, setUpdateFieldName] =
-    useInput('');
   const onClickUpdateToggle = () => {
     setUpdateToggle(!updateToggle);
-    setUpdateFieldName(userField);
+    setPreview(userField);
   };
-  const onSubmitUpdateField = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmitUpdateImage = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      if (!updateFieldName || updateFieldName === userField) {
+      if (!preview || preview === userField) {
         setUpdateToggle(!updateToggle);
-        setUpdateFieldName(userField);
+        setPreview(userField);
         return;
       }
 
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/${lectureId}`,
         {
-          [fieldType]: updateFieldName,
+          [fieldType]: preview,
         },
         {
           headers: {
@@ -83,14 +85,31 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
       {updateToggle ? (
         <form
           className="flex items-center py-[10px]"
-          onSubmit={onSubmitUpdateField}
+          onSubmit={onSubmitUpdateImage}
         >
-          <div className="w-full">
+          {preview && (
+            <div className="mb-[29px]">
+              <img src={preview} />
+            </div>
+          )}
+          <div className="mb-[29px]">
+            <div>
+              <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
+            </div>
             <input
-              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
-              type="text"
-              value={updateFieldName}
-              onChange={onChangeUpdateFieldName}
+              className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+              type="file"
+              onChange={(event) => {
+                if (!event.target.files || !event.target.files[0]) {
+                  return;
+                }
+                const imageFile = event.target.files[0];
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(imageFile);
+                fileReader.onload = (readerEvent) => {
+                  setPreview(readerEvent.target?.result);
+                };
+              }}
             />
           </div>
           <input
@@ -110,19 +129,30 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
           <div className="w-full overflow-x-hidden">
             <div className="text-xs bg-white text-shuttle-gray">
               {fieldType === 'thumbnail'
-                ? '썸네일 URL : '
-                : fieldType === 'expired'
-                ? '강의 만료 일시 : '
-                : fieldType === 'title'
-                ? '강의 제목 : '
-                : fieldType === 'description'
-                ? '강의 설명 : '
-                : fieldType === 'video_title'
-                ? '강의 영상 제목 : '
-                : fieldType === 'video_url'
-                ? '강의 영상 URL : '
+                ? '썸네일 파일 : '
+                : fieldType === 'img_description'
+                ? `이미지 ${imageIndex ? '#' + imageIndex + ' ' : ''}파일 : `
                 : ''}
-              {userField && userField}
+              {fieldType === 'thumbnail' && userField ? (
+                <Link to={`/lecture/${lectureId}`}>
+                  <img
+                    className="block rounded-xl"
+                    src={userField}
+                    alt="lecture"
+                  />
+                </Link>
+              ) : (
+                ''
+              )}
+              {fieldType === 'img_description' && userField ? (
+                <img
+                  className="block rounded-xl"
+                  src={userField}
+                  alt="lecture_description_img"
+                />
+              ) : (
+                ''
+              )}
             </div>
           </div>
           <FontAwesomeIcon
@@ -136,4 +166,4 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
   );
 };
 
-export default UpdateLectureField;
+export default UpdateImageField;

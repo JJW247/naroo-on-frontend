@@ -38,7 +38,7 @@ const LectureAdd: FC<LectureAddProps> = ({
   allLecturesMutate,
 }) => {
   const [title, onChangeTitle] = useInput('');
-  const [thumbnail, onChangeThumbnail] = useInput('');
+  const [thumbnail, setThumbnail] = useState<any>(null);
   const [description, onChangeDescription] = useInput('');
   const [expiredAt, setExpiredAt] = useState<Date | null>(new Date());
   const onHandleExpiredAt = (date: Date | null) => {
@@ -136,15 +136,29 @@ const LectureAdd: FC<LectureAddProps> = ({
           />
         </MuiPickersUtilsProvider>
       </div>
+      {thumbnail && (
+        <div className="mb-[29px]">
+          <img src={thumbnail} />
+        </div>
+      )}
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="thumbnail">썸네일 이미지 URL</label>
+          <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
         </div>
         <input
           className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
-          value={thumbnail}
-          onChange={onChangeThumbnail}
+          type="file"
+          onChange={(event) => {
+            if (!event.target.files || !event.target.files[0]) {
+              return;
+            }
+            const imageFile = event.target.files[0];
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(imageFile);
+            fileReader.onload = (readerEvent) => {
+              setThumbnail(readerEvent.target?.result);
+            };
+          }}
         />
       </div>
       <div className="mb-[29px]">

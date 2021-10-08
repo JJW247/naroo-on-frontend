@@ -38,6 +38,7 @@ const LectureEdit: FC<LecturesEditProps> = ({
                   key={lecture.id}
                   id={lecture.id}
                   title={lecture.title}
+                  images={lecture.images}
                   description={lecture.description}
                   thumbnail={lecture.thumbnail}
                   teacherNickname={lecture.teacher_nickname}
