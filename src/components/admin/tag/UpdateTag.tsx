@@ -101,17 +101,15 @@ const UpdateTag: FC<UpdateTagProps> = ({
     <>
       {updateToggle ? (
         <form
-          className="flex items-center py-[10px]"
+          className="flex flex-wrap items-center py-[10px]"
           onSubmit={onSubmitUpdateTag}
         >
-          <div className="w-full">
-            <input
-              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
-              type="text"
-              value={updateTagName}
-              onChange={onChangeUpdateTagName}
-            />
-          </div>
+          <input
+            className="rounded-full px-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
+            type="text"
+            value={updateTagName}
+            onChange={onChangeUpdateTagName}
+          />
           <input
             className="rounded-[4px] min-w-max mx-[10px]"
             type="submit"
@@ -125,16 +123,20 @@ const UpdateTag: FC<UpdateTagProps> = ({
           </button>
         </form>
       ) : (
-        <div className="flex items-center py-[10px] w-full">
-          <div className="w-full overflow-x-hidden">
+        <div className="flex items-center py-[10px]">
+          <div className="overflow-x-hidden">
             <Tag name={name} />
           </div>
           <FontAwesomeIcon
-            className="mx-[10px]"
+            className="mx-[5px]"
             icon={faEdit}
             onClick={onClickUpdateToggle}
           />
-          <FontAwesomeIcon icon={faTrash} onClick={onClickDeleteTag} />
+          <FontAwesomeIcon
+            className="mr-[20px]"
+            icon={faTrash}
+            onClick={onClickDeleteTag}
+          />
         </div>
       )}
     </>

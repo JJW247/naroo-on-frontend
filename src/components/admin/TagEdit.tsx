@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isArray } from 'lodash';
 import { FormEvent } from 'react';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
@@ -86,23 +87,22 @@ const TagEdit: FC<TagEditProps> = ({
           value="태그 추가"
         />
       </form>
-      <div className="">
-        <div>
-          {tagsData &&
-            tagsData.length > 0 &&
-            tagsData.map((tag) => {
-              return (
-                <UpdateTag
-                  key={tag.id}
-                  token={token}
-                  setToken={setToken}
-                  id={tag.id}
-                  name={tag.name}
-                  mutate={tagsMutate}
-                />
-              );
-            })}
-        </div>
+      <div className="flex flex-wrap items-center">
+        {tagsData &&
+          isArray(tagsData) &&
+          tagsData.length > 0 &&
+          tagsData.map((tag) => {
+            return (
+              <UpdateTag
+                key={tag.id}
+                token={token}
+                setToken={setToken}
+                id={tag.id}
+                name={tag.name}
+                mutate={tagsMutate}
+              />
+            );
+          })}
       </div>
     </>
   );
