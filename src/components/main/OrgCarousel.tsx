@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Slider from 'react-slick';
@@ -52,9 +53,9 @@ const OrgCarousel: FC = () => {
       <div className="text-center text-[#515A6E] leading-[150%] 2xl:text-[36px] xl:text-[24px] md:text-[24px] lg:text-[24px] font-semibold mb-[28px]">
         이미 다양한 기관들이 나루온과 함께하고 있어요.
       </div>
-      <Slider {...settings}>
-        {data &&
-          data.map((element) => {
+      {data && isArray(data) && data.length > 0 ? (
+        <Slider {...settings}>
+          {data.map((element) => {
             return (
               <img
                 key={element.content}
@@ -63,8 +64,10 @@ const OrgCarousel: FC = () => {
               />
             );
           })}
-      </Slider>
-      {!data && <Skeleton className="w-full h-[96px]" />}
+        </Slider>
+      ) : (
+        <Skeleton className="w-full h-[96px]" />
+      )}
     </div>
   );
 };

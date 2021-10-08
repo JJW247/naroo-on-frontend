@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useParams } from 'react-router-dom';
@@ -39,7 +40,9 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
           <div className="bg-gray-500">
             {lectureVideoData.status === 'accept' && (
               <>
-                {lectureVideoData.tags && lectureVideoData.tags.length > 0 && (
+                {lectureVideoData.tags &&
+                isArray(lectureVideoData.tags) &&
+                lectureVideoData.tags.length > 0 ? (
                   <Slider className="flex w-full px-[5px]" {...settings}>
                     {lectureVideoData.tags.map((tag) => {
                       return (
@@ -49,6 +52,12 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                       );
                     })}
                   </Slider>
+                ) : lectureVideoData.tags &&
+                  isArray(lectureVideoData.tags) &&
+                  lectureVideoData.tags.length === 0 ? (
+                  <div className="p-[5px]">태그가 존재하지 않습니다!</div>
+                ) : (
+                  <Skeleton className="w-full h-[34px]" />
                 )}
                 <div className="w-[100vw] flex pl-[9px] pb-[9px] text-4xl text-white font-medium">
                   {lectureVideoData.video_title}

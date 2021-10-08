@@ -1,4 +1,6 @@
+import { isArray } from 'lodash';
 import { CSSProperties, FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ITags } from '../../interfaces';
@@ -66,7 +68,7 @@ const LectureCard: FC<LectureCardProps> = ({
         <div className="w-full px-[20px] font-medium text-[12px] leading-[150%] text-[#808695]">
           {teacherNickname}
         </div>
-        {tags && tags.length > 0 && (
+        {tags && isArray(tags) && tags.length > 0 ? (
           <div
             onMouseDown={(event) => {
               event.stopPropagation();
@@ -85,6 +87,10 @@ const LectureCard: FC<LectureCardProps> = ({
               })}
             </Slider>
           </div>
+        ) : tags && isArray(tags) && tags.length === 0 ? (
+          <></>
+        ) : (
+          <Skeleton className="w-full h-[34px]" />
         )}
       </div>
     </div>

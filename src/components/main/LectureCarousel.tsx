@@ -135,7 +135,9 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
             })}
           </Slider>
         </div>
-      ) : allLecturesData && allLecturesData.length === 0 ? (
+      ) : allLecturesData &&
+        isArray(allLecturesData) &&
+        allLecturesData.length === 0 ? (
         <div className="flex w-full h-[300px] justify-center items-center">
           강좌가 존재하지 않습니다!
         </div>
