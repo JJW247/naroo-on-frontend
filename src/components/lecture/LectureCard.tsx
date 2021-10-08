@@ -88,7 +88,9 @@ const LectureCard: FC<LectureCardProps> = ({
             </Slider>
           </div>
         ) : tags && isArray(tags) && tags.length === 0 ? (
-          <></>
+          <div className="w-full h-[34px] rounded-full text-xs text-gray-200 bg-harp">
+            태그가 존재하지 않습니다!
+          </div>
         ) : (
           <Skeleton className="w-full h-[34px]" />
         )}

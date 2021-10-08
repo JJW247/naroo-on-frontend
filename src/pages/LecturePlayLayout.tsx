@@ -55,7 +55,9 @@ const LecturePlayLayout: FC<LecturePlayLayoutProps> = ({ token, setToken }) => {
                 ) : lectureVideoData.tags &&
                   isArray(lectureVideoData.tags) &&
                   lectureVideoData.tags.length === 0 ? (
-                  <div className="p-[5px]">태그가 존재하지 않습니다!</div>
+                  <div className="p-[5px] text-xs text-white">
+                    태그가 존재하지 않습니다!
+                  </div>
                 ) : (
                   <Skeleton className="w-full h-[34px]" />
                 )}
