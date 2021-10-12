@@ -5,6 +5,9 @@ import LectureCarousel from '../components/main/LectureCarousel';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { IResourceContent } from '../interfaces';
+import { isArray } from 'lodash';
+import Skeleton from 'react-loading-skeleton';
 
 interface MainLayoutProps {
   token: string | null;
@@ -16,6 +19,11 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   const history = useHistory();
+  const { data: infoBanner } = useGetSWR<IResourceContent[]>(
+    `${process.env.REACT_APP_BACK_URL}/resource/info_banner`,
+    null,
+    false,
+  );
   try {
     if (requestToken) {
       const { data, error } = useGetSWR<{ token: string | null }>(
@@ -50,12 +58,16 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
   } finally {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
-        <Link to="/info">
-          <img
-            className="w-full max-h-[320px] object-fit"
-            src={`https://drive.google.com/uc?export=download&id=1a-kBV6dXhXFSc2FxpV29ow0hq3vbtlco`}
-          />
-        </Link>
+        {infoBanner && isArray(infoBanner) && infoBanner.length > 0 ? (
+          <Link to="/info">
+            <img
+              className="w-full max-h-[380px] object-fit"
+              src={infoBanner[0].content}
+            />
+          </Link>
+        ) : (
+          <Skeleton className="w-full h-[380px]" />
+        )}
         <LectureCarousel token={token} setToken={setToken} />
         <OrgCarousel />
       </div>

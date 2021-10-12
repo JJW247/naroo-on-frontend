@@ -39,6 +39,8 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                       ? 'Header 로고 URL : '
                       : resource.type === 'footer_logo'
                       ? 'Footer 로고 URL : '
+                      : resource.type === 'info_banner'
+                      ? '서비스 소개 배너 URL : '
                       : resource.type === 'org_carousel'
                       ? `기관 슬라이더 이미지 URL : `
                       : ''}
