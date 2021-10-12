@@ -79,7 +79,7 @@ const Header: FC<HeaderProps> = ({
               <img
                 className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
                 src={headerLogo[0].content}
-                width="132"
+                width="98"
                 alt="Logo"
               />
             ) : (
@@ -167,7 +167,7 @@ const Header: FC<HeaderProps> = ({
         <div className="flex items-center w-full justify-evenly">
           <Link to="/">
             {headerLogo && headerLogo.length > 0 ? (
-              <img src={headerLogo[0].content} width="132" alt="Logo" />
+              <img src={headerLogo[0].content} width="98" alt="Logo" />
             ) : (
               ''
             )}
