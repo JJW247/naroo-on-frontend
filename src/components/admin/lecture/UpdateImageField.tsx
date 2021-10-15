@@ -55,7 +55,12 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/${lectureId}`,
         {
-          [fieldType]: preview,
+          [fieldType]:
+            fieldType === 'img_description' && imageIndex !== null
+              ? { index: (imageIndex - 1).toString(), image: preview }
+              : fieldType === 'thumbnail'
+              ? preview
+              : '',
         },
         {
           headers: {
