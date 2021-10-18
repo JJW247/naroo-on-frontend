@@ -43,7 +43,6 @@ const LecturePermission: FC<LecturePermissionProps> = ({
   }>();
   const onHandleFilterChange = useCallback(
     (changedOption) => {
-      console.log(changedOption);
       setSelectedFilter(changedOption);
       if (changedOption.value === 'lecture') {
         setStudentFilter({ value: '', label: '' });

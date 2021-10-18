@@ -219,7 +219,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   ) => {
     try {
       event.preventDefault();
-      console.log(questionId);
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/answer`,
         {
@@ -279,9 +278,9 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     <>
       {informationLecture && informationLecture.data && (
         <>
-          <div className="hidden 2xl:flex w-full h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
+          <div className="hidden xl:flex w-full min-h-[506px] max-h-[506px] mx-auto bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
             <img
-              className="mr-[32px] rounded-[8px] min-w-[555px] max-w-[555px] min-h-[361px] max-h-[361px] object-fill"
+              className="mr-[150px] rounded-[8px] min-w-[346px] max-w-[346px] min-h-[346px] max-h-[346px] object-fill"
               width="555px"
               height="361px"
               src={
@@ -294,34 +293,34 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               <div className="w-[737px] max-h-[96px] overflow-hidden mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
                 {informationLecture.data.title && informationLecture.data.title}
               </div>
-              <div className="text-right text-[18px] mb-[12px] text-white leading-[25px] font-semibold">
-                현재{' '}
-                {informationLecture.data.users
-                  ? informationLecture.data.users
-                  : 0}
-                명이 수강하고 있어요!
-              </div>
-              <div className="flex wrap">
+              <div className="flex wrap items-center min-h-[209.5px] max-h-[209.5px]">
                 <div className="block w-full">
-                  <div className="mb-[6px] flex items-center text-white text-[16px] leading-[150%] font-semibold">
-                    <u>
+                  <div className="mb-[30px] w-full flex justify-between items-center text-white text-[16px] leading-[150%] font-semibold">
+                    <div>
                       {informationLecture.data.teacher_nickname
                         ? informationLecture.data.teacher_nickname
                         : ''}
-                    </u>
+                    </div>
+                    <div className="text-[18px] text-white leading-[25px] font-semibold">
+                      현재{' '}
+                      {informationLecture.data.users
+                        ? informationLecture.data.users
+                        : 0}
+                      명이 수강하고 있어요!
+                    </div>
                   </div>
-                  <div className="max-w-[739px] max-h-[130px] overflow-hidden text-[18px] text-white leading-[25px] font-semibold">
+                  <div className="max-w-[644px] max-h-[96px] overflow-hidden text-[16px] text-white leading-[24px] font-semibold">
                     {informationLecture.data.description
                       ? informationLecture.data.description
                       : ''}
                   </div>
                 </div>
               </div>
-              <div className="mt-[32px]">
+              <div className="flex items-center justify-between w-full">
                 {(userType === 'student' || !token) && (
                   <button
                     onClick={onPlayLectureHandler}
-                    className={`rounded-[4px] w-[176px] h-[54px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
+                    className={`rounded-[4px] min-w-[132px] max-w-[132px] min-h-[41px] max-h-[41px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                       informationLecture.data.status === 'apply' ||
                       informationLecture.data.status === 'reject' ||
                       informationLecture.data.status === 'expired'
@@ -356,7 +355,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     )}
                   </button>
                 )}
-                <div className="mt-[13px] text-[21px] leading-[28.5px] text-white font-semibold">
+                <div className="text-[21px] leading-[28.5px] text-white font-semibold">
                   {informationLecture.data.expired && (
                     <>
                       {new Date(
@@ -379,7 +378,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           </div>
-          <div className="w-full 2xl:hidden max-h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
+          <div className="w-full xl:hidden max-h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
             <img
               className="mx-auto rounded-[8px] min-w-[70%] max-w-[70%] min-h-[361px] max-h-[361px] object-fill"
               src={

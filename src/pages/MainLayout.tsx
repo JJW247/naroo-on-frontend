@@ -32,7 +32,6 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
         false,
       );
       if (error) {
-        console.log(error);
         const messages = error.response?.data?.message;
         if (Array.isArray(messages)) {
           messages.map((message) => {
