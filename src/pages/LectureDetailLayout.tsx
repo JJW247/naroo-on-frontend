@@ -336,13 +336,24 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         : false
                     }
                   >
-                    {token && !informationLecture.data.status && '수강 신청'}
-                    {informationLecture.data.status === 'apply' && '승인 대기'}
-                    {informationLecture.data.status === 'reject' && '승인 거부'}
-                    {!token && !informationLecture.data.status && '로그인 필요'}
-                    {informationLecture.data.status === 'accept' && '학습 하기'}
-                    {informationLecture.data.status === 'expired' &&
-                      '수강 만료'}
+                    {informationLecture.data.status === 'expired' ? (
+                      '수강 만료'
+                    ) : (
+                      <>
+                        {token &&
+                          !informationLecture.data.status &&
+                          '수강 신청'}
+                        {informationLecture.data.status === 'apply' &&
+                          '승인 대기'}
+                        {informationLecture.data.status === 'reject' &&
+                          '승인 거부'}
+                        {!token &&
+                          !informationLecture.data.status &&
+                          '로그인 필요'}
+                        {informationLecture.data.status === 'accept' &&
+                          '학습 하기'}
+                      </>
+                    )}
                   </button>
                 )}
                 <div className="mt-[13px] text-[21px] leading-[28.5px] text-white font-semibold">
@@ -399,12 +410,22 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       : false
                   }
                 >
-                  {token && !informationLecture.data.status && '수강 신청'}
-                  {informationLecture.data.status === 'apply' && '승인 대기'}
-                  {informationLecture.data.status === 'reject' && '승인 거부'}
-                  {!token && !informationLecture.data.status && '로그인 필요'}
-                  {informationLecture.data.status === 'accept' && '학습 하기'}
-                  {informationLecture.data.status === 'expired' && '수강 만료'}
+                  {informationLecture.data.status === 'expired' ? (
+                    '수강 만료'
+                  ) : (
+                    <>
+                      {token && !informationLecture.data.status && '수강 신청'}
+                      {informationLecture.data.status === 'apply' &&
+                        '승인 대기'}
+                      {informationLecture.data.status === 'reject' &&
+                        '승인 거부'}
+                      {!token &&
+                        !informationLecture.data.status &&
+                        '로그인 필요'}
+                      {informationLecture.data.status === 'accept' &&
+                        '학습 하기'}
+                    </>
+                  )}
                 </button>
               )}
             </div>
