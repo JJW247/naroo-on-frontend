@@ -100,17 +100,6 @@ const Header: FC<HeaderProps> = ({
                     강의
                   </button>
                 </Link>
-                <Link to="/info">
-                  <button
-                    className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
-                      location.pathname === '/info'
-                        ? 'text-[#8DC556]'
-                        : 'text-[#515A6E]'
-                    }`}
-                  >
-                    소개
-                  </button>
-                </Link>
                 <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
                   문의하기
                 </button>
@@ -194,17 +183,6 @@ const Header: FC<HeaderProps> = ({
                       }`}
                     >
                       강의
-                    </button>
-                  </Link>
-                  <Link to="/info">
-                    <button
-                      className={`block w-full px-[10px] py-[10px]  ${
-                        location.pathname === '/info'
-                          ? 'text-[#8DC556]'
-                          : 'text-[#515A6E]'
-                      }`}
-                    >
-                      소개
                     </button>
                   </Link>
                   <button className="block w-full px-[10px] py-[10px]">

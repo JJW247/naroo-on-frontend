@@ -59,12 +59,10 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
     return (
       <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
         {infoBanner && isArray(infoBanner) && infoBanner.length > 0 ? (
-          <Link to="/info">
-            <img
-              className="w-full max-h-[380px] object-fit"
-              src={infoBanner[0].content}
-            />
-          </Link>
+          <img
+            className="w-full max-h-[380px] object-fit"
+            src={infoBanner[0].content}
+          />
         ) : (
           <Skeleton className="w-full h-[380px]" />
         )}

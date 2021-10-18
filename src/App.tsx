@@ -16,7 +16,6 @@ import SigninLayout from './pages/SigninLayout';
 import SignupLayout from './pages/SignupLayout';
 import LetcureDetailLayout from './pages/LectureDetailLayout';
 import LecturePlayLayout from './pages/LecturePlayLayout';
-import IntroduceLayout from './pages/IntroduceLayout';
 import AdminLayout from './pages/AdminLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -192,12 +191,6 @@ const App: FC = () => {
             ) : (
               <LecturePlayLayout token={token} setToken={setToken} />
             )
-          }
-        />
-        <Route
-          path="/info"
-          render={() =>
-            userType === 'admin' ? <Redirect to="/" /> : <IntroduceLayout />
           }
         />
       </Switch>
