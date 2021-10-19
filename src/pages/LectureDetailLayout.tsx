@@ -278,19 +278,17 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     <>
       {informationLecture && informationLecture.data && (
         <>
-          <div className="hidden xl:flex w-full min-h-[506px] max-h-[506px] mx-auto bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
+          <div className="hidden md:flex w-full min-h-[506px] max-h-[506px] mx-auto bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
             <img
-              className="mr-[150px] rounded-[8px] min-w-[346px] max-w-[346px] min-h-[346px] max-h-[346px] object-fill"
-              width="555px"
-              height="361px"
+              className="2xl:mr-[192px] xl:mr-[150px] lg:mr-[128px] md:mr-[96px] rounded-[8px] 2xl:min-w-[442.88px] 2xl:max-w-[442.88px] 2xl:min-h-[442.88px] 2xl:max-h-[442.88px] xl:min-w-[346px] xl:max-w-[346px] xl:min-h-[346px] xl:max-h-[346px] lg:min-w-[295.25px] lg:max-w-[295.25px] lg:min-h-[295.25px] lg:max-h-[295.25px] md:min-w-[221.44px] md:max-w-[221.44px] md:min-h-[221.44px] md:max-h-[221.44px] object-fill"
               src={
                 informationLecture.data.thumbnail
                   ? informationLecture.data.thumbnail
                   : ''
               }
             />
-            <div>
-              <div className="w-[737px] max-h-[96px] overflow-hidden mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
+            <div className="2xl:min-w-[824.32px] 2xl:max-w-[824.32px] xl:min-w-[644px] xl:max-w-[644px] lg:min-w-[549.55px] lg:max-w-[549.55px] md:min-w-[412.16px] md:max-w-[412.16px]">
+              <div className="w-full max-h-[96px] overflow-hidden mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
                 {informationLecture.data.title && informationLecture.data.title}
               </div>
               <div className="flex wrap items-center min-h-[209.5px] max-h-[209.5px]">
@@ -309,7 +307,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       명이 수강하고 있어요!
                     </div>
                   </div>
-                  <div className="max-w-[644px] max-h-[96px] overflow-hidden text-[16px] text-white leading-[24px] font-semibold">
+                  <div className="w-full max-h-[96px] overflow-hidden text-[16px] text-white leading-[24px] font-semibold">
                     {informationLecture.data.description
                       ? informationLecture.data.description
                       : ''}
@@ -320,7 +318,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                 {(userType === 'student' || !token) && (
                   <button
                     onClick={onPlayLectureHandler}
-                    className={`rounded-[4px] min-w-[132px] max-w-[132px] min-h-[41px] max-h-[41px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
+                    className={`rounded-[4px] 2xl:min-w-[168.96px] 2xl:max-w-[168.96px] xl:min-w-[132px] xl:max-w-[132px] lg:min-w-[112.64px] lg:max-w-[112.64px] md:min-w-[84.48px] md:max-w-[84.48px] min-h-[41px] max-h-[41px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                       informationLecture.data.status === 'apply' ||
                       informationLecture.data.status === 'reject' ||
                       informationLecture.data.status === 'expired'
@@ -355,7 +353,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     )}
                   </button>
                 )}
-                <div className="text-[21px] leading-[28.5px] text-white font-semibold">
+                <div className="lg:text-[21px] md:text-[15px] leading-[150%] text-white font-semibold">
                   {informationLecture.data.expired && (
                     <>
                       {new Date(
@@ -378,9 +376,9 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           </div>
-          <div className="w-full xl:hidden max-h-[506px] bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
+          <div className="w-full md:hidden bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
             <img
-              className="mx-auto rounded-[8px] min-w-[70%] max-w-[70%] min-h-[361px] max-h-[361px] object-fill"
+              className="mx-auto rounded-[8px] min-w-[70vw] max-w-[70vw] min-h-[70vw] max-h-[70vw] object-fill"
               src={
                 informationLecture.data.thumbnail
                   ? informationLecture.data.thumbnail
