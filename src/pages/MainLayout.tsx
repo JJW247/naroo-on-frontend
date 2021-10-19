@@ -4,7 +4,6 @@ import { useGetSWR } from '../hooks/api';
 import LectureCarousel from '../components/main/LectureCarousel';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 import { IResourceContent } from '../interfaces';
 import { isArray } from 'lodash';
 import Skeleton from 'react-loading-skeleton';

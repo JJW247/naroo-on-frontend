@@ -278,20 +278,20 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     <>
       {informationLecture && informationLecture.data && (
         <>
-          <div className="hidden md:flex w-full min-h-[506px] max-h-[506px] mx-auto bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
+          <div className="hidden lg:flex w-full 2xl:min-h-[647.68px] 2xl:max-h-[647.68px] xl:min-h-[506px] xl:max-h-[506px] lg:min-h-[431.79px] lg:max-h-[431.79px] mx-auto bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center">
             <img
-              className="2xl:mr-[192px] xl:mr-[150px] lg:mr-[128px] md:mr-[96px] rounded-[8px] 2xl:min-w-[442.88px] 2xl:max-w-[442.88px] 2xl:min-h-[442.88px] 2xl:max-h-[442.88px] xl:min-w-[346px] xl:max-w-[346px] xl:min-h-[346px] xl:max-h-[346px] lg:min-w-[295.25px] lg:max-w-[295.25px] lg:min-h-[295.25px] lg:max-h-[295.25px] md:min-w-[221.44px] md:max-w-[221.44px] md:min-h-[221.44px] md:max-h-[221.44px] object-fill"
+              className="2xl:mr-[192px] xl:mr-[150px] lg:mr-[128px] rounded-[8px] 2xl:min-w-[442.88px] 2xl:max-w-[442.88px] 2xl:min-h-[442.88px] 2xl:max-h-[442.88px] xl:min-w-[346px] xl:max-w-[346px] xl:min-h-[346px] xl:max-h-[346px] lg:min-w-[295.25px] lg:max-w-[295.25px] lg:min-h-[295.25px] lg:max-h-[295.25px] object-fill"
               src={
                 informationLecture.data.thumbnail
                   ? informationLecture.data.thumbnail
                   : ''
               }
             />
-            <div className="2xl:min-w-[824.32px] 2xl:max-w-[824.32px] xl:min-w-[644px] xl:max-w-[644px] lg:min-w-[549.55px] lg:max-w-[549.55px] md:min-w-[412.16px] md:max-w-[412.16px]">
-              <div className="w-full max-h-[96px] overflow-hidden mb-[32px] text-white text-[32px] leading-[150%] font-semibold">
+            <div className="2xl:min-w-[824.32px] 2xl:max-w-[824.32px] xl:min-w-[644px] xl:max-w-[644px] lg:min-w-[549.55px] lg:max-w-[549.55px] 2xl:min-h-[442.88px] 2xl:max-h-[442.88px] xl:min-h-[346px] xl:max-h-[346px] lg:min-h-[295.25px] lg:max-h-[295.25px] flex flex-col justify-between">
+              <div className="w-full max-h-[96px] overflow-hidden text-white text-[32px] leading-[150%] font-semibold">
                 {informationLecture.data.title && informationLecture.data.title}
               </div>
-              <div className="flex wrap items-center min-h-[209.5px] max-h-[209.5px]">
+              <div className="flex wrap items-center w-full min-h-[209.5px] max-h-[209.5px]">
                 <div className="block w-full">
                   <div className="mb-[30px] w-full flex justify-between items-center text-white text-[16px] leading-[150%] font-semibold">
                     <div>
@@ -299,7 +299,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                         ? informationLecture.data.teacher_nickname
                         : ''}
                     </div>
-                    <div className="text-[18px] text-white leading-[25px] font-semibold">
+                    <div className="text-[16px] text-white leading-[150%] font-semibold">
                       현재{' '}
                       {informationLecture.data.users
                         ? informationLecture.data.users
@@ -314,11 +314,11 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between w-full">
+              <div className="flex items-center justify-between w-full min-h-[41px] max-h-[41px]">
                 {(userType === 'student' || !token) && (
                   <button
                     onClick={onPlayLectureHandler}
-                    className={`rounded-[4px] 2xl:min-w-[168.96px] 2xl:max-w-[168.96px] xl:min-w-[132px] xl:max-w-[132px] lg:min-w-[112.64px] lg:max-w-[112.64px] md:min-w-[84.48px] md:max-w-[84.48px] min-h-[41px] max-h-[41px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
+                    className={`rounded-[4px] 2xl:min-w-[168.96px] 2xl:max-w-[168.96px] xl:min-w-[132px] xl:max-w-[132px] lg:min-w-[112.64px] lg:max-w-[112.64px] min-h-[41px] max-h-[41px] text-[#4DBFF0] text-[14px] font-semibold leading-[150%] bg-white ${
                       informationLecture.data.status === 'apply' ||
                       informationLecture.data.status === 'reject' ||
                       informationLecture.data.status === 'expired'
@@ -353,7 +353,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     )}
                   </button>
                 )}
-                <div className="lg:text-[21px] md:text-[15px] leading-[150%] text-white font-semibold">
+                <div className="text-[14px] leading-[150%] text-white font-semibold">
                   {informationLecture.data.expired && (
                     <>
                       {new Date(
@@ -376,7 +376,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           </div>
-          <div className="w-full md:hidden bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
+          <div className="w-full lg:hidden bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
             <img
               className="mx-auto rounded-[8px] min-w-[70vw] max-w-[70vw] min-h-[70vw] max-h-[70vw] object-fill"
               src={

@@ -30,7 +30,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         },
       },
       {
-        breakpoint: 1280,
+        breakpoint: 1200,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -63,7 +63,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
     false,
   );
   return (
-    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[445px] mx-auto mt-[122px] pb-[96px]">
+    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
       {token && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
