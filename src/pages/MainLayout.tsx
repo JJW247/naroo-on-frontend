@@ -65,7 +65,9 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
           <Skeleton className="w-full h-[380px]" />
         )}
         <LectureCarousel token={token} setToken={setToken} />
-        <OrgCarousel />
+        <div className="min-h-[200px] max-h-[200px] bg-[#F8F8F9]">
+          <OrgCarousel />
+        </div>
       </div>
     );
   }

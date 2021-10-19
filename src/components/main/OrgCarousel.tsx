@@ -21,23 +21,23 @@ const OrgCarousel: FC = () => {
         },
       },
       {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1024,
+        breakpoint: 1200,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -49,17 +49,17 @@ const OrgCarousel: FC = () => {
     false,
   );
   return (
-    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[752px] md:max-w-[607px] sm:max-w-[506px] xs:max-w-[375px] mx-auto mt-[139px] mb-[66px]">
-      <div className="text-center text-[#515A6E] leading-[150%] 2xl:text-[36px] xl:text-[24px] md:text-[24px] lg:text-[24px] font-semibold mb-[28px]">
+    <div className="2xl:max-w-[1350px] xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pt-[36px] pb-[32px]">
+      <div className="text-center text-[#515A6E] leading-[150%] text-[24px] font-semibold mb-[28px]">
         이미 다양한 기관들이 나루온과 함께하고 있어요.
       </div>
       {data && isArray(data) && data.length > 0 ? (
-        <Slider {...settings}>
+        <Slider {...settings} className="bg-white">
           {data.map((element) => {
             return (
               <img
                 key={element.content}
-                className="max-h-[96px]"
+                className="min-w-[285px] max-w-[285px] min-h-[67.06px] max-h-[67.06px]"
                 src={element.content}
               />
             );

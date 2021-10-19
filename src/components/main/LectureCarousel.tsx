@@ -25,14 +25,14 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       {
         breakpoint: 1536,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
@@ -63,7 +63,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
     false,
   );
   return (
-    <div className="2xl:max-w-[1520px] xl:max-w-[1140px] lg:max-w-[952px] md:max-w-[707px] sm:max-w-[556px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
+    <div className="2xl:max-w-[1350px] xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
       {token && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
@@ -105,7 +105,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           )}
         </>
       )}
-      <div className=" mt-[122px] text-2xl font-semibold text-gray-400">
+      <div className="mt-[122px] text-2xl font-semibold text-gray-400">
         모든 강좌
         {allLecturesData && allLecturesData.length >= 0
           ? ` (${allLecturesData.length})`
