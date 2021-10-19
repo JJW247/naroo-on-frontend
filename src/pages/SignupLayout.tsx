@@ -126,7 +126,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
         value="가입하기"
       />
       <div className="mb-[4px] text-[12px] leading-[16px] text-center">
-        가입 시, 마포런의 이용약관, 개인정보취급방침에 동의합니다.
+        가입 시, 마포청년나루의 이용약관, 개인정보취급방침에 동의합니다.
       </div>
       <div className="mb-[47px] text-[12px] leading-[16px] flex justify-center items-center">
         <input
@@ -135,7 +135,7 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
           checked={isAgreeEmail}
           onChange={(event) => setIsAgreeEmail(event.target.checked)}
         />
-        마포런의 다양한 소식을 받아보시겠어요?
+        나루온의 다양한 소식을 받아보시겠어요?
       </div>
     </form>
   );

@@ -72,7 +72,7 @@ const Header: FC<HeaderProps> = ({
   }, [isVisibleEllipsis]);
   return (
     <div className="h-[100px] font-semibold text-gray-300 font-noto">
-      <div className="2xl:max-w-full xl:max-w-[1200px] lg:max-w-[949px] md:max-w-[767px] md:flex hidden h-full mx-auto justify-center items-center">
+      <div className="2xl:max-w-[1350px] xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] md:flex hidden h-full mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">
             {headerLogo && headerLogo.length > 0 ? (
