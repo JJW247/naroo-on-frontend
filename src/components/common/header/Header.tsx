@@ -164,7 +164,13 @@ const Header: FC<HeaderProps> = ({
           {((token && userType !== 'admin') || token === '' || !token) && (
             <>
               <button
-                className="rounded-[1px] min-w-max sm:mx-[112px] xs:mx-[63px]"
+                className={`rounded-[1px] min-w-max ${
+                  token === '' || !token
+                    ? 'sm:mx-[112px] xs:mx-[63px]'
+                    : token && nickname && userType !== 'admin'
+                    ? 'sm:mx-[165px] xs:mx-[115px]'
+                    : ''
+                }`}
                 onClick={() => setIsVisibleMenu(!isVisibleMenu)}
               >
                 메뉴
@@ -230,7 +236,7 @@ const Header: FC<HeaderProps> = ({
           )}
           {token && nickname && userType === 'admin' && (
             <button
-              className="flex items-center justify-center"
+              className="flex items-center justify-center ml-[50%]"
               onClick={logoutHandler}
             >
               로그아웃
