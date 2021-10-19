@@ -77,7 +77,7 @@ const Header: FC<HeaderProps> = ({
           <Link to="/">
             {headerLogo && headerLogo.length > 0 ? (
               <img
-                className="2xl:mr-[63px] xl:mr-[47px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
+                className="2xl:mr-[63px] xl:mr-[80px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
                 src={headerLogo[0].content}
                 width="98"
                 alt="Logo"
@@ -91,7 +91,7 @@ const Header: FC<HeaderProps> = ({
               <>
                 <Link to="/">
                   <button
-                    className={`mr-[40px] text-[18px] leading-[27px] font-semibold ${
+                    className={`mr-[42px] text-[18px] leading-[27px] font-semibold ${
                       location.pathname === '/'
                         ? 'text-[#8DC556]'
                         : 'text-[#515A6E]'
@@ -100,7 +100,7 @@ const Header: FC<HeaderProps> = ({
                     강의
                   </button>
                 </Link>
-                <button className="mr-[42px] text-[18px] leading-[27px] font-semibold">
+                <button className="text-[18px] leading-[27px] font-semibold">
                   문의하기
                 </button>
               </>
@@ -110,7 +110,7 @@ const Header: FC<HeaderProps> = ({
         <div>
           {token && nickname && userType !== 'admin' && (
             <div
-              className="2xl:ml-[701px] xl:ml-[526px] lg:ml-[280px] md:ml-[130px]"
+              className="2xl:ml-[1004px] xl:ml-[789px] lg:ml-[534px] md:ml-[359px]"
               onMouseEnter={() => setIsVisibleEllipsis(true)}
               onMouseLeave={() => setIsVisibleEllipsis(false)}
             >
@@ -129,14 +129,14 @@ const Header: FC<HeaderProps> = ({
             </div>
           )}
           {(token === '' || !token) && (
-            <div className="2xl:ml-[457px] xl:ml-[343px] lg:ml-[180px] md:ml-[30px]">
+            <div className="2xl:ml-[823px] xl:ml-[600.24px] lg:ml-[379px] md:ml-[248px]">
               <Link to="/signin">
-                <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] 2xl:w-[99px] xl:w-[99px] lg:w-[80px] md:w-[60px]">
+                <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] xl:w-[99px] lg:w-[84.48px] md:w-[63.36px]">
                   로그인
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="ml-[12px] font-[14px] leading-[21px] font-semibold text-white bg-[#8DC556] rounded-[40px] h-[41px] 2xl:w-[112px] xl:w-[112px] lg:w-[90px] md:w-[70px]">
+                <button className="ml-[12px] font-[14px] leading-[21px] font-semibold text-white bg-[#8DC556] rounded-[40px] h-[41px] xl:w-[112px] lg:w-[95.57px] md:w-[71.68px]">
                   회원가입
                 </button>
               </Link>
@@ -153,7 +153,7 @@ const Header: FC<HeaderProps> = ({
         </div>
       </div>
       <div className="flex items-center justify-between h-full mx-auto md:hidden">
-        <div className="flex items-center w-full justify-evenly">
+        <div className="flex items-center justify-center w-full">
           <Link to="/">
             {headerLogo && headerLogo.length > 0 ? (
               <img src={headerLogo[0].content} width="98" alt="Logo" />
@@ -164,7 +164,7 @@ const Header: FC<HeaderProps> = ({
           {((token && userType !== 'admin') || token === '' || !token) && (
             <>
               <button
-                className="rounded-[1px] w-[200px]"
+                className="rounded-[1px] min-w-max sm:mx-[112px] xs:mx-[63px]"
                 onClick={() => setIsVisibleMenu(!isVisibleMenu)}
               >
                 메뉴
