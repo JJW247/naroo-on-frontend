@@ -62,8 +62,93 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
     token,
     false,
   );
+  // return (
+  //   <div className="2xl:max-w-[1350px] xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
+  //     {token && (
+  //       <>
+  //         <div className="text-2xl font-semibold text-gray-400">
+  //           내가 신청한 강좌
+  //           {userLecturesData && userLecturesData.length >= 0
+  //             ? ` (${userLecturesData.length})`
+  //             : ''}
+  //         </div>
+  //         <div className="mt-2 text-gray-300 mb-7">
+  //           내가 신청한 강좌를 복습해보세요
+  //         </div>
+  //         {userLecturesData &&
+  //         isArray(userLecturesData) &&
+  //         userLecturesData.length > 0 ? (
+  //           <div className="mx-[24px]">
+  //             <Slider {...settings}>
+  //               {userLecturesData.map((lecture) => {
+  //                 return (
+  //                   <LectureCard
+  //                     key={lecture.id}
+  //                     id={lecture.id}
+  //                     title={lecture.title}
+  //                     thumbnail={lecture.thumbnail}
+  //                     teacherNickname={lecture.teacher_nickname}
+  //                     status={lecture.status}
+  //                     expired={lecture.expired}
+  //                     tags={lecture.tags}
+  //                   />
+  //                 );
+  //               })}
+  //             </Slider>
+  //           </div>
+  //         ) : isArray(userLecturesData) && userLecturesData.length === 0 ? (
+  //           <div className="flex w-full h-[300px] justify-center items-center">
+  //             신청한 강좌가 존재하지 않습니다!
+  //           </div>
+  //         ) : (
+  //           <Skeleton className="w-full h-[300px]" />
+  //         )}
+  //       </>
+  //     )}
+  //     <div className="mt-[122px] text-2xl font-semibold text-gray-400">
+  //       모든 강좌
+  //       {allLecturesData && allLecturesData.length >= 0
+  //         ? ` (${allLecturesData.length})`
+  //         : ''}
+  //     </div>
+  //     <div className="mt-2 text-gray-300 mb-7">
+  //       완료 혹은 진행중인 전체 강좌를 살펴보세요
+  //     </div>
+  //     {allLecturesData &&
+  //     isArray(allLecturesData) &&
+  //     allLecturesData.length > 0 ? (
+  //       <div className="mx-[24px]">
+  //         <Slider {...settings}>
+  //           {allLecturesData.map((lecture) => {
+  //             return (
+  //               <LectureCard
+  //                 key={lecture.id}
+  //                 id={lecture.id}
+  //                 title={lecture.title}
+  //                 thumbnail={lecture.thumbnail}
+  //                 teacherNickname={lecture.teacher_nickname}
+  //                 status={null}
+  //                 expired={lecture.expired}
+  //                 tags={lecture.tags}
+  //               />
+  //             );
+  //           })}
+  //         </Slider>
+  //       </div>
+  //     ) : allLecturesData &&
+  //       isArray(allLecturesData) &&
+  //       allLecturesData.length === 0 ? (
+  //       <div className="flex w-full h-[300px] justify-center items-center">
+  //         강좌가 존재하지 않습니다!
+  //       </div>
+  //     ) : (
+  //       <Skeleton className="w-full h-[300px]" />
+  //     )}
+  //   </div>
+  // );
+
   return (
-    <div className="2xl:max-w-[1350px] xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
+    <div className="xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
       {token && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
