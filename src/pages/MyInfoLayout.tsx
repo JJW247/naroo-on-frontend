@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import UpdateUserField from '../components/admin/user/UpdateUserField';
 import { useGetSWR } from '../hooks/api';
-import { IStudentEdit } from '../interfaces';
+import { IUserEdit } from '../interfaces';
 
 interface MyInfoLayoutProps {
   token: string | null;
@@ -11,7 +11,7 @@ interface MyInfoLayoutProps {
 }
 
 const MyInfoLayout: FC<MyInfoLayoutProps> = ({ token, setToken }) => {
-  const { data: myInfoData, mutate: myInfoMutate } = useGetSWR<IStudentEdit>(
+  const { data: myInfoData, mutate: myInfoMutate } = useGetSWR<IUserEdit>(
     `${process.env.REACT_APP_BACK_URL}/user/myinfo`,
     token,
     true,

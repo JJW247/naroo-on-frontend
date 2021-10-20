@@ -8,11 +8,12 @@ export interface IResources {
   content: string;
 }
 
-export interface IStudentEdit {
+export interface IUserEdit {
   id: string;
   email: string;
   nickname: string;
   phone: string;
+  role: string;
 }
 
 export interface ILectureInList {

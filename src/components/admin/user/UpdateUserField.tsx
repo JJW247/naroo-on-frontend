@@ -5,7 +5,7 @@ import { FC, FormEvent, FormEventHandler, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
-import { IStudentEdit } from '../../../interfaces';
+import { IUserEdit } from '../../../interfaces';
 
 interface UpdateUserFieldProps {
   token: string | null;
@@ -18,20 +18,20 @@ interface UpdateUserFieldProps {
   mutate:
     | ((
         data?:
-          | IStudentEdit[]
-          | Promise<IStudentEdit[]>
-          | MutatorCallback<IStudentEdit[]>
+          | IUserEdit[]
+          | Promise<IUserEdit[]>
+          | MutatorCallback<IUserEdit[]>
           | undefined,
         shouldRevalidate?: boolean | undefined,
-      ) => Promise<IStudentEdit[] | undefined>)
+      ) => Promise<IUserEdit[] | undefined>)
     | ((
         data?:
-          | IStudentEdit
-          | Promise<IStudentEdit>
-          | MutatorCallback<IStudentEdit>
+          | IUserEdit
+          | Promise<IUserEdit>
+          | MutatorCallback<IUserEdit>
           | undefined,
         shouldRevalidate?: boolean | undefined,
-      ) => Promise<IStudentEdit | undefined>);
+      ) => Promise<IUserEdit | undefined>);
 }
 
 const UpdateUserField: FC<UpdateUserFieldProps> = ({

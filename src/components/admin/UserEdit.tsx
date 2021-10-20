@@ -4,18 +4,18 @@ import axios from 'axios';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { DataResponse } from '../../hooks/api';
-import { IStudentEdit } from '../../interfaces';
+import { IUserEdit } from '../../interfaces';
 import UpdateUserField from './user/UpdateUserField';
 
-interface StudentEditProps {
+interface UserEditProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  students: DataResponse<IStudentEdit[]>;
+  users: DataResponse<IUserEdit[]>;
 }
 
-const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
+const UserEdit: FC<UserEditProps> = ({ token, setToken, users }) => {
   const onClickDeleteUser = async (id: string | null) => {
     try {
       const response = await axios.delete(
@@ -27,7 +27,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
         },
       );
       if (response.statusText === 'OK') {
-        students.mutate();
+        users.mutate();
       }
     } catch (error: any) {
       console.error(error);
@@ -43,60 +43,70 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
   };
   return (
     <div className="mt-[30px]">
-      {students.data &&
-        students.data
+      {users.data &&
+        users.data
           .sort((a, b) => +a.id - +b.id)
-          .map((student) => (
-            <div key={student.id ? student.id : null}>
-              {student.id && (
-                <div className="border-2 rounded p-[20px]">
+          .map((user) => (
+            <div key={user.id ? user.id : null}>
+              {user.id && (
+                <div
+                  className={`border-[1px] rounded-[4px] p-[20px] my-[20px] ${
+                    user.role === 'admin'
+                      ? 'border-[3px] border-red-700'
+                      : 'border-black'
+                  }`}
+                >
                   <div>
-                    {student.email && (
+                    {user.email && (
                       <UpdateUserField
                         token={token}
                         setToken={setToken}
                         fieldType="email"
-                        id={student.id}
-                        userField={student.email}
-                        mutate={students.mutate}
+                        id={user.id}
+                        userField={user.email}
+                        mutate={users.mutate}
                       />
                     )}
-                    {student.nickname && (
+                    {user.nickname && (
                       <UpdateUserField
                         token={token}
                         setToken={setToken}
                         fieldType="nickname"
-                        id={student.id}
-                        userField={student.nickname}
-                        mutate={students.mutate}
+                        id={user.id}
+                        userField={user.nickname}
+                        mutate={users.mutate}
                       />
                     )}
                     <UpdateUserField
                       token={token}
                       setToken={setToken}
                       fieldType="password"
-                      id={student.id}
+                      id={user.id}
                       userField={null}
-                      mutate={students.mutate}
+                      mutate={users.mutate}
                     />
-                    {student.phone && (
+                    {user.phone && (
                       <UpdateUserField
                         token={token}
                         setToken={setToken}
                         fieldType="phone"
-                        id={student.id}
-                        userField={student.phone}
-                        mutate={students.mutate}
+                        id={user.id}
+                        userField={user.phone}
+                        mutate={users.mutate}
                       />
                     )}
                   </div>
-                  <button className="block border-[1px] mx-auto mt-[10px] rounded-[4px] w-[10vw]">
+                  <button
+                    className={`${
+                      user.role === 'admin' ? 'hidden' : 'block'
+                    } border-[1px] mx-auto mt-[10px] rounded-[4px] w-[10vw]`}
+                  >
                     삭제
                     <FontAwesomeIcon
                       className="ml-[1vw]"
                       icon={faTrash}
                       onClick={() => {
-                        student.id ? onClickDeleteUser(student.id) : null;
+                        user.id ? onClickDeleteUser(user.id) : null;
                       }}
                     />
                   </button>
@@ -108,4 +118,4 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
   );
 };
 
-export default StudentEdit;
+export default UserEdit;

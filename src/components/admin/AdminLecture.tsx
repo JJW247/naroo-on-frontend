@@ -3,25 +3,20 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
 import { DataResponse, useGetSWR } from '../../hooks/api';
-import {
-  ILectureInList,
-  IResources,
-  IStudentEdit,
-  ITags,
-} from '../../interfaces';
+import { ILectureInList, IResources, IUserEdit, ITags } from '../../interfaces';
 import LectureAdd from './LectureAdd';
 import LectureEdit from './LectureEdit';
 import LecturePermission from './LecturePermission';
 import ResourceEdit from './ResourceEdit';
-import StudentEdit from './StudentEdit';
 import TagEdit from './TagEdit';
+import UserEdit from './UserEdit';
 
 interface AdminLectureProps {
   token: string | null;
   setToken: (
     value: string | ((val: string | null) => string | null) | null,
   ) => void;
-  students: DataResponse<IStudentEdit[]>;
+  users: DataResponse<IUserEdit[]>;
   tagsData: ITags[] | undefined;
   tagsMutate: (
     data?: ITags[] | Promise<ITags[]> | MutatorCallback<ITags[]> | undefined,
@@ -43,7 +38,7 @@ export type ADMIN_MENU = typeof CONST_ADMIN_MENU[keyof typeof CONST_ADMIN_MENU];
 const AdminLecture: FC<AdminLectureProps> = ({
   token,
   setToken,
-  students,
+  users,
   tagsData,
   tagsMutate,
 }) => {
@@ -102,7 +97,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
           }`}
           onClick={() => setSelectedMenu(CONST_ADMIN_MENU.STUDENT_EDIT)}
         >
-          학생 관리
+          사용자 관리
         </button>
         <button
           className={`border-[1px] border-[#515A6E] rounded p-[10px] text-xl min-w-max ${
@@ -191,7 +186,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
                   setIsVisibleMenu(false);
                 }}
               >
-                학생 관리
+                사용자 관리
               </button>
 
               <button
@@ -253,14 +248,18 @@ const AdminLecture: FC<AdminLectureProps> = ({
             token={token}
             setToken={setToken}
             studentOptions={
-              students.data
-                ? students.data.length > 0
-                  ? students.data.map((student) => {
-                      return {
-                        value: student.id,
-                        label: student.nickname,
-                      };
-                    })
+              users.data
+                ? users.data.length > 0
+                  ? users.data
+                      .filter((user) => {
+                        return user.role !== 'admin';
+                      })
+                      .map((user) => {
+                        return {
+                          value: user.id,
+                          label: user.nickname,
+                        };
+                      })
                   : []
                 : []
             }
@@ -281,7 +280,7 @@ const AdminLecture: FC<AdminLectureProps> = ({
       )}
       {selectedMenu === CONST_ADMIN_MENU.STUDENT_EDIT && (
         <div className="max-w-[90%] overflow-w-hidden mx-auto">
-          <StudentEdit token={token} setToken={setToken} students={students} />
+          <UserEdit token={token} setToken={setToken} users={users} />
         </div>
       )}
       {selectedMenu === CONST_ADMIN_MENU.TAG_EDIT && (
