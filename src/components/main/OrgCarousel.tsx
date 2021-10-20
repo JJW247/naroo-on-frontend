@@ -54,7 +54,7 @@ const OrgCarousel: FC = () => {
         이미 다양한 기관들이 나루온과 함께하고 있어요.
       </div>
       {data && isArray(data) && data.length > 0 ? (
-        <Slider {...settings} className="bg-white">
+        <Slider {...settings} className="bg-white mx-[24px]">
           {data.map((element) => {
             return (
               <img

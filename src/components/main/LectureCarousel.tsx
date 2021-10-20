@@ -78,7 +78,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           {userLecturesData &&
           isArray(userLecturesData) &&
           userLecturesData.length > 0 ? (
-            <div>
+            <div className="mx-[24px]">
               <Slider {...settings}>
                 {userLecturesData.map((lecture) => {
                   return (
@@ -117,7 +117,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       {allLecturesData &&
       isArray(allLecturesData) &&
       allLecturesData.length > 0 ? (
-        <div className="">
+        <div className="mx-[24px]">
           <Slider {...settings}>
             {allLecturesData.map((lecture) => {
               return (
