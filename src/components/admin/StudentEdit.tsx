@@ -49,7 +49,7 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
           .map((student) => (
             <div key={student.id ? student.id : null}>
               {student.id && (
-                <div className="border-2 rounded">
+                <div className="border-2 rounded p-[20px]">
                   <div>
                     {student.email && (
                       <UpdateUserField
@@ -90,8 +90,10 @@ const StudentEdit: FC<StudentEditProps> = ({ token, setToken, students }) => {
                       />
                     )}
                   </div>
-                  <button className="block w-full">
+                  <button className="block border-[1px] mx-auto mt-[10px] rounded-[4px] w-[10vw]">
+                    삭제
                     <FontAwesomeIcon
+                      className="ml-[1vw]"
                       icon={faTrash}
                       onClick={() => {
                         student.id ? onClickDeleteUser(student.id) : null;

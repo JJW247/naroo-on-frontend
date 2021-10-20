@@ -17,15 +17,15 @@ const MyInfoLayout: FC<MyInfoLayoutProps> = ({ token, setToken }) => {
     true,
   );
   return (
-    <>
-      <div className="2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto py-[4vh]">
-        <div className="text-4xl font-semibold text-center text-gray-400 mb-[4vh]">
+    <div className="min-h-[73vh] w-full flex justify-center items-center">
+      <div className="xl:min-w-[554px] xl:max-w-[554px] lg:min-w-[472.75px] lg:max-w-[472.75px] md:min-w-[354.56px] md:max-w-[354.56px] sm:min-w-[295.47px] sm:max-w-[295.47px] xs:min-w-[295.47px] xs:max-w-[295.47px] box-border rounded-[8px] border-[1px] border-[#DCDEE2] mx-auto my-[120px] py-[30px] xl:px-[98px] lg:px-[83.63px] md:px-[62.72px] sm:px-[52.27px] xs:px-[52.27px]">
+        <div className="text-[24px] leading-[150%] font-semibold">
           개인 정보 수정
         </div>
-        <div className="border-2 rounded">
+        <div className="mt-[20px]">
           {myInfoData && (
             <>
-              <div>
+              <div className="space-y-[20px]">
                 {myInfoData.email && (
                   <UpdateUserField
                     token={token}
@@ -69,7 +69,7 @@ const MyInfoLayout: FC<MyInfoLayoutProps> = ({ token, setToken }) => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

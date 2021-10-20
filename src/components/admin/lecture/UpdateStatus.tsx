@@ -104,13 +104,14 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
             options={statusOptions}
             onChange={onHandleChange}
           />
-          <input
-            className="rounded-[4px] min-w-max mx-[10px]"
-            type="submit"
-            value="수정"
-          />
           <button
-            className="rounded-[4px] min-w-max"
+            className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+            type="submit"
+          >
+            수정
+          </button>
+          <button
+            className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
             onClick={onClickUpdateToggle}
           >
             취소

@@ -148,7 +148,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="title">제목</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
           type="text"
           value={title}
           onChange={onChangeTitle}
@@ -198,7 +198,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="description">강의 설명</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
           type="text"
           value={description}
           onChange={onChangeDescription}
@@ -209,7 +209,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="teacher-name">강사 이름</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
           type="text"
           value={teacherName}
           onChange={onChangeTeacherName}
@@ -258,7 +258,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="video_title">강의 영상 제목</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
           type="text"
           value={videoTitle}
           onChange={onChangeVideoTitle}
@@ -269,17 +269,18 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="video_url">강의 영상 URL</label>
         </div>
         <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
           type="text"
           value={videoUrl}
           onChange={onChangeVideoUrl}
         />
       </div>
-      <input
+      <button
         type="submit"
-        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-        value="강의 추가"
-      />
+        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#4DBFF0] text-white mb-[12px]"
+      >
+        강의 추가
+      </button>
     </form>
   );
 };

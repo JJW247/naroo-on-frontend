@@ -87,19 +87,20 @@ const UpdateLectureField: FC<UpdateLectureFieldProps> = ({
         >
           <div className="w-full">
             <input
-              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
               type="text"
               value={updateFieldName}
               onChange={onChangeUpdateFieldName}
             />
           </div>
-          <input
-            className="rounded-[4px] min-w-max mx-[10px]"
-            type="submit"
-            value="수정"
-          />
           <button
-            className="rounded-[4px] min-w-max"
+            className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+            type="submit"
+          >
+            수정
+          </button>
+          <button
+            className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
             onClick={onClickUpdateToggle}
           >
             취소
