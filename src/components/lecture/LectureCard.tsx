@@ -1,10 +1,11 @@
 import { isArray } from 'lodash';
-import { CSSProperties, FC } from 'react';
+import { FC, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ITags } from '../../interfaces';
 import Tag from '../common/Tag';
+import PlayIcon from '../../assets/images/Play.svg';
 
 interface LectureCardProps {
   id: string;
@@ -35,8 +36,15 @@ const LectureCard: FC<LectureCardProps> = ({
     pauseOnHover: true,
     variableWidth: true,
   };
+  const [isBackdropShow, setIsBackdropShow] = useState<boolean>(false);
   return (
-    <div className="w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] lecture-card-container">
+    <div
+      className={`w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-auto rounded-[8px] ${
+        isBackdropShow
+          ? 'lecture-card-container lecture-card-container-hover'
+          : 'lecture-card-container'
+      }`}
+    >
       <Link
         to={`/lecture/${id}`}
         onMouseDown={(event) => {
@@ -44,11 +52,31 @@ const LectureCard: FC<LectureCardProps> = ({
         }}
       >
         <div
-          className="rounded-t-[8px] w-full md:min-w-[261px] md:max-w-[261px] min-h-[261px] max-h-[261px] bg-cover lecture-card-container"
+          className={`rounded-t-[8px] w-full min-h-[261px] max-h-[261px] bg-cover relative ${
+            isBackdropShow
+              ? 'lecture-card-container lecture-card-container-hover'
+              : 'lecture-card-container'
+          }`}
           style={{
             backgroundImage: `url(${thumbnail})`,
           }}
-        />
+          onMouseEnter={() => {
+            setIsBackdropShow(true);
+          }}
+          onMouseLeave={() => {
+            setIsBackdropShow(false);
+          }}
+        >
+          <div
+            className={`rounded-t-[8px] w-full min-h-[261px] max-h-[261px] z-[999] hover:bg-[#0000004D] ${
+              isBackdropShow ? 'absolute' : 'hidden'
+            }`}
+          >
+            <div className="flex items-center justify-center min-h-[261px] max-h-[261px]">
+              <img src={PlayIcon} />
+            </div>
+          </div>
+        </div>
       </Link>
       <div className="flex flex-wrap items-center w-full min-h-[183px] max-h-[183px] pt-[12px]">
         {status && (
