@@ -248,7 +248,7 @@ const Header: FC<HeaderProps> = ({
   // );
 
   return (
-    <div className="h-[100px] font-semibold text-gray-300 font-noto">
+    <div className="h-[100px] font-semibold text-gray-300 font-noto header-container">
       <div className="xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] md:flex hidden h-full mx-auto justify-center items-center">
         <div className="flex items-center">
           <Link to="/">

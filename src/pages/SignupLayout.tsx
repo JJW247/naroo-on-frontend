@@ -60,84 +60,80 @@ const SignupLayout: FC<SignupLayoutProps> = ({ token, setToken }) => {
     }
   };
   return (
-    <form
-      className="mt-[47px] 2xl:max-w-[900px] xl:max-w-[750px] lg:max-w-[600px] md:max-w-[500px] sm:max-w-[400px] xs:max-w-[350px] mx-auto pb-[96px]"
-      onSubmit={onSubmitHandler}
-    >
-      <div className="text-[48px] font-semibold">회원가입</div>
-      <div className="mt-[67px] mb-[29px]">
-        <div>
-          <label htmlFor="email">이메일</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
-          value={email}
-          onChange={onChangeEmail}
-        />
+    <div className="min-h-[73vh] w-full flex justify-center items-center">
+      <div className="xl:min-w-[554px] xl:max-w-[554px] lg:min-w-[472.75px] lg:max-w-[472.75px] md:min-w-[354.56px] md:max-w-[354.56px] sm:min-w-[295.47px] sm:max-w-[295.47px] xs:min-w-[295.47px] xs:max-w-[295.47px] box-border rounded-[8px] border-[1px] border-[#DCDEE2] mx-auto my-[120px] py-[30px] xl:px-[98px] lg:px-[83.63px] md:px-[62.72px] sm:px-[52.27px] xs:px-[52.27px]">
+        <form onSubmit={onSubmitHandler}>
+          <div className="text-[24px] leading-[150%] font-semibold">
+            회원가입
+          </div>
+          <div className="mt-[32px] mb-[20px]">
+            <input
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] pl-[20px] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white"
+              type="text"
+              placeholder="이메일을 입력해주세요!"
+              value={email}
+              onChange={onChangeEmail}
+            />
+          </div>
+          <div className="mb-[20px]">
+            <input
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] pl-[20px] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white"
+              type="password"
+              placeholder="비밀번호를 입력해주세요!"
+              value={password}
+              onChange={onChangePassword}
+            />
+          </div>
+          <div className="mb-[20px]">
+            <input
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] pl-[20px] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white"
+              type="password"
+              placeholder="비밀번호 확인"
+              value={passwordCheck}
+              onChange={onChangePasswordCheck}
+            />
+          </div>
+          <div className="mb-[20px]">
+            <input
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] pl-[20px] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white"
+              type="text"
+              placeholder="이름을 입력해주세요!"
+              value={nickname}
+              onChange={onChangeNickname}
+            />
+          </div>
+          <div className="mb-[19px]">
+            <input
+              className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] pl-[20px] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white"
+              type="text"
+              placeholder="010-1234-5678"
+              value={phone}
+              onChange={onChangePhone}
+            />
+          </div>
+          <div className="mb-[4px] text-[12px] leading-[200%] text-[#515A6E]">
+            가입 시, 마포청년나루의{' '}
+            <span className="text-[#007CC8]">이용약관, 개인정보취급방침</span>에
+            동의합니다.
+          </div>
+          <div className="md:text-[12px] sm:text-[1vw] xs:text-[1vw] leading-[200%] text-[#515A6E] flex items-center">
+            <input
+              className="mr-[5px]"
+              type="checkbox"
+              checked={isAgreeEmail}
+              onChange={(event) => setIsAgreeEmail(event.target.checked)}
+            />
+            나루온의 다양한 소식을 받아보시겠어요?
+          </div>
+          <button
+            type="submit"
+            className="w-full box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] mt-[20px] text-[14px] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+          >
+            회원가입
+          </button>
+        </form>
       </div>
-      <div className="mb-[29px]">
-        <div>
-          <label htmlFor="password">비밀번호</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="password"
-          value={password}
-          onChange={onChangePassword}
-        />
-      </div>
-      <div className="mb-[29px]">
-        <div>
-          <label htmlFor="password-valid">비밀번호 확인</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="password"
-          value={passwordCheck}
-          onChange={onChangePasswordCheck}
-        />
-      </div>
-      <div className="mb-[29px]">
-        <div>
-          <label htmlFor="nickname">이름</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
-          value={nickname}
-          onChange={onChangeNickname}
-        />
-      </div>
-      <div className="mb-[19px]">
-        <div>
-          <label htmlFor="phone">휴대폰 번호</label>
-        </div>
-        <input
-          className="w-full h-[51px] border-[1px] border-[#C4C4C4]"
-          type="text"
-          value={phone}
-          onChange={onChangePhone}
-        />
-      </div>
-      <input
-        type="submit"
-        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-        value="가입하기"
-      />
-      <div className="mb-[4px] text-[12px] leading-[16px] text-center">
-        가입 시, 마포청년나루의 이용약관, 개인정보취급방침에 동의합니다.
-      </div>
-      <div className="mb-[47px] text-[12px] leading-[16px] flex justify-center items-center">
-        <input
-          className="mr-[5px]"
-          type="checkbox"
-          checked={isAgreeEmail}
-          onChange={(event) => setIsAgreeEmail(event.target.checked)}
-        />
-        나루온의 다양한 소식을 받아보시겠어요?
-      </div>
-    </form>
+    </div>
   );
 };
 
