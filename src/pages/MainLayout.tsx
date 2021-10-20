@@ -39,38 +39,34 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
         } else {
           toast.error(messages);
         }
-        setToken('');
-        localStorage.setItem('token', '');
-        history.replace('/');
+        history.replace('/signin');
       }
       if (data) {
         if (data.token) {
-          toast.success('이메일 인증이 완료되었습니다!');
-          setToken(data.token);
-          localStorage.setItem('token', data.token);
-          history.replace('/');
+          toast.success('이메일 인증이 완료되었습니다! 다시 로그인해주세요!');
+          history.replace('/signin');
         }
       }
     }
   } catch (error: any) {
-  } finally {
-    return (
-      <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
-        {infoBanner && isArray(infoBanner) && infoBanner.length > 0 ? (
-          <img
-            className="w-full max-h-[380px] object-fit"
-            src={infoBanner[0].content}
-          />
-        ) : (
-          <Skeleton className="w-full h-[380px]" />
-        )}
-        <LectureCarousel token={token} setToken={setToken} />
-        <div className="min-h-[200px] max-h-[200px] bg-[#F8F8F9]">
-          <OrgCarousel />
-        </div>
-      </div>
-    );
+    console.error(error);
   }
+  return (
+    <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
+      {infoBanner && isArray(infoBanner) && infoBanner.length > 0 ? (
+        <img
+          className="w-full max-h-[380px] object-fit"
+          src={infoBanner[0].content}
+        />
+      ) : (
+        <Skeleton className="w-full h-[380px]" />
+      )}
+      <LectureCarousel token={token} setToken={setToken} />
+      <div className="min-h-[200px] max-h-[200px] bg-[#F8F8F9]">
+        <OrgCarousel />
+      </div>
+    </div>
+  );
 };
 
 export default MainLayout;
