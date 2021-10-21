@@ -83,7 +83,7 @@ const OrgCarousel: FC = () => {
             return (
               <img
                 key={element.content}
-                className="min-w-[285px] max-w-[285px] min-h-[67.06px] max-h-[67.06px]"
+                className="min-w-[285px] max-w-[285px] min-h-[67.06px] max-h-[67.06px] object-fit"
                 src={element.content}
               />
             );
