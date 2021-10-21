@@ -434,45 +434,47 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             </div>
           </div>
+          <div className="w-full mt-[40.25px] h-[44px] flex justify-center items-center">
+            <div className="flex-1 h-[44px] border-b-[1px] border-[#8DC556]"></div>
+            <button
+              className={`flex-none w-[120px] h-[44px] text-[16px] leading-[22px] font-medium border-[#8DC556] ${
+                selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE
+                  ? 'text-[#8DC556] border-t-[1px] border-l-[1px] border-r-[1px]'
+                  : 'text-[#808695] border-b-[1px]'
+              }`}
+              onClick={() =>
+                setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE)
+              }
+            >
+              강의 소개
+            </button>
+            <button
+              className={`flex-none w-[120px] h-[44px] text-[16px] leading-[22px] font-medium border-[#8DC556] ${
+                selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE
+                  ? 'text-[#8DC556]  border-t-[1px] border-l-[1px] border-r-[1px]'
+                  : 'text-[#808695] border-b-[1px]'
+              }`}
+              onClick={() =>
+                setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE)
+              }
+            >
+              공지사항
+            </button>
+            <button
+              className={`flex-none w-[120px] h-[44px] text-[16px] leading-[22px] font-medium border-[#8DC556] ${
+                selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA
+                  ? 'text-[#8DC556] border-t-[1px] border-l-[1px] border-r-[1px]'
+                  : 'text-[#808695] border-b-[1px]'
+              }`}
+              onClick={() =>
+                setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_QNA)
+              }
+            >
+              문의하기
+            </button>
+            <div className="flex-1 h-[44px] border-b-[1px] border-[#8DC556]"></div>
+          </div>
           <div className="mx-auto xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px]">
-            <div className="w-full h-[64px] flex justify-center items-center">
-              <button
-                className={`w-[120px] text-[16px] leading-[22px] font-medium ${
-                  selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE
-                    ? 'text-[#8DC556]'
-                    : 'text-[#808695]'
-                }`}
-                onClick={() =>
-                  setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE)
-                }
-              >
-                강의 소개
-              </button>
-              <button
-                className={`w-[120px] text-[16px] leading-[22px] font-medium ${
-                  selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE
-                    ? 'text-[#8DC556]'
-                    : 'text-[#808695]'
-                }`}
-                onClick={() =>
-                  setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE)
-                }
-              >
-                공지사항
-              </button>
-              <button
-                className={`w-[120px] text-[16px] leading-[22px] font-medium ${
-                  selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA
-                    ? 'text-[#8DC556]'
-                    : 'text-[#808695]'
-                }`}
-                onClick={() =>
-                  setSelectedMenu(CONST_LECTURE_DETAIL_MENU.LECTURE_QNA)
-                }
-              >
-                문의하기
-              </button>
-            </div>
             {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_INTRODUCE && (
               <div className="min-h-[300px] pt-[50px] pb-[60px] mx-auto flex flex-wrap justify-center">
                 {informationLecture.data.images &&
@@ -482,7 +484,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     return (
                       <img
                         key={url}
-                        className="mb-[20px] last:mb-0 w-full"
+                        className="mb-[20px] last:mb-0 xl:w-[800px] lg:w-[682.67px] md:w-[512px] sm:w-full xs:w-full"
                         src={url}
                       />
                     );
