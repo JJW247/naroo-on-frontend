@@ -76,15 +76,17 @@ const LectureNotice: FC<LectureNoticeProps> = ({
               {array_index}
             </div>
           </div>
-          <div className="flex-none min-w-[702px] max-w-[702px] flex justify-start items-center">
+          <div className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center">
             <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
               {title}
             </div>
           </div>
-          <div className="flex-none min-w-[182px] max-w-[182px] flex justify-center items-center">
-            <div className="text-[14px] leading-[150%] text-[#DCDEE2]">
-              {moment(created_at).format('YYYY년 MM월 DD일 ')}
-              {moment(created_at).format('HH시 mm분')}
+          <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
+            <div
+              className="text-[14px] leading-[150%] text-[#DCDEE2]"
+              title={moment(created_at).format('YYYY년 MM월 DD일 HH시 mm분')}
+            >
+              {moment(created_at).format('YYYY.MM.DD')}
             </div>
           </div>
           <div className="flex-1"></div>
