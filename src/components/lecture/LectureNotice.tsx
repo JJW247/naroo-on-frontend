@@ -72,8 +72,34 @@ const LectureNotice: FC<LectureNoticeProps> = ({
   ) => {
     try {
       event.preventDefault();
-    } catch (error) {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/modify/${lecture_id}?notice_id=${id}`,
+        {
+          title: updateTitle,
+          description: updateDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        setTimeout(() => {
+          mutate();
+          setIsShowEdit(false);
+        }, 500);
+      }
+    } catch (error: any) {
       console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
     }
   };
   return (
@@ -127,14 +153,13 @@ const LectureNotice: FC<LectureNoticeProps> = ({
                   <div className="flex-1"></div>
                   <button
                     className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
-                    onClick={(event) => {
-                      //   setIsShowEdit(true);
-                    }}
+                    type="submit"
                   >
                     수정 완료
                   </button>
                   <button
                     className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
+                    type="button"
                     onClick={() => {
                       setIsShowEdit(false);
                     }}
@@ -147,7 +172,9 @@ const LectureNotice: FC<LectureNoticeProps> = ({
                   <div className="flex-1"></div>
                   <button
                     className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
+                    type="button"
                     onClick={(event) => {
+                      event.preventDefault();
                       setIsShowEdit(true);
                     }}
                   >
@@ -155,6 +182,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
                   </button>
                   <button
                     className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
+                    type="button"
                     onClick={() => {
                       onClickDeleteNoticeHandler(id);
                     }}
@@ -168,7 +196,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
           <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
             {isShowEdit ? (
               <textarea
-                className="w-full border-[1px] rounded-[4px] m-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                className="w-full border-[1px] rounded-[4px] mx-[10px] mb-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
                 value={updateDescription}
                 onChange={onChangeUpdateDescription}
               />

@@ -525,13 +525,21 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             setIsShowAddNotice(!isShowAddNotice);
                           }}
                         >
-                          <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
-                            공지사항 등록
-                          </span>
-                          <img
-                            className="w-[16px] h-[16px] m-auto object-fit"
-                            src={EditIcon}
-                          />
+                          {isShowAddNotice ? (
+                            <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                              공지사항 등록 닫기
+                            </span>
+                          ) : (
+                            <>
+                              <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                                공지사항 등록
+                              </span>
+                              <img
+                                className="w-[16px] h-[16px] m-auto object-fit"
+                                src={EditIcon}
+                              />
+                            </>
+                          )}
                         </button>
                       ) : (
                         <></>
