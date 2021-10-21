@@ -8,6 +8,8 @@ import { IResourceContent } from '../../interfaces';
 const OrgCarousel: FC = () => {
   const settings = {
     infinite: false,
+    arrows: false,
+    dots: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -42,6 +44,15 @@ const OrgCarousel: FC = () => {
         },
       },
     ],
+    // appendDots: (dots: any) => (
+    //   <div
+    //     style={{
+    //       marginBottom: '-5px',
+    //     }}
+    //   >
+    //     <ul style={{ margin: '0px' }}> {dots} </ul>
+    //   </div>
+    // ),
   };
   const { data } = useGetSWR<IResourceContent[]>(
     `${process.env.REACT_APP_BACK_URL}/resource/org_carousel`,
@@ -54,7 +65,7 @@ const OrgCarousel: FC = () => {
         이미 다양한 기관들이 나루온과 함께하고 있어요.
       </div>
       {data && isArray(data) && data.length > 0 ? (
-        <Slider {...settings} className="bg-white mx-[24px]">
+        <Slider {...settings} className="bg-white">
           {data.map((element, index) => {
             return (
               <img

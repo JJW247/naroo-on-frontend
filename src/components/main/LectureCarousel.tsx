@@ -15,7 +15,8 @@ interface LectureCarouselProps {
 
 const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
   const settings = {
-    dots: false,
+    arrows: false,
+    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
@@ -51,6 +52,15 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         },
       },
     ],
+    // appendDots: (dots: any) => (
+    //   <div
+    //     style={{
+    //       marginBottom: '-25px',
+    //     }}
+    //   >
+    //     <ul style={{ margin: '0px' }}> {dots} </ul>
+    //   </div>
+    // ),
   };
   const { data: allLecturesData } = useGetSWR<ILectureInList[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/all`,
@@ -78,7 +88,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           {userLecturesData &&
           isArray(userLecturesData) &&
           userLecturesData.length > 0 ? (
-            <div className="mx-[24px]">
+            <div className="">
               <Slider {...settings}>
                 {userLecturesData.map((lecture) => {
                   return (
@@ -117,7 +127,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       {allLecturesData &&
       isArray(allLecturesData) &&
       allLecturesData.length > 0 ? (
-        <div className="mx-[24px]">
+        <div className="">
           <Slider {...settings}>
             {allLecturesData.map((lecture) => {
               return (
