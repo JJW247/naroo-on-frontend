@@ -20,6 +20,7 @@ import AdminLayout from './pages/AdminLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MyInfoLayout from './pages/MyInfoLayout';
+import InitPasswordLayout from './pages/InitPasswordLayout';
 
 const AppRouterWrapper: FC = () => {
   return (
@@ -157,6 +158,12 @@ const App: FC = () => {
               />
             );
           }}
+        />
+        <Route
+          path="/forgot"
+          render={() => (
+            <InitPasswordLayout token={token} setToken={setToken} />
+          )}
         />
         <Route
           path="/myinfo"
