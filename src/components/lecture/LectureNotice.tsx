@@ -1,10 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, FormEvent, FormEventHandler, useState } from 'react';
 import 'moment/locale/ko';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { ILectureDetail } from '../../interfaces';
 import { MutatorCallback } from 'swr/dist/types';
+import { useInput } from '../../hooks';
 
 interface LectureNoticeProps {
   token: string | null;
@@ -38,6 +39,9 @@ const LectureNotice: FC<LectureNoticeProps> = ({
 }) => {
   const [isShowDescription, setIsShowDescription] = useState<boolean>(false);
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
+  const [updateTitle, onChangeUpdateTitle, setUpdateTitle] = useInput(title);
+  const [updateDescription, onChangeUpdateDescription, setUpdateDescription] =
+    useInput(description);
   const onClickDeleteNoticeHandler = async (noticeId: string) => {
     try {
       const response = await axios.delete(
@@ -63,11 +67,21 @@ const LectureNotice: FC<LectureNoticeProps> = ({
       }
     }
   };
+  const onSubmitUpdateNoticeHandler: FormEventHandler<HTMLFormElement> = async (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    try {
+      event.preventDefault();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <>
+    <form onSubmit={onSubmitUpdateNoticeHandler}>
       <div
         className="min-h-[41px] max-h-[41px] bg-white flex"
         onClick={(event) => {
+          setIsShowEdit(false);
           setIsShowDescription(!isShowDescription);
         }}
       >
@@ -77,11 +91,22 @@ const LectureNotice: FC<LectureNoticeProps> = ({
               {array_index}
             </div>
           </div>
-          <div className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center">
-            <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
-              {title}
+          {isShowEdit ? (
+            <input
+              className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+              value={updateTitle}
+              onChange={onChangeUpdateTitle}
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+            />
+          ) : (
+            <div className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center">
+              <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+                {title}
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
             <div
               className="text-[14px] leading-[150%] text-[#DCDEE2]"
@@ -96,31 +121,68 @@ const LectureNotice: FC<LectureNoticeProps> = ({
       {isShowDescription ? (
         <>
           {token && userType === 'admin' && (
-            <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-center">
-              <div className="flex-1"></div>
-              <button className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695]">
-                수정
-              </button>
-              <button
-                className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px]"
-                onClick={() => {
-                  onClickDeleteNoticeHandler(id);
-                }}
-              >
-                삭제
-              </button>
-            </div>
+            <>
+              {isShowEdit ? (
+                <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-center">
+                  <div className="flex-1"></div>
+                  <button
+                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
+                    onClick={(event) => {
+                      //   setIsShowEdit(true);
+                    }}
+                  >
+                    수정 완료
+                  </button>
+                  <button
+                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
+                    onClick={() => {
+                      setIsShowEdit(false);
+                    }}
+                  >
+                    수정 취소
+                  </button>
+                </div>
+              ) : (
+                <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-center">
+                  <div className="flex-1"></div>
+                  <button
+                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
+                    onClick={(event) => {
+                      setIsShowEdit(true);
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
+                    onClick={() => {
+                      onClickDeleteNoticeHandler(id);
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
+            </>
           )}
-          <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-center items-center">
-            <div className="text-[14px] leading-[150%] text-[#515A6E]">
-              {description}
-            </div>
+          <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
+            {isShowEdit ? (
+              <textarea
+                className="w-full border-[1px] rounded-[4px] m-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                value={updateDescription}
+                onChange={onChangeUpdateDescription}
+              />
+            ) : (
+              <div className="text-[14px] leading-[150%] text-[#515A6E]">
+                {description}
+              </div>
+            )}
           </div>
         </>
       ) : (
         <></>
       )}
-    </>
+    </form>
   );
 };
 

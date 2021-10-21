@@ -49,45 +49,46 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
     setUpdateToggle(!updateToggle);
     setUpdateFieldName(userField);
   };
-  const onSubmitUpdateField: FormEventHandler<HTMLFormElement> | undefined =
-    async (event: FormEvent<HTMLFormElement>) => {
-      try {
-        event.preventDefault();
+  const onSubmitUpdateField: FormEventHandler<HTMLFormElement> = async (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    try {
+      event.preventDefault();
 
-        if (!updateFieldName || updateFieldName === userField) {
-          setUpdateToggle(!updateToggle);
-          setUpdateFieldName(userField);
-          return;
-        }
-
-        const response = await axios.put(
-          `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
-          {
-            [fieldType]: updateFieldName,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (response.statusText === 'OK') {
-          setUpdateToggle(!updateToggle);
-          mutate();
-        }
-      } catch (error: any) {
-        console.error(error);
-        const messages = error.response.data.message;
-        if (Array.isArray(messages)) {
-          messages.map((message) => {
-            toast.error(message);
-          });
-        } else {
-          toast.error(messages);
-        }
+      if (!updateFieldName || updateFieldName === userField) {
+        setUpdateToggle(!updateToggle);
+        setUpdateFieldName(userField);
+        return;
       }
-    };
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/user/admin/${id}`,
+        {
+          [fieldType]: updateFieldName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'OK') {
+        setUpdateToggle(!updateToggle);
+        mutate();
+      }
+    } catch (error: any) {
+      console.error(error);
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    }
+  };
   return (
     <>
       {updateToggle ? (
