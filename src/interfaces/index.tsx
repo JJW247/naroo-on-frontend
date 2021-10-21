@@ -50,7 +50,6 @@ export interface ITags {
 export interface INoticesInLecture {
   id: string;
   created_at: string;
-  creator_nickname: string;
   title: string;
   description: string;
 }

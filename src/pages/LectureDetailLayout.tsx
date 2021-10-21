@@ -11,6 +11,9 @@ import { useInput } from '../hooks';
 import { toast } from 'react-toastify';
 import { ILectureDetail } from '../interfaces';
 import Skeleton from 'react-loading-skeleton';
+import LectureQna from '../components/lecture/LectureQna';
+import LectureNotice from '../components/lecture/LectureNotice';
+import EditIcon from '../assets/images/Edit.svg';
 
 interface LetcureDetailLayoutProps {
   token: string | null;
@@ -91,6 +94,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   const [noticeTitle, onChangeNoticeTitle, setNoticeTitle] = useInput('');
   const [noticeDescription, onChangeNoticeDescription, setNoticeDescription] =
     useInput('');
+  const [isShowAddNotice, setIsShowAddNotice] = useState<boolean>(false);
   const onSubmitNoticeHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
@@ -110,31 +114,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         setNoticeTitle('');
         setNoticeDescription('');
         informationLecture?.mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
-    }
-  };
-  const onClickDeleteNoticeHandler = async (noticeId: string) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${informationLecture.data?.id}?id=${noticeId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        informationLecture.mutate();
       }
     } catch (error: any) {
       console.error(error);
@@ -451,7 +430,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             <button
               className={`flex-none w-[120px] h-[44px] text-[16px] leading-[22px] font-medium border-[#8DC556] ${
                 selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE
-                  ? 'text-[#8DC556]  border-t-[1px] border-l-[1px] border-r-[1px]'
+                  ? 'text-[#8DC556] border-t-[1px] border-l-[1px] border-r-[1px]'
                   : 'text-[#808695] border-b-[1px]'
               }`}
               onClick={() =>
@@ -492,90 +471,129 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             )}
             {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE && (
-              <div className="min-h-[300px] pt-[50px] pb-[60px] mx-auto">
-                {token && informationLecture.data && userType === 'admin' && (
-                  <form
-                    className="mt-[47px] w-full"
-                    onSubmit={onSubmitNoticeHandler}
-                  >
-                    <div className="mt-[67px] mb-[29px]">
-                      <div>
-                        <label htmlFor="notice_title">공지사항 제목</label>
+              <div className="min-h-[292px] py-[80px] mx-auto">
+                {token &&
+                  informationLecture.data &&
+                  userType === 'admin' &&
+                  isShowAddNotice && (
+                    <form
+                      className="mt-[47px] w-full"
+                      onSubmit={onSubmitNoticeHandler}
+                    >
+                      <div className="mt-[67px] mb-[29px]">
+                        <div>
+                          <label htmlFor="notice_title">공지사항 제목</label>
+                        </div>
+                        <input
+                          className="w-full border-[1px] border-[#C4C4C4]"
+                          type="text"
+                          value={noticeTitle}
+                          onChange={onChangeNoticeTitle}
+                        />
+                      </div>
+                      <div className="mb-[29px]">
+                        <div>
+                          <label htmlFor="notice_description">
+                            공지사항 내용
+                          </label>
+                        </div>
+                        <textarea
+                          className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
+                          value={noticeDescription}
+                          onChange={onChangeNoticeDescription}
+                        />
                       </div>
                       <input
-                        className="w-full border-[1px] border-[#C4C4C4]"
-                        type="text"
-                        value={noticeTitle}
-                        onChange={onChangeNoticeTitle}
+                        type="submit"
+                        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+                        value="공지사항 등록"
                       />
-                    </div>
-                    <div className="mb-[29px]">
-                      <div>
-                        <label htmlFor="notice_description">
-                          공지사항 내용
-                        </label>
-                      </div>
-                      <textarea
-                        className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
-                        value={noticeDescription}
-                        onChange={onChangeNoticeDescription}
-                      />
-                    </div>
-                    <input
-                      type="submit"
-                      className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                      value="공지사항 등록"
-                    />
-                  </form>
-                )}
-                <div>
-                  {informationLecture.data.notices &&
-                    informationLecture.data.notices.length > 0 &&
-                    informationLecture.data.notices
-                      .sort((a: any, b: any) => {
-                        return (
-                          new Date(b.created_at).getTime() -
-                          new Date(a.created_at).getTime()
-                        );
-                      })
-                      .map((notice) => {
-                        return (
-                          <div className="my-[20px] border-2" key={notice.id}>
-                            <div className="flex items-center">
-                              <div className="font-medium text-[14px] leading-[150%] text-[#808695] mb-[8px] mr-[8px]">
-                                {moment(notice.created_at).format(
-                                  'YYYY년 MM월 DD일 ',
-                                )}
-                              </div>
-                              <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
-                                {moment(notice.created_at).format('HH시 mm분')}
-                              </div>
-                              <div className="flex-1"></div>
-                              {token && userType === 'admin' && (
-                                <button
-                                  className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
-                                  onClick={() => {
-                                    onClickDeleteNoticeHandler(notice.id);
-                                  }}
-                                >
-                                  삭제
-                                </button>
-                              )}
-                            </div>
-                            <div>작성자 : {notice.creator_nickname}</div>
-                            <div>제목 : {notice.title}</div>
-                            <div>내용 : {notice.description}</div>
-                          </div>
-                        );
-                      })}
-                  {(!informationLecture.data.notices ||
-                    informationLecture.data.notices.length === 0) && (
-                    <div className="my-[20px] border-2">
-                      <div className="flex items-center justify-center min-h-[200px]">
-                        공지사항이 존재하지 않습니다!
-                      </div>
-                    </div>
+                    </form>
                   )}
+                <div>
+                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] px-[98px] py-[60px] w-full">
+                    <div className="w-full flex justify-between items-center mb-[20px]">
+                      <div className="text-[#17233D] font-semibold text-[20px] leading-[150%]">
+                        공지사항
+                      </div>
+                      {token &&
+                      informationLecture.data &&
+                      userType === 'admin' ? (
+                        <button
+                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA]"
+                          onClick={(event) => {
+                            setIsShowAddNotice(!isShowAddNotice);
+                          }}
+                        >
+                          <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                            공지사항 등록
+                          </span>
+                          <img
+                            className="w-[16px] h-[16px] m-auto object-fit"
+                            src={EditIcon}
+                          />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <div className="w-full rounded-[4px] border-[1px] border-[#EBEEEF]">
+                      <div className="w-full h-[41px] bg-[#F9F9FA] flex">
+                        <div className="flex-none min-w-[60px] max-w-[60px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            No
+                          </div>
+                        </div>
+                        <div className="flex-none min-w-[702px] max-w-[702px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            제목
+                          </div>
+                        </div>
+                        <div className="flex-none min-w-[182px] max-w-[182px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            작성일시
+                          </div>
+                        </div>
+                      </div>
+                      {informationLecture.data.notices &&
+                      informationLecture.data.notices.length > 0 ? (
+                        informationLecture.data.notices
+                          .sort((a: any, b: any) => {
+                            return (
+                              new Date(b.created_at).getTime() -
+                              new Date(a.created_at).getTime()
+                            );
+                          })
+                          .map((notice, index) => {
+                            return informationLecture.data ? (
+                              <LectureNotice
+                                key={notice.id}
+                                token={token}
+                                userType={userType}
+                                mutate={informationLecture.mutate}
+                                lecture_id={informationLecture.data.id}
+                                array_index={
+                                  informationLecture.data.notices.length - index
+                                }
+                                id={notice.id}
+                                created_at={notice.created_at}
+                                title={notice.title}
+                                description={notice.description}
+                              />
+                            ) : (
+                              <></>
+                            );
+                          })
+                      ) : (
+                        <div className="flex items-center justify-center min-h-[41px] text-[14px] leading-[150%] font-medium text-[#515A6E]">
+                          {!informationLecture.data.notices ||
+                          informationLecture.data.notices.length === 0
+                            ? '공지사항이 존재하지 않습니다!'
+                            : '잘못된 접근입니다!'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

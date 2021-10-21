@@ -55,11 +55,11 @@ const OrgCarousel: FC = () => {
       </div>
       {data && isArray(data) && data.length > 0 ? (
         <Slider {...settings} className="bg-white mx-[24px]">
-          {data.map((element) => {
+          {data.map((element, index) => {
             return (
               <img
-                key={element.content}
-                className="min-w-[285px] max-w-[285px] min-h-[67.06px] max-h-[67.06px] object-fit"
+                key={index}
+                className="min-w-[289px] max-w-[289px] min-h-[68px] max-h-[68px] object-fit"
                 src={element.content}
               />
             );
