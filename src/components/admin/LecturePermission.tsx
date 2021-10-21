@@ -2,7 +2,7 @@ import Select from 'react-select';
 import { FC, useCallback, useState } from 'react';
 import { useGetSWR } from '../../hooks/api';
 import UpdateStatus from './lecture/UpdateStatus';
-import { ILectureInList, ILectureInListAdmin } from '../../interfaces';
+import { ILectureInListAdmin } from '../../interfaces';
 
 interface LecturePermissionProps {
   token: string | null;

@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../hooks';
-import { DataResponse } from '../../hooks/api';
 import { ITags } from '../../interfaces';
 import UpdateTag from './tag/UpdateTag';
 

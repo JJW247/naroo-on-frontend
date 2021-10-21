@@ -5,7 +5,6 @@ import { FC, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
-import { useInput } from '../../../hooks';
 import { ILectureInList } from '../../../interfaces';
 
 interface UpdateImageFieldProps {

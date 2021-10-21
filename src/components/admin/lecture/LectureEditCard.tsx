@@ -6,11 +6,9 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
-import Select from 'react-select';
 import { ILectureInList, ITags } from '../../../interfaces';
 import RegisterTag from '../tag/RegisterTag';
 import UpdateLectureField from './UpdateLectureField';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';

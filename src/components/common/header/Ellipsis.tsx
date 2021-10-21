@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface EllipsisProps {
   token: string | null;

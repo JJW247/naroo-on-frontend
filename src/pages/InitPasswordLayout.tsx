@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useInput } from '../hooks';

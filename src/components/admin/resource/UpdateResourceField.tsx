@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
-import { useInput } from '../../../hooks';
 import { IResources } from '../../../interfaces';
 
 interface UpdateResourceFieldProps {
