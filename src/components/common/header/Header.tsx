@@ -100,9 +100,11 @@ const Header: FC<HeaderProps> = ({
                     강의
                   </button>
                 </Link>
-                <button className="text-[18px] leading-[27px] font-semibold">
-                  문의하기
-                </button>
+                <a href="mailto:mpnaroo@naver.com">
+                  <button className="text-[18px] leading-[27px] font-semibold">
+                    문의하기
+                  </button>
+                </a>
               </>
             )}
           </div>
@@ -191,9 +193,11 @@ const Header: FC<HeaderProps> = ({
                       강의
                     </button>
                   </Link>
-                  <button className="block w-full px-[10px] py-[10px]">
-                    문의하기
-                  </button>
+                  <a href="mailto:mpnaroo@naver.com">
+                    <button className="block w-full px-[10px] py-[10px]">
+                      문의하기
+                    </button>
+                  </a>
                 </div>
               )}
             </>
