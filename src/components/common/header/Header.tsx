@@ -79,7 +79,7 @@ const Header: FC<HeaderProps> = ({
               <img
                 className="xl:mr-[80px] lg:mr-[47px] md:mr-[40px] mr-[20px]"
                 src={headerLogo[0].content}
-                width="98"
+                width="110.24"
                 alt="Logo"
               />
             ) : (
@@ -91,7 +91,7 @@ const Header: FC<HeaderProps> = ({
               <>
                 <Link to="/">
                   <button
-                    className={`mr-[42px] text-[18px] leading-[27px] font-semibold ${
+                    className={`mr-[42px] text-[20px] leading-[150%] font-semibold ${
                       location.pathname === '/'
                         ? 'text-[#8DC556]'
                         : 'text-[#515A6E]'
@@ -101,7 +101,7 @@ const Header: FC<HeaderProps> = ({
                   </button>
                 </Link>
                 <a href="mailto:mpnaroo@naver.com">
-                  <button className="text-[18px] leading-[27px] font-semibold">
+                  <button className="text-[20px] leading-[150%] font-semibold text-[#515A6E]">
                     문의하기
                   </button>
                 </a>
@@ -112,7 +112,7 @@ const Header: FC<HeaderProps> = ({
         <div>
           {token && nickname && userType !== 'admin' && (
             <div
-              className="xl:ml-[789px] lg:ml-[534px] md:ml-[359px]"
+              className="xl:ml-[766px] lg:ml-[512px] md:ml-[334px]"
               onMouseEnter={() => setIsVisibleEllipsis(true)}
               onMouseLeave={() => setIsVisibleEllipsis(false)}
             >
@@ -131,7 +131,7 @@ const Header: FC<HeaderProps> = ({
             </div>
           )}
           {(token === '' || !token) && (
-            <div className="xl:ml-[600.24px] lg:ml-[379px] md:ml-[248px]">
+            <div className="xl:ml-[586px] lg:ml-[360px] md:ml-[230px]">
               <Link to="/signin">
                 <button className="bg-white font-[14px] leading-[21px] font-semibold text-[#808695] border-[1px] border-[#DCDEE2] box-border rounded-[40px] h-[41px] xl:w-[99px] lg:w-[84.48px] md:w-[63.36px]">
                   로그인
@@ -158,7 +158,7 @@ const Header: FC<HeaderProps> = ({
         <div className="flex items-center justify-center w-full">
           <Link to="/">
             {headerLogo && headerLogo.length > 0 ? (
-              <img src={headerLogo[0].content} width="98" alt="Logo" />
+              <img src={headerLogo[0].content} width="110.24" alt="Logo" />
             ) : (
               ''
             )}
