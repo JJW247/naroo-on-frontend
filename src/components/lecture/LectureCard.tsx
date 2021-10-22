@@ -2,7 +2,7 @@ import { isArray } from 'lodash';
 import { FC, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import { ITags } from '../../interfaces';
 import Tag from '../common/Tag';
 import PlayIcon from '../../assets/images/Play.svg';
@@ -26,7 +26,7 @@ const LectureCard: FC<LectureCardProps> = ({
   expired,
   tags,
 }) => {
-  const settings = {
+  const settings: Settings | Readonly<Settings> = {
     arrows: false,
     dots: false,
     infinite: false,

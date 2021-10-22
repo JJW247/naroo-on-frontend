@@ -1,10 +1,12 @@
 import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import Slider from 'react-slick';
+import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import { useGetSWR } from '../../hooks/api';
 import { ILectureInList } from '../../interfaces';
 import LectureCard from '../lecture/LectureCard';
+import PrevArrow from '../../assets/images/PrevArrow.svg';
+import NextArrow from '../../assets/images/NextArrow.svg';
 
 interface LectureCarouselProps {
   token: string | null;
@@ -13,10 +15,46 @@ interface LectureCarouselProps {
   ) => void;
 }
 
+function LectureCardPrevArrow(props: CustomArrowProps) {
+  return (
+    <img
+      src={PrevArrow}
+      className={props.className}
+      style={{
+        ...props.style,
+        display: 'absolute',
+        width: 40,
+        height: 40,
+        left: '-3px',
+        zIndex: 999,
+      }}
+      onClick={props.onClick}
+    />
+  );
+}
+
+function LectureCardNextArrow(props: CustomArrowProps) {
+  return (
+    <img
+      src={NextArrow}
+      className={props.className}
+      style={{
+        ...props.style,
+        display: 'absolute',
+        width: 40,
+        height: 40,
+        right: '23px',
+        zIndex: 999,
+      }}
+      onClick={props.onClick}
+    />
+  );
+}
+
 const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
-  const settings = {
-    arrows: false,
-    dots: true,
+  const settings: Settings | Readonly<Settings> = {
+    arrows: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
@@ -52,15 +90,8 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         },
       },
     ],
-    // appendDots: (dots: any) => (
-    //   <div
-    //     style={{
-    //       marginBottom: '-25px',
-    //     }}
-    //   >
-    //     <ul style={{ margin: '0px' }}> {dots} </ul>
-    //   </div>
-    // ),
+    prevArrow: <LectureCardPrevArrow />,
+    nextArrow: <LectureCardNextArrow />,
   };
   const { data: allLecturesData } = useGetSWR<ILectureInList[]>(
     `${process.env.REACT_APP_BACK_URL}/lecture/all`,
@@ -90,7 +121,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
           userLecturesData.length > 0 ? (
             <div className="">
               <Slider {...settings}>
-                {userLecturesData.map((lecture) => {
+                {userLecturesData.map((lecture, index) => {
                   return (
                     <LectureCard
                       key={lecture.id}
@@ -129,7 +160,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
       allLecturesData.length > 0 ? (
         <div className="">
           <Slider {...settings}>
-            {allLecturesData.map((lecture) => {
+            {allLecturesData.map((lecture, index) => {
               return (
                 <LectureCard
                   key={lecture.id}
