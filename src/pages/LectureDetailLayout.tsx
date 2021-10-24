@@ -5,15 +5,15 @@ import { useState } from 'react';
 import { useGetSWR } from '../hooks/api';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
-import moment from 'moment';
 import axios from 'axios';
 import { useInput } from '../hooks';
 import { toast } from 'react-toastify';
 import { ILectureDetail } from '../interfaces';
 import Skeleton from 'react-loading-skeleton';
-import LectureQna from '../components/lecture/LectureQna';
 import LectureNotice from '../components/lecture/LectureNotice';
 import EditIcon from '../assets/images/Edit.svg';
+import CloseIcon from '../assets/images/Close.svg';
+import LectureQuestion from '../components/lecture/LectureQuestion';
 
 interface LetcureDetailLayoutProps {
   token: string | null;
@@ -133,6 +133,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     onChangeQuestionDescription,
     setQuestionDescription,
   ] = useInput('');
+  const [isShowAddQuestion, setIsShowAddQuestion] = useState<boolean>(false);
   const onSubmitQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
@@ -152,95 +153,6 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         setQuestionTitle('');
         setQuestionDescription('');
         informationLecture?.mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
-    }
-  };
-  const onClickDeleteQuestionHandler = async (questionId: string) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/question/${informationLecture.data?.id}?id=${questionId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        informationLecture.mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
-    }
-  };
-  const [answerTitle, onChangeAnswerTitle, setAnswerTitle] = useInput('');
-  const [answerDescription, onChangeAnswerDescription, setAnswerDescription] =
-    useInput('');
-  const onSubmitAnswerHandler = async (
-    event: FormEvent<HTMLFormElement>,
-    questionId: string,
-  ) => {
-    try {
-      event.preventDefault();
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/answer`,
-        {
-          question_id: questionId.toString(),
-          title: answerTitle,
-          description: answerDescription,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'Created') {
-        setAnswerTitle('');
-        setAnswerDescription('');
-        informationLecture?.mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
-    }
-  };
-  const onClickDeleteAnswerHandler = async (answerId: string) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/answer/${answerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        informationLecture.mutate();
       }
     } catch (error: any) {
       console.error(error);
@@ -471,43 +383,41 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             )}
             {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_NOTICE && (
-              <div className="min-h-[292px] py-[80px] mx-auto">
+              <div className="min-h-[478px] py-[80px] mx-auto">
                 {token &&
                   informationLecture.data &&
                   userType === 'admin' &&
                   isShowAddNotice && (
                     <form
-                      className="mt-[47px] w-full"
+                      className="min-h-[491px] max-h-[491px] mb-[60px] px-[98px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
                       onSubmit={onSubmitNoticeHandler}
                     >
-                      <div className="mt-[67px] mb-[29px]">
-                        <div>
-                          <label htmlFor="notice_title">공지사항 제목</label>
-                        </div>
+                      <div className="mb-[28px] text-[#17233D] font-semibold text-[20px] leading-[150%]">
+                        공지사항 등록
+                      </div>
+                      <div className="my-0">
                         <input
-                          className="w-full border-[1px] border-[#C4C4C4]"
+                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
                           type="text"
                           value={noticeTitle}
                           onChange={onChangeNoticeTitle}
+                          placeholder="제목을 입력하세요!"
                         />
                       </div>
-                      <div className="mb-[29px]">
-                        <div>
-                          <label htmlFor="notice_description">
-                            공지사항 내용
-                          </label>
-                        </div>
+                      <div className="mt-0 mb-[20px]">
                         <textarea
-                          className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
+                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
                           value={noticeDescription}
                           onChange={onChangeNoticeDescription}
+                          placeholder="내용을 입력하세요!"
                         />
                       </div>
-                      <input
+                      <button
                         type="submit"
-                        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                        value="공지사항 등록"
-                      />
+                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0"
+                      >
+                        공지사항 등록
+                      </button>
                     </form>
                   )}
                 <div>
@@ -526,9 +436,15 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                           }}
                         >
                           {isShowAddNotice ? (
-                            <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
-                              공지사항 등록 닫기
-                            </span>
+                            <>
+                              <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                                공지사항 등록
+                              </span>
+                              <img
+                                className="w-[16px] h-[16px] m-auto object-fit"
+                                src={CloseIcon}
+                              />
+                            </>
                           ) : (
                             <>
                               <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
@@ -606,181 +522,147 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               </div>
             )}
             {selectedMenu === CONST_LECTURE_DETAIL_MENU.LECTURE_QNA && (
-              <div className="min-h-[300px] pt-[50px] pb-[60px] mx-auto">
-                {token && informationLecture.data && userType === 'student' && (
-                  <form
-                    className="mt-[47px] w-full"
-                    onSubmit={onSubmitQuestionHandler}
-                  >
-                    <div className="mt-[67px] mb-[29px]">
-                      <div>
-                        <label htmlFor="question_title">문의 제목</label>
+              <div className="min-h-[478px] py-[80px] mx-auto">
+                {token &&
+                  informationLecture.data &&
+                  userType === 'student' &&
+                  isShowAddQuestion && (
+                    <form
+                      className="min-h-[491px] max-h-[491px] mb-[60px] px-[98px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
+                      onSubmit={onSubmitQuestionHandler}
+                    >
+                      <div className="mb-[28px] text-[#17233D] font-semibold text-[20px] leading-[150%]">
+                        문의사항 등록
                       </div>
-                      <input
-                        className="w-full border-[1px] border-[#C4C4C4]"
-                        type="text"
-                        value={questionTitle}
-                        onChange={onChangeQuestionTitle}
-                      />
-                    </div>
-                    <div className="mb-[29px]">
-                      <div>
-                        <label htmlFor="question_description">문의 내용</label>
+                      <div className="my-0">
+                        <input
+                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          type="text"
+                          value={questionTitle}
+                          onChange={onChangeQuestionTitle}
+                          placeholder="제목을 입력하세요!"
+                        />
                       </div>
-                      <textarea
-                        className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
-                        value={questionDescription}
-                        onChange={onChangeQuestionDescription}
-                      />
-                    </div>
-                    <input
-                      type="submit"
-                      className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                      value="문의사항 등록"
-                    />
-                  </form>
-                )}
-                <div>
-                  {informationLecture.data.qnas &&
-                    informationLecture.data.qnas.length > 0 &&
-                    informationLecture.data.qnas
-                      .sort((a: any, b: any) => {
-                        return (
-                          new Date(b.question_created_at).getTime() -
-                          new Date(a.question_created_at).getTime()
-                        );
-                      })
-                      .map((qna) => {
-                        return (
-                          <div key={qna.question_id}>
-                            <div
-                              className="mt-[20px] border-2"
-                              key={qna.question_id}
-                            >
-                              <div className="flex items-center">
-                                <div className="font-medium text-[14px] leading-[150%] text-[#808695] mb-[8px] mr-[8px]">
-                                  {moment(qna.question_created_at).format(
-                                    'YYYY년 MM월 DD일 ',
-                                  )}
-                                </div>
-                                <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
-                                  {moment(qna.question_created_at).format(
-                                    'HH시 mm분',
-                                  )}
-                                </div>
-                                <div className="flex-1"></div>
-                                {token &&
-                                  userType === 'student' &&
-                                  userNickname === qna.creator_nickname && (
-                                    <button
-                                      className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
-                                      onClick={() => {
-                                        onClickDeleteQuestionHandler(
-                                          qna.question_id,
-                                        );
-                                      }}
-                                    >
-                                      삭제
-                                    </button>
-                                  )}
-                              </div>
-                              <div>작성자 : {qna.creator_nickname}</div>
-                              <div>문의 제목 : {qna.question_title}</div>
-                              <div>문의 내용 : {qna.question_description}</div>
-                            </div>
-                            {token &&
-                              informationLecture.data &&
-                              userType === 'admin' && (
-                                <form
-                                  className="mt-[47px] w-full"
-                                  onSubmit={(event) => {
-                                    onSubmitAnswerHandler(
-                                      event,
-                                      qna.question_id,
-                                    );
-                                  }}
-                                >
-                                  <div className="mt-[67px] mb-[29px]">
-                                    <div>
-                                      <label htmlFor="answer_title">
-                                        응답 제목
-                                      </label>
-                                    </div>
-                                    <input
-                                      className="w-full border-[1px] border-[#C4C4C4]"
-                                      type="text"
-                                      value={answerTitle}
-                                      onChange={onChangeAnswerTitle}
-                                    />
-                                  </div>
-                                  <div className="mb-[29px]">
-                                    <div>
-                                      <label htmlFor="answer_description">
-                                        응답 내용
-                                      </label>
-                                    </div>
-                                    <textarea
-                                      className="w-full h-[200px] border-[1px] border-[#C4C4C4]"
-                                      value={answerDescription}
-                                      onChange={onChangeAnswerDescription}
-                                    />
-                                  </div>
-                                  <input
-                                    type="submit"
-                                    className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-                                    value="응답사항 등록"
-                                  />
-                                </form>
-                              )}
-                            {qna.answer_id &&
-                              qna.answer_title &&
-                              qna.answer_description && (
-                                <div
-                                  className="mb-[20px] border-2"
-                                  key={qna.answer_id}
-                                >
-                                  <div className="flex items-center">
-                                    <div className="font-medium text-[14px] leading-[150%] text-[#808695] mb-[8px] mr-[8px]">
-                                      {moment(qna.answer_created_at).format(
-                                        'YYYY년 MM월 DD일 ',
-                                      )}
-                                    </div>
-                                    <div className="font-normal text-[12px] leading-[14px] text-[#808695] mb-[8px]">
-                                      {moment(qna.answer_created_at).format(
-                                        'HH시 mm분',
-                                      )}
-                                    </div>
-                                    <div className="flex-1"></div>
-                                    {token && userType === 'admin' && (
-                                      <button
-                                        className="flex-none max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mr-[8px] mb-[8px]"
-                                        onClick={() => {
-                                          onClickDeleteAnswerHandler(
-                                            qna.answer_id,
-                                          );
-                                        }}
-                                      >
-                                        삭제
-                                      </button>
-                                    )}
-                                  </div>
-                                  <div>응답 제목 : {qna.answer_title}</div>
-                                  <div>
-                                    응답 내용 : {qna.answer_description}
-                                  </div>
-                                </div>
-                              )}
-                          </div>
-                        );
-                      })}
-                  {(!informationLecture.data.qnas ||
-                    informationLecture.data.qnas.length === 0) && (
-                    <div className="my-[20px] border-2">
-                      <div className="flex items-center justify-center min-h-[200px]">
-                        문의사항이 존재하지 않습니다!
+                      <div className="mt-0 mb-[20px]">
+                        <textarea
+                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          value={questionDescription}
+                          onChange={onChangeQuestionDescription}
+                          placeholder="내용을 입력하세요!"
+                        />
                       </div>
-                    </div>
+                      <button
+                        type="submit"
+                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0"
+                      >
+                        문의사항 등록
+                      </button>
+                    </form>
                   )}
+                <div>
+                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] px-[98px] py-[60px] w-full">
+                    <div className="w-full flex justify-between items-center mb-[20px]">
+                      <div className="text-[#17233D] font-semibold text-[20px] leading-[150%]">
+                        문의사항
+                      </div>
+                      {token && userType === 'student' ? (
+                        <button
+                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA]"
+                          onClick={(event) => {
+                            setIsShowAddQuestion(!isShowAddQuestion);
+                          }}
+                        >
+                          {isShowAddNotice ? (
+                            <>
+                              <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                                문의사항 등록
+                              </span>
+                              <img
+                                className="w-[16px] h-[16px] m-auto object-fit"
+                                src={CloseIcon}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <span className="m-auto mr-[4px] h-[18px] text-[12px] leading-[150%] font-medium text-[#808695]">
+                                문의사항 등록
+                              </span>
+                              <img
+                                className="w-[16px] h-[16px] m-auto object-fit"
+                                src={EditIcon}
+                              />
+                            </>
+                          )}
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <div className="w-full rounded-[4px] border-[1px] border-[#EBEEEF]">
+                      <div className="w-full h-[41px] bg-[#F9F9FA] flex">
+                        <div className="flex-none min-w-[60px] max-w-[60px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            No
+                          </div>
+                        </div>
+                        <div className="flex-none min-w-[792px] max-w-[792px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            제목
+                          </div>
+                        </div>
+                        <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
+                          <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
+                            작성일시
+                          </div>
+                        </div>
+                      </div>
+                      {informationLecture.data.qnas &&
+                      informationLecture.data.qnas.length > 0 ? (
+                        informationLecture.data.qnas
+                          .sort((a: any, b: any) => {
+                            return (
+                              new Date(b.question_created_at).getTime() -
+                              new Date(a.question_created_at).getTime()
+                            );
+                          })
+                          .map((qna, index) => {
+                            return informationLecture.data ? (
+                              <LectureQuestion
+                                key={qna.question_id}
+                                token={token}
+                                userType={userType}
+                                mutate={informationLecture.mutate}
+                                lecture_id={informationLecture.data.id}
+                                array_index={
+                                  informationLecture.data.qnas.length - index
+                                }
+                                question_id={qna.question_id}
+                                question_created_at={qna.question_created_at}
+                                question_title={qna.question_title}
+                                question_description={qna.question_description}
+                                answer_id={qna.answer_id}
+                                answer_created_at={qna.answer_created_at}
+                                answer_title={qna.answer_title}
+                                answer_description={qna.answer_description}
+                                userNickname={userNickname}
+                                creator_nickname={qna.creator_nickname}
+                              />
+                            ) : (
+                              <></>
+                            );
+                          })
+                      ) : (
+                        <div className="flex items-center justify-center min-h-[41px] text-[14px] leading-[150%] font-medium text-[#515A6E]">
+                          {!token
+                            ? '문의사항은 로그인 후 조회할 수 있습니다!'
+                            : !informationLecture.data.qnas ||
+                              informationLecture.data.qnas.length === 0
+                            ? '문의사항이 존재하지 않습니다!'
+                            : '잘못된 접근입니다!'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

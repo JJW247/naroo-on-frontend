@@ -45,7 +45,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
   const onClickDeleteNoticeHandler = async (noticeId: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${lecture_id}?id=${noticeId}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${lecture_id}?notice_id=${noticeId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
           </div>
           {isShowEdit ? (
             <input
-              className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+              className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
               value={updateTitle}
               onChange={onChangeUpdateTitle}
               onClick={(event) => {
@@ -127,18 +127,18 @@ const LectureNotice: FC<LectureNoticeProps> = ({
               }}
             />
           ) : (
-            <div className="flex-none min-w-[792px] max-w-[792px] flex justify-start items-center">
+            <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
               <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
                 {title}
               </div>
             </div>
           )}
-          <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
+          <div className="flex-none min-w-[126px] max-w-[126px] flex justify-center items-center">
             <div
               className="text-[14px] leading-[150%] text-[#DCDEE2]"
               title={moment(created_at).format('YYYY년 MM월 DD일 HH시 mm분')}
             >
-              {moment(created_at).format('YYYY.MM.DD')}
+              {moment(created_at).format('YYYY년 MM월 DD일')}
             </div>
           </div>
           <div className="flex-1"></div>
@@ -146,65 +146,75 @@ const LectureNotice: FC<LectureNoticeProps> = ({
       </div>
       {isShowDescription ? (
         <>
-          {token && userType === 'admin' && (
-            <>
-              {isShowEdit ? (
-                <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-center">
-                  <div className="flex-1"></div>
-                  <button
-                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
-                    type="submit"
-                  >
-                    수정 완료
-                  </button>
-                  <button
-                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
-                    type="button"
-                    onClick={() => {
-                      setIsShowEdit(false);
-                    }}
-                  >
-                    수정 취소
-                  </button>
-                </div>
-              ) : (
-                <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-center">
-                  <div className="flex-1"></div>
-                  <button
-                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] p-[4px]"
-                    type="button"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setIsShowEdit(true);
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] max-w-max font-normal text-[12px] leading-[14px] text-[#808695] mx-[8px] p-[4px]"
-                    type="button"
-                    onClick={() => {
-                      onClickDeleteNoticeHandler(id);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-          <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
+          <div className="w-full flex items-center min-h-[41px]">
+            <div className="flex-none min-w-[60px] max-w-[60px] flex justify-center items-center">
+              <div className="text-[14px] leading-[150%] text-[#DCDEE2]">
+                내용
+              </div>
+            </div>
             {isShowEdit ? (
               <textarea
-                className="w-full border-[1px] rounded-[4px] mx-[10px] mb-[10px] p-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
                 value={updateDescription}
                 onChange={onChangeUpdateDescription}
               />
             ) : (
-              <div className="text-[14px] leading-[150%] text-[#515A6E]">
-                {description}
+              <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
+                <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+                  {description}
+                </div>
               </div>
             )}
+            <div className="flex-none min-w-[126px] max-w-[126px] flex items-center">
+              {token && userType === 'admin' && (
+                <>
+                  {isShowEdit ? (
+                    <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
+                      <div className="flex-1"></div>
+                      <button
+                        className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                        type="submit"
+                      >
+                        완료
+                      </button>
+                      <button
+                        className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                        type="button"
+                        onClick={() => {
+                          setIsShowEdit(false);
+                        }}
+                      >
+                        취소
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
+                      <div className="flex-1"></div>
+                      <button
+                        className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                        type="button"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setIsShowEdit(true);
+                        }}
+                      >
+                        수정
+                      </button>
+                      <button
+                        className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                        type="button"
+                        onClick={() => {
+                          onClickDeleteNoticeHandler(id);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="flex-1"></div>
           </div>
         </>
       ) : (

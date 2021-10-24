@@ -101,7 +101,7 @@ const RegisterTag: FC<RegisterTagProps> = ({
   const onClickUnregisterTag = async (tagId: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/unregister/${lectureId}?id=${tagId}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/unregister/${lectureId}?tag_id=${tagId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
