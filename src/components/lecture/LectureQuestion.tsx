@@ -252,7 +252,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
             </div>
             {isShowQuestionEdit ? (
               <input
-                className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[1px]"
+                className="flex-1 flex justify-start overflow-x-hidden items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px]"
                 value={updateQuestionTitle}
                 onChange={onChangeUpdateQuestionTitle}
                 onClick={(event) => {
@@ -261,7 +261,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
               />
             ) : (
               <div className="flex-1 flex overflow-x-hidden justify-start items-stretch my-[10px] py-[4px]">
-                <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
+                <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
                   {token && userType === 'admin'
                     ? `[${creator_nickname}] `
                     : ''}{' '}
@@ -291,7 +291,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
               </div>
               {isShowQuestionEdit ? (
                 <textarea
-                  className="flex-1 flex justify-start items-stretch border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[20px]"
+                  className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[20px]"
                   value={updateQuestionDescription}
                   onChange={onChangeUpdateQuestionDescription}
                 />
@@ -309,7 +309,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                     userType === 'admin') && (
                     <>
                       {isShowQuestionEdit ? (
-                        <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
+                        <div className="w-full min-h-[41px] bg-white flex xl:justify-center justify-start items-center">
                           <button
                             className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                             type="submit"
@@ -317,7 +317,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                             완료
                           </button>
                           <button
-                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] xl:ml-[10px] ml-[1px] mr-[18px] px-[10px] py-[4px]"
                             type="button"
                             onClick={() => {
                               setIsShowQuestionEdit(false);
@@ -328,7 +328,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                         </div>
                       ) : (
                         <>
-                          <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
+                          <div className="w-full min-h-[41px] bg-white flex xl:justify-center justify-start items-center">
                             <button
                               className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                               type="button"
@@ -340,7 +340,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                               수정
                             </button>
                             <button
-                              className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                              className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] xl:ml-[10px] ml-[1px] mr-[18px] px-[10px] py-[4px]"
                               type="button"
                               onClick={() => {
                                 onClickDeleteQuestionHandler();
@@ -355,7 +355,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                   )}
                 {userType === 'admin' && !answer_id ? (
                   <button
-                    className="absolute flex justify-center items-center left-[133px] bottom-[5px] rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] min-w-max max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                    className="absolute flex justify-center items-center xl:left-[133px] left-[90px] bottom-[6px] rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] min-w-max max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                     type="button"
                     onClick={(event) => {
                       event.preventDefault();
@@ -411,7 +411,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
               </div>
               {isShowAnswerEdit ? (
                 <input
-                  className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[1px]"
+                  className="flex-1 flex justify-start overflow-x-hidden items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px]"
                   value={updateAnswerTitle}
                   onChange={onChangeUpdateAnswerTitle}
                   onClick={(event) => {

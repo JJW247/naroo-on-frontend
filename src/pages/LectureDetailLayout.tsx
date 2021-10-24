@@ -389,7 +389,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   userType === 'admin' &&
                   isShowAddNotice && (
                     <form
-                      className="min-h-[491px] max-h-[491px] mb-[60px] px-[98px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
+                      className="min-h-[491px] max-h-[491px] mb-[60px] xl:px-[98px] lg:px-[50px] md:px-[30px] sm:px-[14px] xs:px-[10px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
                       onSubmit={onSubmitNoticeHandler}
                     >
                       <div className="mb-[28px] text-[#17233D] font-semibold text-[20px] leading-[150%]">
@@ -421,7 +421,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     </form>
                   )}
                 <div>
-                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] px-[98px] py-[60px] w-full">
+                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] xl:px-[98px] lg:px-[50px] md:px-[30px] sm:px-[14px] xs:px-[10px] py-[60px] w-full">
                     <div className="w-full flex justify-between items-center mb-[20px]">
                       <div className="text-[#17233D] font-semibold text-[20px] leading-[150%]">
                         공지사항
@@ -528,7 +528,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                   userType === 'student' &&
                   isShowAddQuestion && (
                     <form
-                      className="min-h-[491px] max-h-[491px] mb-[60px] px-[98px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
+                      className="min-h-[491px] max-h-[491px] mb-[60px] xl:px-[98px] lg:px-[50px] md:px-[30px] sm:px-[14px] xs:px-[10px] py-[68px] box-border border-[1px] rounded-[8px] border-[#DCDEE2] w-full"
                       onSubmit={onSubmitQuestionHandler}
                     >
                       <div className="mb-[28px] text-[#17233D] font-semibold text-[20px] leading-[150%]">
@@ -560,7 +560,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                     </form>
                   )}
                 <div>
-                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] px-[98px] py-[60px] w-full">
+                  <div className="box-border rounded-[8px] border-[1px] border-[#DCDEE2] xl:px-[98px] lg:px-[50px] md:px-[30px] sm:px-[14px] xs:px-[10px] py-[60px] w-full">
                     <div className="w-full flex justify-between items-center mb-[20px]">
                       <div className="text-[#17233D] font-semibold text-[20px] leading-[150%]">
                         문의사항

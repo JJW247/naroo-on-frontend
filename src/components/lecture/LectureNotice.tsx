@@ -119,7 +119,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
           </div>
           {isShowEdit ? (
             <input
-              className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[1px]"
+              className="flex-1 flex justify-start overflow-x-hidden items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px]"
               value={updateTitle}
               onChange={onChangeUpdateTitle}
               onClick={(event) => {
@@ -128,7 +128,7 @@ const LectureNotice: FC<LectureNoticeProps> = ({
             />
           ) : (
             <div className="flex-1 flex overflow-x-hidden justify-start items-stretch my-[10px] py-[4px]">
-              <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
+              <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
                 {title}
               </div>
             </div>
