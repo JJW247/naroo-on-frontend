@@ -252,7 +252,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
             </div>
             {isShowQuestionEdit ? (
               <input
-                className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[1px]"
                 value={updateQuestionTitle}
                 onChange={onChangeUpdateQuestionTitle}
                 onClick={(event) => {
@@ -260,8 +260,8 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                 }}
               />
             ) : (
-              <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
-                <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+              <div className="flex-1 flex overflow-x-hidden justify-start items-stretch my-[10px] py-[4px]">
+                <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
                   {token && userType === 'admin'
                     ? `[${creator_nickname}] `
                     : ''}{' '}
@@ -269,7 +269,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                 </div>
               </div>
             )}
-            <div className="flex-none min-w-[126px] max-w-[126px] flex justify-center items-center">
+            <div className="flex-none min-w-[126px] max-w-[126px] flex justify-end items-center mr-[20px]">
               <div
                 className="text-[14px] leading-[150%] text-[#DCDEE2]"
                 title={moment(question_created_at).format(
@@ -279,7 +279,6 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                 {moment(question_created_at).format('YYYY년 MM월 DD일')}
               </div>
             </div>
-            <div className="flex-1"></div>
           </div>
         </div>
         {isShowQuestionDescription ? (
@@ -292,34 +291,33 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
               </div>
               {isShowQuestionEdit ? (
                 <textarea
-                  className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                  className="flex-1 flex justify-start items-stretch border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[20px]"
                   value={updateQuestionDescription}
                   onChange={onChangeUpdateQuestionDescription}
                 />
               ) : (
-                <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
-                  <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+                <div className="flex-1 flex break-all justify-start items-stretch my-[10px] py-[4px]">
+                  <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
                     {question_description}
                   </div>
                 </div>
               )}
-              <div className="flex-none min-w-[126px] max-w-[126px] flex items-center">
+              <div className="flex-none min-w-[126px] max-w-[126px] flex justify-center items-start relative">
                 {token &&
                   ((userType === 'student' &&
                     userNickname === creator_nickname) ||
                     userType === 'admin') && (
                     <>
                       {isShowQuestionEdit ? (
-                        <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
-                          <div className="flex-1"></div>
+                        <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
                           <button
-                            className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                             type="submit"
                           >
                             완료
                           </button>
                           <button
-                            className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
                             type="button"
                             onClick={() => {
                               setIsShowQuestionEdit(false);
@@ -330,8 +328,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                         </div>
                       ) : (
                         <>
-                          <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
-                            <div className="flex-1"></div>
+                          <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
                             <button
                               className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                               type="button"
@@ -356,11 +353,9 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                       )}
                     </>
                   )}
-              </div>
-              <div className="flex-1 relative">
                 {userType === 'admin' && !answer_id ? (
                   <button
-                    className="absolute flex justify-center items-center left-[15px] bottom-[-7.5px] rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] min-w-max max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                    className="absolute flex justify-center items-center left-[133px] bottom-[5px] rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] min-w-max max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                     type="button"
                     onClick={(event) => {
                       event.preventDefault();
@@ -416,7 +411,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
               </div>
               {isShowAnswerEdit ? (
                 <input
-                  className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                  className="flex-1 flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[1px]"
                   value={updateAnswerTitle}
                   onChange={onChangeUpdateAnswerTitle}
                   onClick={(event) => {
@@ -424,13 +419,13 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                   }}
                 />
               ) : (
-                <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
-                  <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+                <div className="flex-1 flex overflow-x-hidden justify-start items-stretch my-[10px] py-[4px]">
+                  <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
                     {answer_title}
                   </div>
                 </div>
               )}
-              <div className="flex-none min-w-[126px] max-w-[126px] flex justify-center items-center">
+              <div className="flex-none min-w-[126px] max-w-[126px] flex justify-end items-center mr-[20px]">
                 <div
                   className="text-[14px] leading-[150%] text-[#DCDEE2]"
                   title={moment(answer_created_at).format(
@@ -440,7 +435,6 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                   {moment(answer_created_at).format('YYYY년 MM월 DD일')}
                 </div>
               </div>
-              <div className="flex-1"></div>
             </div>
           </div>
           {isShowAnswerDescription ? (
@@ -453,31 +447,30 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                 </div>
                 {isShowAnswerEdit ? (
                   <textarea
-                    className="flex-none min-w-[758px] max-w-[758px] flex justify-start items-center border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E]"
+                    className="flex-1 flex justify-start items-stretch border-[1px] rounded-[4px] my-[10px] px-[4px] text-[14px] leading-[150%] text-[#515A6E] ml-[8.5px] mr-[20px]"
                     value={updateAnswerDescription}
                     onChange={onChangeUpdateAnswerDescription}
                   />
                 ) : (
-                  <div className="flex-none min-w-[758px] max-w-[758px] overflow-x-hidden flex justify-start items-center my-[10px] py-[4px]">
-                    <div className="pl-[8.5px] text-[14px] leading-[150%] text-[#515A6E]">
+                  <div className="flex-1 flex break-all justify-start items-stretch my-[10px] py-[4px]">
+                    <div className="pl-[8.5px] pr-[20px] text-[14px] leading-[150%] text-[#515A6E]">
                       {answer_description}
                     </div>
                   </div>
                 )}
-                <div className="flex-none min-w-[126px] max-w-[126px] flex items-center">
+                <div className="flex-none min-w-[126px] max-w-[126px] flex justify-center items-start">
                   {token && userType === 'admin' && (
                     <>
                       {isShowAnswerEdit ? (
-                        <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
-                          <div className="flex-1"></div>
+                        <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
                           <button
-                            className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                             type="submit"
                           >
                             완료
                           </button>
                           <button
-                            className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                            className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
                             type="button"
                             onClick={() => {
                               setIsShowAnswerEdit(false);
@@ -488,10 +481,9 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                         </div>
                       ) : (
                         <>
-                          <div className="w-full min-h-[41px] max-h-[41px] bg-white flex justify-end items-start">
-                            <div className="flex-1"></div>
+                          <div className="w-full min-h-[41px] bg-white flex justify-center items-center">
                             <button
-                              className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
+                              className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] px-[10px] py-[4px]"
                               type="button"
                               onClick={(event) => {
                                 event.preventDefault();
@@ -501,7 +493,7 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                               수정
                             </button>
                             <button
-                              className="flex-none rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
+                              className="flex-1 rounded-[4px] border-[1px] border-[#EBEEEF] bg-[#F9F9FA] max-w-max font-normal text-[12px] leading-[150%] text-[#808695] ml-[10px] mr-[18px] px-[10px] py-[4px]"
                               type="button"
                               onClick={() => {
                                 onClickDeleteAnswerHandler();
@@ -515,7 +507,6 @@ const LectureQuestion: FC<LectureQuestionProps> = ({
                     </>
                   )}
                 </div>
-                <div className="flex-1"></div>
               </div>
             </>
           ) : (

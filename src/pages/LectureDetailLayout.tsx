@@ -468,12 +468,12 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             No
                           </div>
                         </div>
-                        <div className="flex-none min-w-[792px] max-w-[792px] flex justify-center items-center">
+                        <div className="flex-1 flex justify-center items-center">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             제목
                           </div>
                         </div>
-                        <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
+                        <div className="flex-none min-w-[126px] max-w-[126px] flex justify-end items-center mr-[20px]">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             작성일시
                           </div>
@@ -605,12 +605,12 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             No
                           </div>
                         </div>
-                        <div className="flex-none min-w-[792px] max-w-[792px] flex justify-center items-center">
+                        <div className="flex-1 flex justify-center items-center">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             제목
                           </div>
                         </div>
-                        <div className="flex-none min-w-[92px] max-w-[92px] flex justify-center items-center">
+                        <div className="flex-none min-w-[126px] max-w-[126px] flex justify-end items-center mr-[20px]">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             작성일시
                           </div>
