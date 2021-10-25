@@ -173,7 +173,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
           <div className="w-full bg-gradient-to-br from-[#8DC556] to-[#00A0E9]">
             <div className="hidden lg:flex w-full xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] xl:min-h-[506px] xl:max-h-[506px] lg:min-h-[431.79px] lg:max-h-[431.79px] mx-auto items-center justify-center">
               <img
-                className="xl:mr-[150px] lg:mr-[128px] xl:min-w-[346px] xl:max-w-[346px] xl:min-h-[346px] xl:max-h-[346px] lg:min-w-[295.25px] lg:max-w-[295.25px] lg:min-h-[295.25px] lg:max-h-[295.25px] object-fill border-[1px] border-[#DCDEE2] box-border rounded-[4px] lecture-detail-thumbnail-container"
+                className="xl:mr-[150px] lg:mr-[128px] xl:min-w-[346px] xl:max-w-[346px] xl:min-h-[346px] xl:max-h-[346px] lg:min-w-[295.25px] lg:max-w-[295.25px] lg:min-h-[295.25px] lg:max-h-[295.25px] object-fill rounded-[4px] lecture-detail-thumbnail-container"
                 src={
                   informationLecture.data.thumbnail
                     ? informationLecture.data.thumbnail
@@ -272,7 +272,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
             </div>
             <div className="w-full mx-auto md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] lg:hidden bg-gradient-to-br from-[#8DC556] to-[#00A0E9] items-center justify-center pt-[2vh]">
               <img
-                className="mx-auto border-[1px] border-[#DCDEE2] box-border rounded-[4px] lecture-detail-thumbnail-container object-fill"
+                className="mx-auto rounded-[4px] lecture-detail-thumbnail-container object-fill"
                 src={
                   informationLecture.data.thumbnail
                     ? informationLecture.data.thumbnail
@@ -468,7 +468,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             No
                           </div>
                         </div>
-                        <div className="flex-1 flex justify-center items-center">
+                        <div className="flex items-center justify-center flex-1">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             제목
                           </div>
@@ -605,7 +605,7 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                             No
                           </div>
                         </div>
-                        <div className="flex-1 flex justify-center items-center">
+                        <div className="flex items-center justify-center flex-1">
                           <div className="text-[14px] leading-[150%] font-semibold text-[#515A6E]">
                             제목
                           </div>
