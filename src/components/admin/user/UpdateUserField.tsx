@@ -1,11 +1,10 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, FormEventHandler, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { useInput } from '../../../hooks';
 import { IUserEdit } from '../../../interfaces';
+import EditIcon from '../../../assets/images/Edit.svg';
 
 interface UpdateUserFieldProps {
   token: string | null;
@@ -135,9 +134,9 @@ const UpdateUserField: FC<UpdateUserFieldProps> = ({
                 '보안을 위해 기존 비밀번호 확인은 불가능하며, 새로운 비밀번호를 설정하는 것은 가능합니다!'}
             </div>
           </div>
-          <FontAwesomeIcon
-            className="mx-[10px]"
-            icon={faEdit}
+          <img
+            src={EditIcon}
+            className="w-[14px] h-[14px] ml-[20px]"
             onClick={onClickUpdateToggle}
           />
         </div>

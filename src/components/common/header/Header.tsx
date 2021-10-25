@@ -213,7 +213,7 @@ const Header: FC<HeaderProps> = ({
               {isVisibleEllipsis && (
                 <div
                   ref={ellipsisElementRef}
-                  className="fixed z-[999] min-w-max"
+                  className="relative z-[999] min-w-max"
                 >
                   <Ellipsis
                     token={token}
