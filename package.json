@@ -39,7 +39,8 @@
   },
   "scripts": {
     "start": "cross-env TAILWIND_MODE=watch craco start",
-    "build": "craco build",
+    "build": "cross-env TAILWIND_MODE=watch craco build",
+    "serve": "npx serve -l 3000 -n -s",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
