@@ -42,7 +42,6 @@ const InitPasswordLayout: FC<InitPasswordLayoutProps> = ({
         history.replace('/');
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response?.data?.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {

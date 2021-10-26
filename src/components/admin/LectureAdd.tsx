@@ -100,9 +100,11 @@ const LectureAdd: FC<LectureAddProps> = ({
   };
   const [videoTitle, onChangeVideoTitle] = useInput('');
   const [videoUrl, onChangeVideoUrl] = useInput('');
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+      setIsLoadingSubmit(true);
       const images = [];
       for (const image of lectureImageOptions) {
         images.push(image.value);
@@ -126,11 +128,12 @@ const LectureAdd: FC<LectureAddProps> = ({
         },
       );
       if (response.statusText === 'Created') {
-        setSelectedMenu(CONST_ADMIN_MENU.LECTURE_EDIT);
-        allLecturesMutate();
+        setTimeout(() => {
+          allLecturesMutate();
+          setSelectedMenu(CONST_ADMIN_MENU.LECTURE_EDIT);
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -139,6 +142,10 @@ const LectureAdd: FC<LectureAddProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmit(false);
+      }, 500);
     }
   };
   return (
@@ -148,10 +155,11 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="title">제목</label>
         </div>
         <input
-          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
           type="text"
           value={title}
           onChange={onChangeTitle}
+          disabled={isLoadingSubmit}
         />
       </div>
       <div className="mb-[29px]">
@@ -164,7 +172,8 @@ const LectureAdd: FC<LectureAddProps> = ({
             value={expiredAt}
             margin="normal"
             onChange={onHandleExpiredAt}
-            className="w-full"
+            className="w-full disabled:opacity-50"
+            disabled={isLoadingSubmit}
           />
         </MuiPickersUtilsProvider>
       </div>
@@ -178,8 +187,9 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
         </div>
         <input
-          className="w-full border-[1px] border-[#C4C4C4] p-[20px]"
+          className="w-full border-[1px] border-[#C4C4C4] p-[20px] disabled:opacity-50"
           type="file"
+          disabled={isLoadingSubmit}
           onChange={(event) => {
             if (!event.target.files || !event.target.files[0]) {
               return;
@@ -198,10 +208,11 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="description">강의 설명</label>
         </div>
         <input
-          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
           type="text"
           value={description}
           onChange={onChangeDescription}
+          disabled={isLoadingSubmit}
         />
       </div>
       <div className="mb-[29px]">
@@ -209,10 +220,11 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="teacher-name">강사 이름</label>
         </div>
         <input
-          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
           type="text"
           value={teacherName}
           onChange={onChangeTeacherName}
+          disabled={isLoadingSubmit}
         />
       </div>
       <div className="mb-[29px]">
@@ -224,6 +236,7 @@ const LectureAdd: FC<LectureAddProps> = ({
           type="file"
           ref={inputFileRef}
           onChange={onFileChange}
+          disabled={isLoadingSubmit}
         />
         <Slider {...settings}>
           {lectureImageOptions &&
@@ -251,6 +264,8 @@ const LectureAdd: FC<LectureAddProps> = ({
           formatCreateLabel={() => '이미지 URL 추가하기'}
           noOptionsMessage={() => null}
           placeholder="강의 소개 이미지 URL을 추가하세요!"
+          className="disabled:opacity-50"
+          disabled={isLoadingSubmit}
         />
       </div>
       <div className="mb-[29px]">
@@ -258,10 +273,11 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="video_title">강의 영상 제목</label>
         </div>
         <input
-          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
           type="text"
           value={videoTitle}
           onChange={onChangeVideoTitle}
+          disabled={isLoadingSubmit}
         />
       </div>
       <div className="mb-[29px]">
@@ -269,15 +285,17 @@ const LectureAdd: FC<LectureAddProps> = ({
           <label htmlFor="video_url">강의 영상 URL</label>
         </div>
         <input
-          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+          className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
           type="text"
           value={videoUrl}
           onChange={onChangeVideoUrl}
+          disabled={isLoadingSubmit}
         />
       </div>
       <button
         type="submit"
-        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#4DBFF0] text-white mb-[12px]"
+        disabled={isLoadingSubmit}
+        className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#4DBFF0] text-white mb-[12px] disabled:opacity-50"
       >
         강의 추가
       </button>

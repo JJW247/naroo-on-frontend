@@ -61,6 +61,39 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   allTags,
   mutate,
 }) => {
+  const [isLoadingClickDeleteLecture, setIsLoadingClickDeleteLecture] =
+    useState<boolean>(false);
+  const onClickDeleteLecture = async () => {
+    try {
+      setIsLoadingClickDeleteLecture(true);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.statusText === 'OK') {
+        setTimeout(() => {
+          mutate();
+        }, 500);
+      }
+    } catch (error: any) {
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingClickDeleteLecture(false);
+      }, 500);
+    }
+  };
   const [updateExpiredToggle, setUpdateExpiredToggle] =
     useState<boolean>(false);
   const onClickUpdateExpiredToggle = () => {
@@ -73,10 +106,12 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   const onHandleExpiredAt = (date: Date | null) => {
     setExpiredAt(date);
   };
+  const [isLoadingSubmitUpdateExpired, setIsLoadingSubmitUpdateExpired] =
+    useState<boolean>(false);
   const onSubmitUpdateExpired = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
+      setIsLoadingSubmitUpdateExpired(true);
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
         {
@@ -90,11 +125,12 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        setUpdateExpiredToggle(!updateExpiredToggle);
-        mutate();
+        setTimeout(() => {
+          mutate();
+          setUpdateExpiredToggle(!updateExpiredToggle);
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -103,31 +139,10 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       } else {
         toast.error(messages);
       }
-    }
-  };
-  const onClickDeleteLecture = async () => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitUpdateExpired(false);
+      }, 500);
     }
   };
   const [updateTeacherToggle, setUpdateTeacherToggle] =
@@ -138,10 +153,12 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
   };
   const [updateTeacherName, onChangeUpdateTeacherName, setUpdateTeacherName] =
     useInput(teacherNickname);
+  const [isLoadingSubmitUpdateTeacher, setIsLoadingSubmitUpdateTeacher] =
+    useState<boolean>(false);
   const onSubmitUpdateTeacher = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
+      setIsLoadingSubmitUpdateTeacher(true);
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/${id}`,
         {
@@ -155,11 +172,12 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        setUpdateTeacherToggle(!updateTeacherToggle);
-        mutate();
+        setTimeout(() => {
+          mutate();
+          setUpdateTeacherToggle(!updateTeacherToggle);
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -168,12 +186,17 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitUpdateTeacher(false);
+      }, 500);
     }
   };
   return (
     <div className="w-[560px] xs:w-[380px] justify-self-center">
       <button
-        className="my-[5px] w-full flex justify-center items-center"
+        className="my-[5px] w-full flex justify-center items-center disabled:opacity-50"
+        disabled={isLoadingClickDeleteLecture}
         onClick={onClickDeleteLecture}
       >
         <div>강의 삭제하기</div>
@@ -203,16 +226,19 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
                 margin="normal"
                 onChange={onHandleExpiredAt}
                 className="w-full"
+                disabled={isLoadingSubmitUpdateExpired}
               />
             </MuiPickersUtilsProvider>
             <button
-              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
+              disabled={isLoadingSubmitUpdateExpired}
               type="submit"
             >
               수정
             </button>
             <button
-              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
+              disabled={isLoadingSubmitUpdateExpired}
               onClick={onClickUpdateExpiredToggle}
             >
               취소
@@ -251,20 +277,23 @@ const LectureEditCard: FC<LectureEditCardProps> = ({
             강사
           </label>
           <input
-            className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px]"
+            className="w-full h-[41px] border-[1px] box-border rounded-[4px] border-[#DCDEE2] bg-[#F3FBFE] placeholder-[#DCDEE2] font-medium text-[14px] leading-[150%] py-[10px] focus:border-[#00A0E9] focus:outline-none focus:bg-white px-[20px] disabled:opacity-50"
             type="text"
             value={updateTeacherName}
             onChange={onChangeUpdateTeacherName}
+            disabled={isLoadingSubmitUpdateTeacher}
           />
           <button
-            className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+            className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
             type="submit"
+            disabled={isLoadingSubmitUpdateTeacher}
           >
             수정
           </button>
           <button
-            className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+            className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
             onClick={onClickUpdateTeacherToggle}
+            disabled={isLoadingSubmitUpdateTeacher}
           >
             취소
           </button>

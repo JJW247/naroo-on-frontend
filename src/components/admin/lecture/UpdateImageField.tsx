@@ -41,10 +41,11 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
     setUpdateToggle(!updateToggle);
     setPreview(userField);
   };
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
   const onSubmitUpdateImage = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
+      setIsLoadingSubmit(true);
       if (!preview || preview === userField) {
         setUpdateToggle(!updateToggle);
         setPreview(userField);
@@ -69,11 +70,12 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        setUpdateToggle(!updateToggle);
-        mutate();
+        setTimeout(() => {
+          mutate();
+          setUpdateToggle(!updateToggle);
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -82,6 +84,10 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmit(false);
+      }, 500);
     }
   };
   return (
@@ -108,8 +114,9 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
           )}
           <div className="flex">
             <input
-              className="w-full px-[10px]"
+              className="w-full px-[10px] disabled:opacity-50"
               type="file"
+              disabled={isLoadingSubmit}
               onChange={(event) => {
                 if (!event.target.files || !event.target.files[0]) {
                   return;
@@ -123,15 +130,17 @@ const UpdateImageField: FC<UpdateImageFieldProps> = ({
               }}
             />
             <button
-              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
               type="submit"
+              disabled={isLoadingSubmit}
             >
               수정
             </button>
             <button
               type="button"
-              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
               onClick={onClickUpdateToggle}
+              disabled={isLoadingSubmit}
             >
               취소
             </button>

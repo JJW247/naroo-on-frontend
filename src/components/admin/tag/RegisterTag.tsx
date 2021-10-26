@@ -1,4 +1,4 @@
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { FC, FormEvent, useCallback, useMemo, useState } from 'react';
@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
 import { ILectureInList, ITags } from '../../../interfaces';
-import Tag from '../../common/Tag';
+import UnregisterTagElement from './UnregisterTagElement';
 
 interface RegisterTagProps {
   token: string | null;
@@ -61,9 +61,11 @@ const RegisterTag: FC<RegisterTagProps> = ({
     setUpdateToggle(!updateToggle);
     setRegisterTags(tags);
   };
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
   const onSubmitRegisterTag = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+      setIsLoadingSubmit(true);
       const ids = [];
       for (const tag of registerTags) {
         ids.push(tag.id);
@@ -83,11 +85,10 @@ const RegisterTag: FC<RegisterTagProps> = ({
       if (response.statusText === 'OK') {
         setTimeout(() => {
           mutate();
+          setUpdateToggle(!updateToggle);
         }, 500);
-        setUpdateToggle(!updateToggle);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -96,31 +97,10 @@ const RegisterTag: FC<RegisterTagProps> = ({
       } else {
         toast.error(messages);
       }
-    }
-  };
-  const onClickUnregisterTag = async (tagId: string) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/tag/unregister/${lectureId}?tag_id=${tagId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.statusText === 'OK') {
-        mutate();
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmit(false);
+      }, 500);
     }
   };
   return (
@@ -137,7 +117,7 @@ const RegisterTag: FC<RegisterTagProps> = ({
             <Select
               isMulti
               isClearable
-              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1"
+              className="rounded-full w-full pl-[14px] pr-[14px] py-1 text-xs text-gray-200 bg-harp mr-1 disabled:opacity-50"
               type="text"
               value={tagsOptions.map((tagOption) => {
                 for (const tag of registerTags) {
@@ -149,16 +129,19 @@ const RegisterTag: FC<RegisterTagProps> = ({
               options={tagsOptions}
               onChange={onHandleTagsChange}
               placeholder="태그를 추가하세요!"
+              disabled={isLoadingSubmit}
             />
           </div>
           <input
-            className="rounded-[4px] min-w-max mx-[10px]"
+            className="rounded-[4px] min-w-max mx-[10px] disabled:opacity-50"
             type="submit"
             value="수정"
+            disabled={isLoadingSubmit}
           />
           <button
-            className="rounded-[4px] min-w-max"
+            className="rounded-[4px] min-w-max disabled:opacity-50"
             onClick={onClickUpdateToggle}
+            disabled={isLoadingSubmit}
           >
             취소
           </button>
@@ -171,17 +154,12 @@ const RegisterTag: FC<RegisterTagProps> = ({
                 tags.length > 0 &&
                 tags.map((tag) => {
                   return (
-                    <div
-                      key={tag.id}
-                      className="flex items-center py-[5px] pr-[20px]"
-                    >
-                      <Tag name={tag.name} />
-                      <FontAwesomeIcon
-                        className="ml-[5px]"
-                        icon={faTrash}
-                        onClick={() => onClickUnregisterTag(tag.id)}
-                      />
-                    </div>
+                    <UnregisterTagElement
+                      token={token}
+                      lectureId={lectureId}
+                      tag={tag}
+                      mutate={mutate}
+                    />
                   );
                 })}
             </>

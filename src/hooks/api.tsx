@@ -32,7 +32,6 @@ export function useGetSWR<T>(
         : await axios.get(url);
       return response.data;
     } catch (error: any) {
-      console.error(error);
       if (showError) {
         const messages = error.response?.data?.message;
         if (Array.isArray(messages)) {

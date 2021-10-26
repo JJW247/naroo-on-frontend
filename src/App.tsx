@@ -66,11 +66,7 @@ const App: FC = () => {
         localStorage.setItem('token', '');
         setUserType(null);
         setUserNickname(null);
-        if (history.location.pathname.includes('lecture-play')) {
-          history.replace('/');
-        } else {
-          history.replace(history.location.pathname);
-        }
+        history.replace('/signin');
       });
   };
   useEffect(() => {

@@ -48,9 +48,7 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
         }
       }
     }
-  } catch (error: any) {
-    console.error(error);
-  }
+  } catch (error: any) {}
   return (
     <div className="max-w-full min-h-screen mx-auto bg-white font-noto">
       {infoBanner && isArray(infoBanner) && infoBanner.length > 0 ? (

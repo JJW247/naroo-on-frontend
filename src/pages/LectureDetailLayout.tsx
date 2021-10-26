@@ -72,10 +72,11 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
               },
             );
             if (response.statusText === 'OK') {
-              await informationLecture.mutate();
+              setTimeout(() => {
+                informationLecture.mutate();
+              }, 500);
             }
           } catch (error: any) {
-            console.error(error);
             const messages = error.response.data.message;
             if (Array.isArray(messages)) {
               messages.map((message) => {
@@ -95,9 +96,12 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
   const [noticeDescription, onChangeNoticeDescription, setNoticeDescription] =
     useInput('');
   const [isShowAddNotice, setIsShowAddNotice] = useState<boolean>(false);
+  const [isLoadingSubmitNotice, setIsLoadingSubmitNotice] =
+    useState<boolean>(false);
   const onSubmitNoticeHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+      setIsLoadingSubmitNotice(true);
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/lecture/admin/notice/${id}`,
         {
@@ -111,12 +115,13 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         },
       );
       if (response.statusText === 'OK') {
-        setNoticeTitle('');
-        setNoticeDescription('');
-        informationLecture?.mutate();
+        setTimeout(() => {
+          informationLecture.mutate();
+          setNoticeTitle('');
+          setNoticeDescription('');
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -125,6 +130,10 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitNotice(false);
+      }, 500);
     }
   };
   const [questionTitle, onChangeQuestionTitle, setQuestionTitle] = useInput('');
@@ -134,9 +143,12 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
     setQuestionDescription,
   ] = useInput('');
   const [isShowAddQuestion, setIsShowAddQuestion] = useState<boolean>(false);
+  const [isLoadingSubmitQuestion, setIsLoadingSubmitQuestion] =
+    useState<boolean>(false);
   const onSubmitQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+      setIsLoadingSubmitQuestion(true);
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/lecture/question/${id}`,
         {
@@ -150,12 +162,13 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
         },
       );
       if (response.statusText === 'Created') {
-        setQuestionTitle('');
-        setQuestionDescription('');
-        informationLecture?.mutate();
+        setTimeout(() => {
+          informationLecture.mutate();
+          setQuestionTitle('');
+          setQuestionDescription('');
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -164,6 +177,10 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitQuestion(false);
+      }, 500);
     }
   };
   return (
@@ -397,24 +414,27 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       </div>
                       <div className="my-0">
                         <input
-                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none disabled:opacity-50"
                           type="text"
                           value={noticeTitle}
                           onChange={onChangeNoticeTitle}
                           placeholder="제목을 입력하세요!"
+                          disabled={isLoadingSubmitNotice}
                         />
                       </div>
                       <div className="mt-0 mb-[20px]">
                         <textarea
-                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none disabled:opacity-50"
                           value={noticeDescription}
                           onChange={onChangeNoticeDescription}
                           placeholder="내용을 입력하세요!"
+                          disabled={isLoadingSubmitNotice}
                         />
                       </div>
                       <button
                         type="submit"
-                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0"
+                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0 disabled:opacity-50"
+                        disabled={isLoadingSubmitNotice}
                       >
                         공지사항 등록
                       </button>
@@ -430,10 +450,11 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       informationLecture.data &&
                       userType === 'admin' ? (
                         <button
-                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA]"
+                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA] disabled:opacity-50"
                           onClick={(event) => {
                             setIsShowAddNotice(!isShowAddNotice);
                           }}
+                          disabled={isLoadingSubmitNotice}
                         >
                           {isShowAddNotice ? (
                             <>
@@ -536,24 +557,27 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       </div>
                       <div className="my-0">
                         <input
-                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          className="w-full border-[1px] min-h-[41px] max-h-[41px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none disabled:opacity-50"
                           type="text"
                           value={questionTitle}
                           onChange={onChangeQuestionTitle}
                           placeholder="제목을 입력하세요!"
+                          disabled={isLoadingSubmitQuestion}
                         />
                       </div>
                       <div className="mt-0 mb-[20px]">
                         <textarea
-                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none"
+                          className="w-full min-h-[204px] max-h-[204px] border-[1px] border-[#DCDEE2] pl-[10px] py-[10px] text-[14px] leading-[150%] placeholder-[#DCDEE2] focus:border-[#8DC556] focus:outline-none disabled:opacity-50"
                           value={questionDescription}
                           onChange={onChangeQuestionDescription}
                           placeholder="내용을 입력하세요!"
+                          disabled={isLoadingSubmitQuestion}
                         />
                       </div>
                       <button
                         type="submit"
-                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0"
+                        className="w-full min-h-[41px] max-h-[41px] text-[14px] leading-[150%] font-semibold bg-[#8DC556] box-border border-[1px] border-[#8DC556] rounded-[4px] text-white my-0 disabled:opacity-50"
+                        disabled={isLoadingSubmitQuestion}
                       >
                         문의사항 등록
                       </button>
@@ -567,10 +591,11 @@ const LetcureDetailLayout: FC<LetcureDetailLayoutProps> = ({
                       </div>
                       {token && userType === 'student' ? (
                         <button
-                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA]"
+                          className="flex px-[10px] py-[4px] border-[1px] border-[#EBEEEF] rounded-[4px] bg-[#F9F9FA] disabled:opacity-50"
                           onClick={(event) => {
                             setIsShowAddQuestion(!isShowAddQuestion);
                           }}
+                          disabled={isLoadingSubmitQuestion}
                         >
                           {isShowAddNotice ? (
                             <>

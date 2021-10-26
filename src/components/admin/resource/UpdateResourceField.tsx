@@ -41,10 +41,55 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
     setUpdateToggle(!updateToggle);
     setPreview(content);
   };
+  const [isLoadingSubmitAdd, setIsLoadingSubmitAdd] = useState<boolean>(false);
+  const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+      setIsLoadingSubmitAdd(true);
+      if (!addPreview) {
+        return;
+      }
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/resource`,
+        {
+          type,
+          content: addPreview,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'Created') {
+        setTimeout(() => {
+          mutate();
+          setAddPreview('');
+        }, 500);
+      }
+    } catch (error: any) {
+      const messages = error.response.data.message;
+      if (Array.isArray(messages)) {
+        messages.map((message) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitAdd(false);
+      }, 500);
+    }
+  };
+  const [isLoadingSubmitUpdateResource, setIsLoadingSubmitUpdateResource] =
+    useState<boolean>(false);
   const onSubmitUpdateResource = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
+      setIsLoadingSubmitUpdateResource(true);
       if (!preview || preview === content) {
         setUpdateToggle(!updateToggle);
         setPreview(content);
@@ -66,11 +111,12 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       );
 
       if (response.statusText === 'OK') {
-        setUpdateToggle(!updateToggle);
-        mutate();
+        setTimeout(() => {
+          mutate();
+          setUpdateToggle(!updateToggle);
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -79,10 +125,17 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmitUpdateResource(false);
+      }, 500);
     }
   };
+  const [isLoadingClickDeleteResource, setIsLoadingClickDeleteResource] =
+    useState<boolean>(false);
   const onClickDeleteResource = async () => {
     try {
+      setIsLoadingClickDeleteResource(true);
       const response = await axios.delete(
         `${process.env.REACT_APP_BACK_URL}/resource/${content_id}?type=${type}`,
         {
@@ -92,10 +145,11 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
         },
       );
       if (response.statusText === 'OK') {
-        mutate();
+        setTimeout(() => {
+          mutate();
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -104,43 +158,10 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
       } else {
         toast.error(messages);
       }
-    }
-  };
-  const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
-
-      if (!addPreview) {
-        return;
-      }
-
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACK_URL}/resource`,
-        {
-          type,
-          content: addPreview,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (response.statusText === 'Created') {
-        mutate();
-        setAddPreview('');
-      }
-    } catch (error: any) {
-      console.error(error);
-      const messages = error.response.data.message;
-      if (Array.isArray(messages)) {
-        messages.map((message) => {
-          toast.error(message);
-        });
-      } else {
-        toast.error(messages);
-      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingClickDeleteResource(false);
+      }, 500);
     }
   };
   return (
@@ -160,7 +181,8 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
               이미지 파일
             </label>
             <input
-              className="w-full p-[10px]"
+              className="w-full p-[10px] disabled:opacity-50"
+              disabled={isLoadingSubmitAdd}
               type="file"
               onChange={(event) => {
                 if (!event.target.files || !event.target.files[0]) {
@@ -177,8 +199,9 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
           </div>
           <input
             type="submit"
-            className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
+            className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px] disabled:opacity-50"
             value="리소스 추가"
+            disabled={isLoadingSubmitAdd}
           />
         </form>
       )}
@@ -194,8 +217,9 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
           )}
           <div className="flex w-full">
             <input
-              className="w-full px-[10px]"
+              className="w-full px-[10px] disabled:opacity-50"
               type="file"
+              disabled={isLoadingSubmitUpdateResource}
               onChange={(event) => {
                 if (!event.target.files || !event.target.files[0]) {
                   return;
@@ -209,15 +233,17 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
               }}
             />
             <button
-              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="mx-[10px] lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
               type="submit"
+              disabled={isLoadingSubmitUpdateResource}
             >
               수정
             </button>
             <button
               type="button"
-              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white"
+              className="lg:w-[4vw] w-[8vw] box-border rounded-[4px] border-[1px] border-[#4DBFF0] h-[41px] lg:text-[14px] text-[1vw] font-semibold leading-[150%] bg-[#4DBFF0] text-white disabled:opacity-50"
               onClick={onClickUpdateToggle}
+              disabled={isLoadingSubmitUpdateResource}
             >
               취소
             </button>
@@ -240,12 +266,24 @@ const UpdateResourceField: FC<UpdateResourceFieldProps> = ({
             </div>
           </div>
           <FontAwesomeIcon
-            className="mx-[10px]"
+            className={`mx-[10px] ${
+              isLoadingClickDeleteResource
+                ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                : ''
+            }`}
             icon={faEdit}
             onClick={onClickUpdateToggle}
           />
           {+content_id !== 0 && (
-            <FontAwesomeIcon icon={faTrash} onClick={onClickDeleteResource} />
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={onClickDeleteResource}
+              className={`${
+                isLoadingClickDeleteResource
+                  ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                  : ''
+              }`}
+            />
           )}
         </div>
       )}

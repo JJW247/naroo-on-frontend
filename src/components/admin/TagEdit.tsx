@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { isArray } from 'lodash';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { MutatorCallback } from 'swr/dist/types';
@@ -27,10 +27,11 @@ const TagEdit: FC<TagEditProps> = ({
   tagsMutate,
 }) => {
   const [tagName, onChangeTagName, setTagName] = useInput('');
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
   const onSubmitAddHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
+      setIsLoadingSubmit(true);
       if (!tagName) {
         return;
       }
@@ -48,11 +49,12 @@ const TagEdit: FC<TagEditProps> = ({
       );
 
       if (response.statusText === 'Created') {
-        tagsMutate();
-        setTagName('');
+        setTimeout(() => {
+          tagsMutate();
+          setTagName('');
+        }, 500);
       }
     } catch (error: any) {
-      console.error(error);
       const messages = error.response.data.message;
       if (Array.isArray(messages)) {
         messages.map((message) => {
@@ -61,6 +63,10 @@ const TagEdit: FC<TagEditProps> = ({
       } else {
         toast.error(messages);
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingSubmit(false);
+      }, 500);
     }
   };
 
@@ -80,11 +86,13 @@ const TagEdit: FC<TagEditProps> = ({
             onChange={onChangeTagName}
           />
         </div>
-        <input
+        <button
           type="submit"
-          className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#0D5B83] text-white mb-[12px]"
-          value="태그 추가"
-        />
+          disabled={isLoadingSubmit}
+          className="w-full h-[51px] text-[24px] font-semibold leading-[33px] bg-[#4DBFF0] text-white mb-[12px] disabled:opacity-50"
+        >
+          태그 추가
+        </button>
       </form>
       <div className="flex flex-wrap items-center">
         {tagsData &&
