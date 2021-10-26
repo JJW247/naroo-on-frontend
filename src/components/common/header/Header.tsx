@@ -39,7 +39,7 @@ const Header: FC<HeaderProps> = ({
     localStorage.setItem('token', '');
     setUserType('');
     setUserNickname('');
-    history.replace(history.location.pathname);
+    history.go(0);
   };
   const [isVisibleEllipsis, setIsVisibleEllipsis] = useState<boolean>(false);
   const [isVisibleMenu, setIsVisibleMenu] = useState<boolean>(false);

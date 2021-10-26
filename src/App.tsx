@@ -70,7 +70,9 @@ const App: FC = () => {
       });
   };
   useEffect(() => {
-    checkMe(token);
+    if (token !== null && token !== '') {
+      checkMe(token);
+    }
   }, [token]);
   const tokenStorageWatcher = useCallback(
     (e: StorageEvent) => {
@@ -109,7 +111,7 @@ const App: FC = () => {
           exact
           path="/"
           render={() =>
-            token !== '' ? (
+            token !== null && token !== '' ? (
               userType === 'admin' ? (
                 <AdminLayout token={token} setToken={setToken} />
               ) : (

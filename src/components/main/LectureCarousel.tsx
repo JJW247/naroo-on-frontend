@@ -2,7 +2,7 @@ import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
-import { useGetSWR } from '../../hooks/api';
+import { DataResponse, useGetSWR } from '../../hooks/api';
 import { ILectureInList } from '../../interfaces';
 import LectureCard from '../lecture/LectureCard';
 import PrevArrow from '../../assets/images/PrevArrow.svg';
@@ -43,7 +43,7 @@ function LectureCardNextArrow(props: CustomArrowProps) {
         display: 'absolute',
         width: 40,
         height: 40,
-        right: '23px',
+        right: '30px',
         zIndex: 999,
       }}
       onClick={props.onClick}
@@ -98,14 +98,17 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
     null,
     false,
   );
-  const { data: userLecturesData } = useGetSWR<ILectureInList[]>(
-    `${process.env.REACT_APP_BACK_URL}/lecture`,
-    token,
-    false,
-  );
+  const { data: userLecturesData } =
+    token !== null && token !== ''
+      ? useGetSWR<ILectureInList[]>(
+          `${process.env.REACT_APP_BACK_URL}/lecture`,
+          token,
+          false,
+        )
+      : { data: undefined };
   return (
-    <div className="xl:max-w-[1152px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto mt-[122px] pb-[96px]">
-      {token && (
+    <div className="xl:max-w-[1260px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto pl-[54px] pr-[27px] mt-[122px] pb-[96px]">
+      {token !== null && token !== '' && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
             내가 신청한 강좌
