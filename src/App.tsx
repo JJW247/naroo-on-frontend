@@ -113,11 +113,7 @@ const App: FC = () => {
               userType === 'admin' ? (
                 <AdminLayout token={token} setToken={setToken} />
               ) : (
-                <MainLayout
-                  token={token}
-                  setToken={setToken}
-                  requestToken={null}
-                />
+                <Redirect to="/signin" />
               )
             ) : (
               <MainLayout
