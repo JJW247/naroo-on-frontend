@@ -39,7 +39,6 @@ const MainLayout: FC<MainLayoutProps> = ({ token, setToken, requestToken }) => {
         } else {
           toast.error(messages);
         }
-        history.replace('/signin');
       }
       if (data) {
         if (data.token) {

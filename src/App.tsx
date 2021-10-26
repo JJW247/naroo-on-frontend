@@ -66,7 +66,7 @@ const App: FC = () => {
         localStorage.setItem('token', '');
         setUserType(null);
         setUserNickname(null);
-        history.replace('/signin');
+        history.replace('/');
       });
   };
   useEffect(() => {
@@ -113,7 +113,11 @@ const App: FC = () => {
               userType === 'admin' ? (
                 <AdminLayout token={token} setToken={setToken} />
               ) : (
-                <Redirect to="/signin" />
+                <MainLayout
+                  token={token}
+                  setToken={setToken}
+                  requestToken={null}
+                />
               )
             ) : (
               <MainLayout

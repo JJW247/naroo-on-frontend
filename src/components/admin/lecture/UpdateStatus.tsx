@@ -66,7 +66,7 @@ const UpdateStatus: FC<UpdateStatusProps> = ({
       }
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/lecture/admin/status/${lectureId}?userId=${studentId}`,
+        `${process.env.REACT_APP_BACK_URL}/lecture/admin/status/${lectureId}?user_id=${studentId}`,
         {
           status: updateStatus,
         },

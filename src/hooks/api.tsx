@@ -42,6 +42,9 @@ export function useGetSWR<T>(
           toast.error(messages);
         }
       }
+      if (url.includes('admin')) {
+        window.location.replace('/signin');
+      }
       throw error;
     }
   };
