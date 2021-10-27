@@ -184,7 +184,7 @@ const LectureAdd: FC<LectureAddProps> = ({
       )}
       <div className="mb-[29px]">
         <div>
-          <label htmlFor="thumbnail-file">썸네일 이미지 파일</label>
+          <label htmlFor="thumbnail-file">썸네일 이미지</label>
         </div>
         <input
           className="w-full border-[1px] border-[#C4C4C4] p-[20px] disabled:opacity-50"

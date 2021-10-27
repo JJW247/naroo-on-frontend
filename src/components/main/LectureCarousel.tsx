@@ -2,7 +2,7 @@ import { isArray } from 'lodash';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
-import { DataResponse, useGetSWR } from '../../hooks/api';
+import { useGetSWR } from '../../hooks/api';
 import { ILectureInList } from '../../interfaces';
 import LectureCard from '../lecture/LectureCard';
 import PrevArrow from '../../assets/images/PrevArrow.svg';

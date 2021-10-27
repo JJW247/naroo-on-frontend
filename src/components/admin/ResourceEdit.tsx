@@ -36,13 +36,13 @@ const ResourceEdit: FC<ResourceEditProps> = ({
                 {+resource.content_id === 0 ? (
                   <div className="mt-[20px]">
                     {resource.type === 'header_logo'
-                      ? 'Header 로고 URL : '
+                      ? 'Header 로고 : '
                       : resource.type === 'footer_logo'
-                      ? 'Footer 로고 URL : '
+                      ? 'Footer 로고 : '
                       : resource.type === 'info_banner'
-                      ? '서비스 소개 배너 URL : '
+                      ? '서비스 소개 배너 : '
                       : resource.type === 'org_carousel'
-                      ? `기관 슬라이더 이미지 URL : `
+                      ? `기관 슬라이더 이미지 : `
                       : ''}
                   </div>
                 ) : (
