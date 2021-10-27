@@ -39,7 +39,7 @@ const LectureCard: FC<LectureCardProps> = ({
   const [isBackdropShow, setIsBackdropShow] = useState<boolean>(false);
   return (
     <div
-      className={`w-full md:w-[261px] min-h-[444px] max-h-[444px] mx-0 rounded-[8px] ${
+      className={`w-full lg:w-[261px] min-h-[444px] max-h-[444px] mx-0 rounded-[8px] ${
         isBackdropShow
           ? 'lecture-card-container lecture-card-container-hover'
           : 'lecture-card-container'

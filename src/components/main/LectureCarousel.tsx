@@ -51,6 +51,24 @@ function LectureCardNextArrow(props: CustomArrowProps) {
   );
 }
 
+function LectureCardSmallNextArrow(props: CustomArrowProps) {
+  return (
+    <img
+      src={NextArrow}
+      className={props.className}
+      style={{
+        ...props.style,
+        display: 'absolute',
+        width: 40,
+        height: 40,
+        right: '-3px',
+        zIndex: 999,
+      }}
+      onClick={props.onClick}
+    />
+  );
+}
+
 const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
   const settings: Settings | Readonly<Settings> = {
     arrows: true,
@@ -80,6 +98,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          nextArrow: <LectureCardSmallNextArrow />,
         },
       },
       {
@@ -87,6 +106,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          nextArrow: <LectureCardSmallNextArrow />,
         },
       },
     ],
@@ -107,7 +127,7 @@ const LectureCarousel: FC<LectureCarouselProps> = ({ token, setToken }) => {
         )
       : { data: undefined };
   return (
-    <div className="xl:max-w-[1260px] lg:max-w-[864px] md:max-w-[680px] sm:max-w-[500px] xs:max-w-[400px] mx-auto pl-[54px] pr-[27px] mt-[122px] pb-[96px]">
+    <div className="xl:max-w-[1260px] lg:max-w-[966px] md:max-w-[788px] xs:w-full mx-auto pl-[54px] lg:pr-[27px] pr-[54px] mt-[122px] pb-[96px]">
       {token !== null && token !== '' && (
         <>
           <div className="text-2xl font-semibold text-gray-400">
