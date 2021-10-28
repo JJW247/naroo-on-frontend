@@ -26,16 +26,6 @@ const MyInfoLayout: FC<MyInfoLayoutProps> = ({ token, setToken }) => {
           {myInfoData && (
             <>
               <div className="space-y-[20px]">
-                {myInfoData.email && (
-                  <UpdateUserField
-                    token={token}
-                    setToken={setToken}
-                    fieldType="email"
-                    id={myInfoData.id}
-                    userField={myInfoData.email}
-                    mutate={myInfoMutate}
-                  />
-                )}
                 {myInfoData.nickname && (
                   <UpdateUserField
                     token={token}
